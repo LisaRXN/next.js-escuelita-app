@@ -38,11 +38,11 @@ Built to simplify coordination while providing a smooth experience for both admi
 ## 📁 Project Structure
 /app
   /admin                  → Admin-specific pages (protected layout)
-/api/sessions             → API routes for session logic
-/components               → Shared UI components
-/lib                      → Helpers (e.g. Prisma client, fetcher)
-/services                 → Business logic (e.g. status helpers)
-/styles                   → Tailwind config & base styles
+  /api/sessions           → API routes for session logic
+  /components             → Shared UI components
+  /lib                    → Helpers (e.g. Prisma client, fetcher)
+  /services               → Business logic (e.g. status helpers)
+  /styles                 → Tailwind config & base styles
 
 /prisma
   schema.prisma           → Prisma models
@@ -60,8 +60,25 @@ This project was built by Lisa Eriksen as part of an initiative to help coordina
 
 ## 🛠 Local Setup
 
+1. **Clone the repo**  
 ```bash
 git clone https://github.com/your-username/volunteer-app.git
 cd volunteer-app
-pnpm install
-pnpm dev
+npm install
+npm run dev
+```
+2. **Install dependencies
+```bash
+npm install
+```
+3. **Create environment variables
+```bash
+DATABASE_URL=your_database_url
+CLERK_SECRET_KEY=your_clerk_secret_key
+CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
+```
+4. **Run the development server
+```bash
+npm run dev
+```
