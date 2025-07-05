@@ -1,0 +1,68 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum RegistrationStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  NO_SHOW // Inscrit mais pas venu
+}
+
+enum SessionTypes {
+  TUTORING
+  OTHER
+}
+
+model VolunteerSession {
+  id          Int                     @id @default(autoincrement())
+  title       String
+  date        DateTime
+  description String
+  location    String // ✅ Nouveau champ : localisation de la session
+  capacity    Int
+  type        SessionTypes            @default(TUTORING)
+  createdAt   DateTime                @default(now())
+  volunteers  VolunteerRegistration[] // relation inverse
+}
+
+model Volunteer {
+  id            Int                     @id @default(autoincrement())
+  clerkUserId   String                  @unique
+  firstName     String
+  lastName      String
+  phone         String
+  email         String
+  instagram     String?
+  birthDate     DateTime
+  createdAt     DateTime                @default(now())
+  isAdmin       Boolean                 @default(false)
+  isLeader       Boolean                @default(false)
+  isActive      Boolean                 @default(true)
+  registrations VolunteerRegistration[] // relation vers la table de liaison
+}
+
+model VolunteerRegistration {
+  id          Int                @id @default(autoincrement())
+  volunteer   Volunteer          @relation(fields: [volunteerId], references: [id])
+  volunteerId Int
+  session     VolunteerSession   @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  sessionId   Int
+  status      RegistrationStatus @default(PENDING)
+
+  createdAt DateTime @default(now())
+
+  @@unique([volunteerId, sessionId]) // Un volontaire ne peut s’inscrire qu’une fois par session
+}

@@ -1,0 +1,1 @@
+export const EMPTY_SEARCH = "__all__"

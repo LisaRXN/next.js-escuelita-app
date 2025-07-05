@@ -22,6 +22,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "actions/admin/create-session", "actions/admin/delete-session", "actions/admin/toggle-admin", "actions/admin/update-session"],
   "exclude": ["node_modules"]
 }
