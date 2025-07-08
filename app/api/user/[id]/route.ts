@@ -3,7 +3,11 @@ import { RegistrationStatus } from "@/generated/prisma";
 import { NextRequest } from "next/server";
 
 
-export async function GET(req: NextRequest,  { params }: { params: { id: string } }) {
+interface Params {
+  params: Promise<{ id: string }>
+}
+
+export async function GET(req: NextRequest, { params }: Params) {
   
   const paramsUrl = await params;
 

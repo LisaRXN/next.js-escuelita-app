@@ -22,6 +22,7 @@ export default function SessionList({ sessions, admin}: SessionListProps) {
           location={session.location}
           date={session.date}
           sessionId={session.id}
+          image={session.image}
           shadow={false}
         />
       ))}

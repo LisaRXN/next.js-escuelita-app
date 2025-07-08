@@ -11,6 +11,7 @@ interface SessionCardProps {
     date: Date;
     description: string | null;
     location: string;
+    image: string;
     capacity: number;
     type: SessionTypes; // (enum)
     createdAt: Date;

@@ -2,10 +2,10 @@ import { prisma } from "@/lib/prisma";
 import UpdateSessionForm from "../../_components/UpdateSessionForm";
 
 interface SessionPageProps {
-  params: { id: string };
+  params: Promise<{ id: string }>
 }
 
-export const UpdateSessionPage = async ({ params }: SessionPageProps) => {
+const UpdateSessionPage = async ({ params }: SessionPageProps) => {
 
   const paramsUrl = await params;
   const sessionId = Number(paramsUrl.id);

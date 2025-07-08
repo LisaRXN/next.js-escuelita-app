@@ -39,9 +39,11 @@ const CalendarVolunteer = ({ isReduce, sessions }: CalendarVolunteerProps) => {
     }
   };
 
-  // const closeModal = () => {
-  //   dialogRef.current?.close();
-  // };
+  const handleCloseModal = () => {
+    setSessionSelected(undefined);
+    dialogRef.current?.close();
+  };
+
 
   return (
     <div className="w-full h-auto m-auto max-w-screen-lg">
@@ -72,6 +74,7 @@ const CalendarVolunteer = ({ isReduce, sessions }: CalendarVolunteerProps) => {
         <SessionModal
           sessionId={sessionSelected}
           dialogRef={dialogRef}
+          handleCloseModal={handleCloseModal}
         />
       )}
     </div>

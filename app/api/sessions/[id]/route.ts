@@ -4,9 +4,7 @@ import { NextResponse } from "next/server";
 import { getVolunteerSessionStatus } from "@/services/volunteerService";
 
 interface Params {
-  params: {
-    id: string;
-  };
+  params: Promise<{ id: string }>
 }
 
 export async function GET(req: Request, { params }: Params) {
