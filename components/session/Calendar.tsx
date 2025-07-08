@@ -10,10 +10,10 @@ import { useRouter } from "next/navigation";
 import listPlugin from "@fullcalendar/list";
 import esLocale from "@fullcalendar/core/locales/es";
 import { EventClickArg } from "@fullcalendar/core/index.js";
-import SessionModal from "../modals/SessionModal";
 import { SessionWithLiders } from "@/type";
 import { Volunteer } from "@/generated/prisma";
-import CreateSessionModal from "../modals/CreateSesionModal";
+import CreateSessionModal from "@/components/modals/CreateSessionModal";
+import SessionModal from "@/components/modals/SessionModal";
 
 interface CalendarProps {
   sessions: SessionWithLiders[];

@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import SessionModal from "../modals/SessionModal";
+import SessionModal from "@/components/modals/SessionModal";
 
 interface SessionCardProps {
   title: string;
