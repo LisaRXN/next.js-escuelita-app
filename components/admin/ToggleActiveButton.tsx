@@ -40,7 +40,7 @@ const ToggleActiveButton = ({
     <button
       onClick={handleToggle}
       disabled={isLoading}
-      className={`px-4 py-2 min-w-[120px] rounded ${
+      className={`p-2 w-[80px] rounded text-xs ${
         currentIsActive ? "bg-myred text-white" : "bg-mygreen text-white"
       }`}
     >

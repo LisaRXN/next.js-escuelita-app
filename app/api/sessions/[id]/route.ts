@@ -31,6 +31,11 @@ export async function GET(req: Request, { params }: Params) {
           include: {
             volunteer: true,
           },
+          orderBy: {
+            volunteer: {
+              lastName: "asc",
+            },
+          }
         },
       },
     });

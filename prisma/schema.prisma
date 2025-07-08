@@ -59,7 +59,7 @@ model Volunteer {
 
 model VolunteerRegistration {
   id          Int                @id @default(autoincrement())
-  volunteer   Volunteer          @relation(fields: [volunteerId], references: [id])
+  volunteer   Volunteer          @relation(fields: [volunteerId], references: [id], onDelete: Cascade)
   volunteerId Int
   session     VolunteerSession   @relation(fields: [sessionId], references: [id], onDelete: Cascade)
   sessionId   Int

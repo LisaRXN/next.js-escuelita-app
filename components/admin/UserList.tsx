@@ -19,18 +19,17 @@ export default function UserList({ volunteers }: UserListProps) {
   return (
       <div className="space-y-10">
 
-        <table className="min-w-full divide-y divide-zinc-200 rounded-lg overflow-hidden">
+        <table className="min-w-full divide-y divide-zinc-200 rounded-lg overflow-hidden p-2">
         <thead className="bg-zinc-200 text-myzinc">
           <tr>
-            <th className="px-2 lg:px-6 py-3 text-left text-xs font-bold uppercase tracking-wider">Nombre</th>
-            <th className="px-2 lg:px-6 py-3 text-left text-xs font-bold uppercase tracking-wider">Apellido</th>
-            <th className="px-2 lg:px-6 py-3 text-left text-xs font-bold uppercase tracking-wider">Número</th>
-            <th className="px-2 lg:px-6 py-3 text-left text-xs font-bold uppercase tracking-wider">Email</th>
-            <th className="px-2 lg:px-6 py-3 text-left text-xs font-bold uppercase tracking-wider">Instagram</th>
-            <th className="px-2 lg:px-6 py-3 text-left text-xs font-bold uppercase tracking-wider">Fecha de nacimiento</th>
-            <th className="px-2 lg:px-6 py-3 text-left text-xs font-bold uppercase tracking-wider">N° de tutorias</th>
-            <th className="px-2 lg:px-6 py-3 text-left text-xs font-bold uppercase tracking-wider">Activo</th>
-            <th className="px-2 lg:px-6 py-3 text-left text-xs font-bold uppercase tracking-wider">Acción</th>
+            <th className="px-2 lg:px-4 py-3 text-left text-xs xl:text-sm font-bold uppercase tracking-wider">Nombre</th>
+            <th className="px-2 lg:px-4 py-3 text-left text-xs xl:text-sm font-bold uppercase tracking-wider">Apellido</th>
+            <th className="px-2 lg:px-4 py-3 text-left text-xs xl:text-sm font-bold uppercase tracking-wider"><i className="fa-solid fa-phone"></i></th>
+            <th className="px-2 lg:px-4 py-3 text-left text-xs xl:text-sm font-bold uppercase tracking-wider"><i className="fa-solid fa-envelope"></i></th>
+            <th className="px-2 lg:px-4 py-3 text-left text-xs xl:text-sm font-bold uppercase tracking-wider"><i className="fa-brands fa-instagram"></i></th>
+            <th className="px-2 lg:px-4 py-3 text-left text-xs xl:text-sm font-bold uppercase tracking-wider"><i className="fa-solid fa-cake-candles"></i></th>
+            <th className="px-2 lg:px-4 py-3 text-left text-xs xl:text-sm font-bold uppercase tracking-wider"><i className="fa-solid fa-pencil"></i></th>
+            <th className="px-2 lg:px-4 py-3 text-left text-xs xl:text-sm font-bold uppercase tracking-wider">Acción</th>
           </tr>
         </thead>  
         <tbody className="bg-white divide-y divide-zinc-200">
