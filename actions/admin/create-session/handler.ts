@@ -5,6 +5,8 @@ import { auth } from "@clerk/nextjs/server";
 import { InputType, ReturnType } from "./types";
 import { revalidatePath } from "next/cache";
 import { isAdmin } from "@/lib/is-admin";
+import { DateTime } from "luxon";
+
 
 export const handler = async (data: InputType): Promise<ReturnType> => {
   const { userId } = await auth();
@@ -23,11 +25,15 @@ export const handler = async (data: InputType): Promise<ReturnType> => {
 
   const { title, date, description, location, image, capacity } = data;
 
+  const localDate = DateTime.fromISO(date, { zone: "America/Lima" });
+  const dateToStore = localDate.toJSDate();
+
+
   try {
     const session = await prisma.volunteerSession.create({
       data: {
         title,
-        date: new Date(date),
+        date: dateToStore,
         location,
         description,
         capacity,

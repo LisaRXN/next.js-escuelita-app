@@ -7,7 +7,7 @@ import FilterBar from "./_components/FilterBar";
 import { VolunteerWithTutoringCount } from "@/type";
 import { useFetchUsers } from '@/hooks/use-fetch-users';
 
-export default function AdminSessionsListPage() {
+export default function UsersPage() {
   const [search, setSearch] = useState("");
   const [sortBy, setSortBy] = useState<string>("createdAt");
   const [isActive, setIsActive] = useState<string>("");

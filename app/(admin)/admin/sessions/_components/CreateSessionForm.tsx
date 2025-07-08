@@ -31,6 +31,7 @@ export default function CreateSessionForm({
     location: "",
     description: "",
     capacity: 1,
+    type:"",
     image: "",
   });
 
@@ -48,6 +49,7 @@ export default function CreateSessionForm({
         location: "",
         description: "",
         capacity: 1,
+        type:"",
         image: "",
       });
     },
@@ -68,6 +70,7 @@ export default function CreateSessionForm({
         description:
           "Nos encontramos a las 8:20 a. m. en la Universidad Ricardo Palma o a las 9:00 a. m. en la Comisaría n.° 2 de Pamplona Alta.",
         capacity: 30,
+        type:"TUTORING",
         image: "/img/photos/tutorias.jpg",
       });
     } else {
@@ -77,6 +80,7 @@ export default function CreateSessionForm({
         location: "",
         description: "",
         capacity: 0,
+        type:"OTHER",
         image: "",
       });
     }
