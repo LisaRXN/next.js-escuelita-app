@@ -9,7 +9,7 @@ import { isAdmin } from "@/lib/is-admin";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 
-const HomePage = async () => {
+export default async function HomePage () {
 
   const { userId } = await auth();
   
@@ -34,4 +34,3 @@ const HomePage = async () => {
 
 }
 
-export default HomePage;

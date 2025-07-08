@@ -5,7 +5,7 @@ import { fetcher } from "@/lib/fetcher";
 import { SessionWithLiders } from "@/type";
 import { useQuery } from "@tanstack/react-query";
 
-const AgendaPage = () => {
+export default function AgendaPage() {
   const { data: sessions, isLoading } = useQuery<SessionWithLiders[]>({
     queryKey: ["sessionsWithLiders"],
     queryFn: () => fetcher("/api/sessionsWithLiders"),
@@ -39,4 +39,3 @@ const AgendaPage = () => {
   );
 };
 
-export default AgendaPage;

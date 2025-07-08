@@ -11,7 +11,7 @@ import CalendarVolunteer from "../_components/CalendarVolunteer";
 import SessionModal from "@/components/modals/SessionModal";
 import ActivityCard from "@/components/session/ActivityCard";
 
-const DashboardPage = () => {
+export default function DashboardPage () {
   const { userId } = useAuth();
 
   const carouselRef = useRef<HTMLDivElement>(null);
@@ -162,5 +162,3 @@ const DashboardPage = () => {
     </div>
   );
 };
-
-export default DashboardPage;

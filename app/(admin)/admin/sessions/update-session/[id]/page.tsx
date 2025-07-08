@@ -5,7 +5,7 @@ interface SessionPageProps {
   params: Promise<{ id: string }>
 }
 
-const UpdateSessionPage = async ({ params }: SessionPageProps) => {
+export default async function UpdateSessionPage({ params }: SessionPageProps) {
 
   const paramsUrl = await params;
   const sessionId = Number(paramsUrl.id);
@@ -26,4 +26,3 @@ const UpdateSessionPage = async ({ params }: SessionPageProps) => {
   );
 };
 
-export default UpdateSessionPage;
