@@ -50,8 +50,8 @@ model Volunteer {
   birthDate     DateTime
   createdAt     DateTime                @default(now())
   isAdmin       Boolean                 @default(false)
-  isLeader       Boolean                @default(false)
-  isActive      Boolean                 @default(true)
+  isLeader      Boolean                 @default(false)
+  isActive      Boolean                 @default(false)
   registrations VolunteerRegistration[] // relation vers la table de liaison
 }
 

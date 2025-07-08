@@ -8,7 +8,7 @@ import CardTitle from "../../(admin)/admin/_components/CardTitle";
 import { useEffect, useRef, useState } from "react";
 import { useAuth } from "@clerk/clerk-react";
 import CalendarVolunteer from "../_components/CalendarVolunteer";
-import SessionModal from "@/components/modals/sessionModal";
+import SessionModal from "@/components/modals/SessionModal";
 import ActivityCard from "@/components/session/ActivityCard";
 
 const DashboardPage = () => {
@@ -83,7 +83,7 @@ const DashboardPage = () => {
         <div className="mt-5 lg:mt-8 flex flex-col gap-8 lg:gap-14 items-start justify-center w-full max-w-screen-2xl m-auto">
           {/* Carousel */}
           {nextSessions?.length > 0 ? (
-            <div className="relative flex items-stretch m-auto w-full h-auto lg:w-auto">
+            <div className="relative flex items-stretch m-auto w-full h-auto md:max-w-md lg:max-w-[1000px]">
               <div
                 ref={carouselRef}
                 className="carousel rounded-box self-center w-full max-w-screen-xl"

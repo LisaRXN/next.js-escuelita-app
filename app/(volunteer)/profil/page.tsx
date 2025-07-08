@@ -4,7 +4,7 @@ import { useAuth } from "@clerk/nextjs";
 import { useQuery } from "@tanstack/react-query";
 import { fetcher } from "@/lib/fetcher";
 import { useEffect, useRef, useState } from "react";
-import SessionModal from "@/components/modals/sessionModal";
+import SessionModal from "@/components/modals/SessionModal";
 import SessionList from "./_components/sessionList";
 import SessionListMobile from "./_components/sessionListMobile";
 

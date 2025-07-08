@@ -6,20 +6,21 @@ import { redirect } from "next/navigation";
 import { ReactQueryProvider } from "@/components/providers/query-provider";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "sonner";
+import { isVolunteerProfileComplete } from "@/lib/check-user";
 
 const AdminLayout = async ({ children }: { children: React.ReactNode }) => {
   const { userId } = await auth();
 
   const isUserAdmin = await isAdmin(userId);
-  // const isComplete = await isVolunteerProfileComplete(userId);
+  const isComplete = await isVolunteerProfileComplete(userId);
 
   if (!isUserAdmin) {
     redirect("/dashboard");
   }
 
-  //   if (!isComplete) {
-  //   redirect("/register");
-  // }
+    if (!isComplete) {
+    redirect("/register");
+  }
 
   return (
     <ClerkProvider>

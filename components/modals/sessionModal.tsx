@@ -4,19 +4,19 @@ import { RefObject } from 'react';
 import SessionDescription from '../session/SessionDescription';
 import AdminSessionDescription from '../admin/AdminSessionDescription';
 
-interface CreateSessionModalProps {
+interface SessionModalProps {
   sessionId: number;
   dialogRef: RefObject<HTMLDialogElement | null>;
   isAdmin?: boolean;
   handleCloseModal: () => void;
 }
 
-const SessionModal = ({sessionId, dialogRef, isAdmin=false, handleCloseModal}:CreateSessionModalProps ) => {
+const SessionModal = ({sessionId, dialogRef, isAdmin=false, handleCloseModal}:SessionModalProps ) => {
 
 
 
   return (
-    <dialog ref={dialogRef} id="my_modal_3" className="modal">
+    <dialog ref={dialogRef} id="my_modal_3" className="modal p-2">
     <div className="modal-box bg-white h-full md:h-auto w-full md:max-h-4/5">
       <form method="dialog">
         <button

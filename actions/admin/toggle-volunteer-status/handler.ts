@@ -11,10 +11,10 @@ export const handler = async (
   data: InputType
 ): Promise<ReturnType> => {
   const { userId } = await auth();
-  if (!userId) return { error: "Non autorisé" };
+  if (!userId) return { error: "Unauthorized" };
 
   const authorized = await isAdmin(userId);
-  if (!authorized) return { error: "Accès refusé" };
+  if (!authorized) return { error: "Unauthorized" };
 
   const { registrationId, status } = data;
 

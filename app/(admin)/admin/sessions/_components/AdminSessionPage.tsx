@@ -14,7 +14,7 @@ interface AdminSessionPageProps {
 const AdminSessionPage = ({ sessionId }: AdminSessionPageProps) => {
 
   const { data, isLoading: loadingSession } = useQuery({
-    queryKey: ["sessionById"],
+    queryKey: ["sessionById", sessionId],
     queryFn: () => fetcher(`/api/sessions/${sessionId}`),
     enabled: !!sessionId,
     staleTime: 0,

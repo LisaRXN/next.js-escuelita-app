@@ -6,7 +6,7 @@ import { useRef, useState } from "react";
 import { VolunteerSession } from "@/generated/prisma";
 import listPlugin from "@fullcalendar/list";
 import esLocale from "@fullcalendar/core/locales/es";
-import SessionModal from "@/components/modals/sessionModal";
+import SessionModal from "@/components/modals/SessionModal";
 import { EventClickArg } from "@fullcalendar/core/index.js";
 
 interface CalendarVolunteerProps {

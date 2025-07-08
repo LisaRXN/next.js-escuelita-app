@@ -4,22 +4,26 @@ import { prisma } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
 import { InputType, ReturnType } from "./types";
 import { revalidatePath } from "next/cache";
+import { isAdmin } from "@/lib/is-admin";
 
 export const handler = async (data: InputType): Promise<ReturnType> => {
-  
-
   const { userId } = await auth();
 
-  console.log('userId Create Session', userId)
+  console.log("userId Create Session", userId);
 
   if (!userId) {
+    return { error: "Unauthorized" };
+  }
+  
+  const isUserAdmin = await isAdmin(userId);
+
+  if (!isUserAdmin) {
     return { error: "Unauthorized" };
   }
 
   const { title, date, description, location, image, capacity } = data;
 
   try {
-    
     const session = await prisma.volunteerSession.create({
       data: {
         title,

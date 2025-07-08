@@ -211,7 +211,7 @@ export default function CreateSessionForm({
           <label className="block font-medium text-start mb-2">
             Elegir una imagen
           </label>
-          <div className="flex items-center justify-start w-full gap-2 lg:gap-5">
+          <div className="flex flex-wrap items-center justify-start w-full gap-2 lg:gap-5">
             <input type="hidden" name="image" value={formData.image} />
             {images.map((image) => (
               <div
@@ -219,7 +219,7 @@ export default function CreateSessionForm({
                 onClick={() => handleImageSelect(image.url)}
                 className={`${
                   formData.image === image.url ? "border-4 border-zinc-100" : ""
-                } relative w-[60px] h-[60px] lg:w-[100px] lg:h-[100px] rounded-xl overflow-hidden`}
+                } relative min-w-[60px] flex-1 aspect-square rounded-xl overflow-hidden`}
               >
                 <Image
                   src={image.url}

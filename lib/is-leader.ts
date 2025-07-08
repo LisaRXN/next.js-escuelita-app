@@ -7,5 +7,5 @@ export async function isActive(userId: string | null): Promise<boolean> {
     where: { clerkUserId: userId },
   });
 
-  return volunteer?.isActive ?? false;
+  return volunteer?.isLeader ?? false;
 }

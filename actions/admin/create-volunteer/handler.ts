@@ -1,24 +1,26 @@
 import { prisma } from "@/lib/prisma";
 import { InputType, ReturnType } from "./types";
 import { auth } from "@clerk/nextjs/server";
-
+import { isAdmin } from "@/lib/is-admin";
 
 export const handler = async (data: InputType): Promise<ReturnType> => {
-  
   const { userId } = await auth();
-
-  console.log("🔐 Handler called with userId:", userId);
 
   if (!userId) {
     return { error: "Unauthorized" };
   }
 
-  try {
+  const isUserAdmin = await isAdmin(userId);
 
+  if (!isUserAdmin) {
+    return { error: "Unauthorized" };
+  }
+
+  try {
     const { firstName, lastName, email, phone, instagram, birthDate } = data;
     const volunteer = await prisma.volunteer.create({
       data: {
-        clerkUserId:userId,
+        clerkUserId: userId,
         firstName,
         lastName,
         phone,
@@ -41,8 +43,7 @@ export const handler = async (data: InputType): Promise<ReturnType> => {
     };
   } catch (error) {
     console.error("Error creating volunteer:", error);
-    await prisma.$disconnect(); 
+    await prisma.$disconnect();
     return { error: "Failed to create volunteer" };
   }
 };
-

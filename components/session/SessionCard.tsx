@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import SessionModal from "../modals/sessionModal";
+import SessionModal from "../modals/SessionModal";
 
 interface SessionCardProps {
   title: string;
@@ -72,7 +72,7 @@ const SessionCard = ({
     >
       <div
         onClick={handleClick}
-        className="relative h-[150px] w-full cursor-pointer"
+        className="relative h-[140px] w-full cursor-pointer"
       >
         <Image
           src={image}

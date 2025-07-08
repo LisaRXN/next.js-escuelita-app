@@ -67,10 +67,10 @@ const AdminPage = () => {
         <div className="flex mt-5 lg:mt-8 flex-col gap-8 lg:gap-14 items-start justify-center w-full max-w-screen-2xl m-auto">
           {/* Carousel */}
           {nextSessions?.length > 0 ? (
-            <div className="relative flex items-stretch m-auto w-full h-auto lg:w-auto">
+            <div className="relative flex items-stretch m-auto w-full h-auto xl:w-auto  md:max-w-md lg:max-w-[1000px]">
               <div
                 ref={carouselRef}
-                className="carousel rounded-box self-center w-full max-w-screen-xl"
+                className="carousel rounded-box self-center w-full max-w-screen-lg"
               >
                 {nextSessions?.map((session: VolunteerSession) => (
                   <div key={session.id} className="carousel-item px-4">
@@ -177,7 +177,7 @@ const AdminPage = () => {
                 <CardTitle
                   title="Calendario de sesiones"
                   subtitle="Visualiza todas las fechas próximas"
-                  link="/agenda"
+                  link="/admin/agenda"
                 />
                 <div className="p-2 lg:p-5 bg-zinc-50 rounded-xl">
                   {sessions && <Calendar sessions={sessions} isReduce={true} />}

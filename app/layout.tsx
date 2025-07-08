@@ -2,7 +2,7 @@ import "./globals.css";
 
 export const metadata = {
   title: "La Escuelita App",
-  description: "Gère les volontaires facilement",
+  description: "Gestiona el voluntariado y las actividades de La Escuelita",
 };
 
 export default function RootLayout({
@@ -12,9 +12,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className="min-h-screen bg-myteal text-myzinc text-open font-medium"
-      >
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta charSet="utf-8" />
+      </head>
+      <body className="min-h-screen bg-myteal text-myzinc text-open font-medium">
         {children}
       </body>
     </html>

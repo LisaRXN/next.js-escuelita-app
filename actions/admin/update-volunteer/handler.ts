@@ -1,16 +1,18 @@
 import { prisma } from "@/lib/prisma";
 import { auth, currentUser } from "@clerk/nextjs/server";
 import { InputType, ReturnType } from "./types";
-
+import { isAdmin } from "@/lib/is-admin";
 
 export const handler = async (data: InputType): Promise<ReturnType> => {
-  
   const { userId } = await auth();
   const user = await currentUser();
 
   if (!userId) {
     return { error: "Unauthorized" };
   }
+
+  const authorized = await isAdmin(userId);
+  if (!authorized) return { error: "Unauthorized" };
 
   const email = user?.emailAddresses[0]?.emailAddress;
   const { firstName, lastName, phone, instagram, birthDate } = data;
@@ -39,8 +41,7 @@ export const handler = async (data: InputType): Promise<ReturnType> => {
     };
   } catch (error) {
     console.error("Error updating volunteer:", error);
-    await prisma.$disconnect(); 
+    await prisma.$disconnect();
     return { error: "Failed to update volunteer" };
   }
 };
-

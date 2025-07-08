@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
 import { InputType, ReturnType } from "./types";
+import { isAdmin } from "@/lib/is-admin";
 
 export const handler = async (data: InputType): Promise<ReturnType> => {
   const { userId } = await auth();
@@ -9,8 +10,12 @@ export const handler = async (data: InputType): Promise<ReturnType> => {
     return { error: "Unauthorized" };
   }
 
-  const {sessionId, title, date, description, location, capacity, image } = data;
-  
+  const authorized = await isAdmin(userId);
+  if (!authorized) return { error: "Unauthorized" };
+
+  const { sessionId, title, date, description, location, capacity, image } =
+    data;
+
   const updateData: Record<string, unknown> = {};
   if (title !== undefined) updateData.title = title;
   if (description !== undefined) updateData.description = description;
@@ -26,15 +31,15 @@ export const handler = async (data: InputType): Promise<ReturnType> => {
     });
 
     return {
-    data: {
-      sessionId: session.id,
-      title: session.title,
-      date: session.date.toISOString(),
-      location: session.location ?? "",
-      image: session.image ?? "",
-      description: session.description ?? "",
-      capacity: session.capacity,
-    },
+      data: {
+        sessionId: session.id,
+        title: session.title,
+        date: session.date.toISOString(),
+        location: session.location ?? "",
+        image: session.image ?? "",
+        description: session.description ?? "",
+        capacity: session.capacity,
+      },
     };
   } catch (error) {
     console.error("Error updating session:", error);
@@ -42,4 +47,3 @@ export const handler = async (data: InputType): Promise<ReturnType> => {
     return { error: "Failed to update session" };
   }
 };
-

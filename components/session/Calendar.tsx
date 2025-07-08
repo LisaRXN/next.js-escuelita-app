@@ -5,15 +5,15 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin, { DateClickArg } from "@fullcalendar/interaction";
 import { useState } from "react";
-import CreateSessionForm from "../../app/(admin)/admin/sessions/_components/CreateSessionForm";
 import { useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import listPlugin from "@fullcalendar/list";
 import esLocale from "@fullcalendar/core/locales/es";
 import { EventClickArg } from "@fullcalendar/core/index.js";
-import SessionModal from "../modals/sessionModal";
+import SessionModal from "../modals/SessionModal";
 import { SessionWithLiders } from "@/type";
 import { Volunteer } from "@/generated/prisma";
+import CreateSessionModal from "../modals/CreateSesionModal";
 
 interface CalendarProps {
   sessions: SessionWithLiders[];
@@ -45,7 +45,7 @@ const CalendarWithSessions = ({ isReduce, sessions }: CalendarProps) => {
   useEffect(() => {
     if (isModalOpen && dialogRef.current) {
       dialogRef.current.showModal();
-    } 
+    }
   }, [isModalOpen]);
 
   useEffect(() => {
@@ -61,11 +61,11 @@ const CalendarWithSessions = ({ isReduce, sessions }: CalendarProps) => {
 
   const handleEventClick = (info: EventClickArg) => {
     const sessionId = parseInt(info.event.id);
-    router.push(`/admin/sessions/${sessionId}`)
+    router.push(`/admin/sessions/${sessionId}`);
   };
-    // setSessionSelected(sessionId);
+  // setSessionSelected(sessionId);
 
-    const handleCloseCreateModal = () => {
+  const handleCloseCreateModal = () => {
     setIsModalOpen(false);
     dialogRef.current?.close();
   };
@@ -103,6 +103,10 @@ const CalendarWithSessions = ({ isReduce, sessions }: CalendarProps) => {
           dayMaxEventRows={true}
           fixedWeekCount={true}
           contentHeight="auto"
+          dayCellDidMount={(info) => {
+            info.el.classList.add("cursor-pointer");
+          }}
+          
           eventDidMount={(info) => {
             const liders = info.event.extendedProps.liders;
             if (liders?.length) {
@@ -119,7 +123,6 @@ const CalendarWithSessions = ({ isReduce, sessions }: CalendarProps) => {
                 ".fc-list-event-title", // listWeek / listDay (mobile)
               ];
 
-
               for (const selector of possibleTargets) {
                 const target = info.el.querySelector(selector);
                 if (target) {
@@ -128,20 +131,18 @@ const CalendarWithSessions = ({ isReduce, sessions }: CalendarProps) => {
                   break;
                 }
               }
-
-              info.el.classList.add("cursor-pointer");
             }
           }}
         />
 
-        {isReduce && (
+        {(isReduce || isMobile) && (
           <div className=" mt-5 w-full flex items-center justify-center">
             <button
               onClick={() => setIsModalOpen(true)}
               className="flex items-center justify-start gap-3 cursror-pointer"
             >
-              <i className="fa-solid fa-plus bg-myorange rounded-full text-white w-5 h-5 flex items-center justify-center"></i>
-              <span className="text-myzinc underline font-semibold">
+              <i className="fa-solid fa-plus bg-myorange rounded-full text-white w-4 h-4 text-sm md:text-md md:w-5 md:h-5 flex items-center justify-center"></i>
+              <span className="text-myzinc text-sm md:text-md underline font-semibold">
                 Crear evento
               </span>
             </button>
@@ -149,19 +150,12 @@ const CalendarWithSessions = ({ isReduce, sessions }: CalendarProps) => {
         )}
 
         {isModalOpen && (
-          <dialog ref={dialogRef} id="my_modal_3" className="modal">
-            <div className="modal-box bg-white h-full w-full lg:h-4/5">
-              <form method="dialog">
-                <button
-                  onClick={() => setIsModalOpen(false)}
-                  className="btn btn-sm btn-circle btn-ghost text-zinc-400 absolute right-2 top-2 py-1 px-2"
-                >
-                  ✕
-                </button>
-              </form>
-              <CreateSessionForm date={selectedDate} closeModal={handleCloseCreateModal} />
-            </div>
-          </dialog>
+          <CreateSessionModal
+            date={selectedDate}
+            dialogRef={dialogRef}
+            handleCloseModal={handleCloseCreateModal}
+            setIsModalOpen={setIsModalOpen}
+          />
         )}
 
         {sessionSelected && (
