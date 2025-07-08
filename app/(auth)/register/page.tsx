@@ -5,7 +5,7 @@ import CreateProfilForm from "./components/CreateProfilForm";
 export default function Register() {
 
   return (
-    <div className="pt-[80px]">
+    <div className="p-2 lg:py-[80px]">
       <CreateProfilForm />
     </div>
   );

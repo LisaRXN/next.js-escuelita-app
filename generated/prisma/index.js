@@ -181,6 +181,10 @@ const config = {
         "fromEnvVar": null,
         "value": "darwin",
         "native": true
+      },
+      {
+        "fromEnvVar": null,
+        "value": "rhel-openssl-3.0.x"
       }
     ],
     "previewFeatures": [],
@@ -206,8 +210,8 @@ const config = {
       }
     }
   },
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nenum RegistrationStatus {\n  PENDING\n  CONFIRMED\n  CANCELLED\n  NO_SHOW // Inscrit mais pas venu\n}\n\nenum SessionTypes {\n  TUTORING\n  OTHER\n}\n\nmodel VolunteerSession {\n  id          Int                     @id @default(autoincrement())\n  title       String\n  date        DateTime\n  description String\n  location    String // ✅ Nouveau champ : localisation de la session\n  capacity    Int\n  image       String\n  type        SessionTypes            @default(TUTORING)\n  createdAt   DateTime                @default(now())\n  volunteers  VolunteerRegistration[] // relation inverse\n}\n\nmodel Volunteer {\n  id            Int                     @id @default(autoincrement())\n  clerkUserId   String                  @unique\n  firstName     String\n  lastName      String\n  phone         String\n  email         String\n  instagram     String?\n  birthDate     DateTime\n  createdAt     DateTime                @default(now())\n  isAdmin       Boolean                 @default(false)\n  isLeader      Boolean                 @default(false)\n  isActive      Boolean                 @default(false)\n  registrations VolunteerRegistration[] // relation vers la table de liaison\n}\n\nmodel VolunteerRegistration {\n  id          Int                @id @default(autoincrement())\n  volunteer   Volunteer          @relation(fields: [volunteerId], references: [id])\n  volunteerId Int\n  session     VolunteerSession   @relation(fields: [sessionId], references: [id], onDelete: Cascade)\n  sessionId   Int\n  status      RegistrationStatus @default(PENDING)\n\n  createdAt DateTime @default(now())\n\n  @@unique([volunteerId, sessionId]) // Un volontaire ne peut s’inscrire qu’une fois par session\n}\n",
-  "inlineSchemaHash": "006caeeb66404c8b522e87a629bcd1691873a125123820ecdabcff2c4e510b0b",
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider      = \"prisma-client-js\"\n  output        = \"../generated/prisma\"\n  binaryTargets = [\"native\", \"rhel-openssl-3.0.x\"]\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nenum RegistrationStatus {\n  PENDING\n  CONFIRMED\n  CANCELLED\n  NO_SHOW // Inscrit mais pas venu\n}\n\nenum SessionTypes {\n  TUTORING\n  OTHER\n}\n\nmodel VolunteerSession {\n  id          Int                     @id @default(autoincrement())\n  title       String\n  date        DateTime\n  description String\n  location    String // ✅ Nouveau champ : localisation de la session\n  capacity    Int\n  image       String\n  type        SessionTypes            @default(TUTORING)\n  createdAt   DateTime                @default(now())\n  volunteers  VolunteerRegistration[] // relation inverse\n}\n\nmodel Volunteer {\n  id            Int                     @id @default(autoincrement())\n  clerkUserId   String                  @unique\n  firstName     String\n  lastName      String\n  phone         String\n  email         String\n  instagram     String?\n  birthDate     DateTime\n  createdAt     DateTime                @default(now())\n  isAdmin       Boolean                 @default(false)\n  isLeader      Boolean                 @default(false)\n  isActive      Boolean                 @default(false)\n  registrations VolunteerRegistration[] // relation vers la table de liaison\n}\n\nmodel VolunteerRegistration {\n  id          Int                @id @default(autoincrement())\n  volunteer   Volunteer          @relation(fields: [volunteerId], references: [id])\n  volunteerId Int\n  session     VolunteerSession   @relation(fields: [sessionId], references: [id], onDelete: Cascade)\n  sessionId   Int\n  status      RegistrationStatus @default(PENDING)\n\n  createdAt DateTime @default(now())\n\n  @@unique([volunteerId, sessionId]) // Un volontaire ne peut s’inscrire qu’une fois par session\n}\n",
+  "inlineSchemaHash": "fdc4b0ec172f1be957bdb6e6d445ef05018c57a259d130e97bf5c689386fe488",
   "copyEngine": true
 }
 
@@ -248,6 +252,10 @@ Object.assign(exports, Prisma)
 // file annotations for bundling tools to include these files
 path.join(__dirname, "libquery_engine-darwin.dylib.node");
 path.join(process.cwd(), "generated/prisma/libquery_engine-darwin.dylib.node")
+
+// file annotations for bundling tools to include these files
+path.join(__dirname, "libquery_engine-rhel-openssl-3.0.x.so.node");
+path.join(process.cwd(), "generated/prisma/libquery_engine-rhel-openssl-3.0.x.so.node")
 // file annotations for bundling tools to include these files
 path.join(__dirname, "schema.prisma");
 path.join(process.cwd(), "generated/prisma/schema.prisma")
