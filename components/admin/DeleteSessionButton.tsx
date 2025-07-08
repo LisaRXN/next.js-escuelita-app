@@ -3,15 +3,18 @@ import { useAction } from "@/hooks/use-action";
 import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRef } from "react";
+import { useRouter } from "next/navigation";
 
 interface DeleteSessionButtonProps {
   sessionId: number;
   handleCloseModal?: ()=>void
+  redirection?: boolean;
 }
 
-const DeleteSessionButton = ({ sessionId, handleCloseModal }: DeleteSessionButtonProps) => {
+const DeleteSessionButton = ({ sessionId, handleCloseModal, redirection=false }: DeleteSessionButtonProps) => {
   const queryClient = useQueryClient();
   const dialogRef = useRef<HTMLDialogElement>(null);
+  const router = useRouter();
 
   const { execute, isLoading } = useAction(deleteSession, {
     onSuccess: (data) => {
@@ -21,6 +24,8 @@ const DeleteSessionButton = ({ sessionId, handleCloseModal }: DeleteSessionButto
       queryClient.invalidateQueries({ queryKey: ["sessionsWithLiders"] });
       handleCloseModal?.();
       dialogRef.current?.close();
+      if(redirection){router.push("/admin");} 
+
     },
     onError: (error) => {
       toast.error(error);

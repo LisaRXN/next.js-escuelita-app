@@ -3,21 +3,19 @@
 import { useState } from "react";
 import { toast } from "sonner";
 import { updateSession } from "@/actions/admin/update-session";
-import { deleteSession } from "@/actions/admin/delete-session";
 import { useAction } from "@/hooks/use-action";
 import { FormErrors } from "@/components/form/form-errors";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { useQueryClient } from "@tanstack/react-query"; 
 import sessionImages from "@/public/data/images.json";
 import { VolunteerSession } from "@/generated/prisma";
+import DeleteSessionButton from "@/components/admin/DeleteSessionButton";
 
 interface UpdateSessionFormProps {
   session: VolunteerSession;
 }
 
 const UpdateSessionForm = ({ session }: UpdateSessionFormProps) => {
-  const router = useRouter();
   const images = sessionImages;
 
   const queryClient = useQueryClient();
@@ -58,28 +56,6 @@ const UpdateSessionForm = ({ session }: UpdateSessionFormProps) => {
     },
   });
 
-  const { execute: executeDelete, isLoading: isLoadingDelete } = useAction(
-    deleteSession,
-    {
-      onSuccess: (data) => {
-        toast.success(`Sesión "${data.title}" suprimida !`);
-        queryClient.invalidateQueries({ queryKey: ["sessions"] });
-        queryClient.invalidateQueries({ queryKey: ["nextSessions"] });
-        queryClient.invalidateQueries({ queryKey: ["sessionsWithLiders"] });
-        router.push("/admin/get-sessions");
-      },
-      onError: (error) => {
-        toast.error(error);
-      },
-    }
-  );
-
-  const onDelete = () => {
-    alert(
-      "¿Estás seguro de que quieres eliminar esta sesión? Esta acción no se puede deshacer."
-    );
-    executeDelete({ id: session.id });
-  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -96,7 +72,7 @@ const UpdateSessionForm = ({ session }: UpdateSessionFormProps) => {
       <h1 className="text-2xl font-bold mb-4 text-center">
         Modificación del evento
       </h1>
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-4 mb-3">
         <div>
           <label className="block font-medium mb-2">Titulo del evento*</label>
           <input
@@ -190,15 +166,13 @@ const UpdateSessionForm = ({ session }: UpdateSessionFormProps) => {
           >
             Modificar evento
           </button>
-          <button
-            onClick={onDelete}
-            disabled={isLoadingDelete}
-            className="bg-myred w-full text-white py-2 rounded hover:bg-myred/80 disabled:opacity-50"
-          >
-            Suprimir evento
-          </button>
         </div>
       </form>
+      <DeleteSessionButton
+        sessionId={session.id}
+        redirection={true}
+      />
+            
     </div>
   );
 };
