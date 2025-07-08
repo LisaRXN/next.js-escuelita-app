@@ -2,7 +2,7 @@
 
 import CreateSessionForm from "../_components/CreateSessionForm";
 
-export default function AdminSessionsCreatePage() {
+export const AdminSessionsCreatePage = () => {
 
   return (
 
@@ -11,3 +11,5 @@ export default function AdminSessionsCreatePage() {
     </div>
   );
 }
+
+export default AdminSessionsCreatePage;

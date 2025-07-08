@@ -13,6 +13,17 @@ export const handler = async (data: InputType): Promise<ReturnType> => {
 
   try {
     const { firstName, lastName, email, phone, instagram, birthDate } = data;
+
+    console.log( "Creating volunteer with data:", {
+      userId,
+      firstName,
+      lastName,
+      email,
+      phone,
+      instagram,
+      birthDate,
+    });
+
     const volunteer = await prisma.volunteer.create({
       data: {
         clerkUserId: userId,
@@ -22,7 +33,6 @@ export const handler = async (data: InputType): Promise<ReturnType> => {
         instagram,
         email,
         birthDate: new Date(birthDate),
-        createdAt: new Date(),
       },
     });
 
