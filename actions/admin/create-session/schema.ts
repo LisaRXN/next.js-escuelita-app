@@ -12,6 +12,7 @@ export const CreateSessionSchema = z.object({
   description: z.string(),
   location: z.string(),
   capacity: z.number().min(1),
+  image: z.string().min(1),
   date: z.string().refine((dateStr) => !isNaN(Date.parse(dateStr)), {
     message: "Date invalide",
   }),

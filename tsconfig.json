@@ -20,8 +20,10 @@
     ],
     "paths": {
       "@/*": ["./*"]
-    }
+    },
+    "types": ["@types/node", "@clerk/nextjs/server"]   
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "actions/admin/create-session", "actions/admin/delete-session", "actions/admin/toggle-admin", "actions/admin/update-session"],
+
+  "include": ["next-env.d.ts","generated","**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "actions/admin/create-session", "actions/admin/delete-session", "actions/admin/toggle-admin", "actions/admin/update-session"],
   "exclude": ["node_modules"]
 }

@@ -1,18 +1,25 @@
+"use server";
+
 import { prisma } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
 import { InputType, ReturnType } from "./types";
 import { revalidatePath } from "next/cache";
 
 export const handler = async (data: InputType): Promise<ReturnType> => {
+  
+
   const { userId } = await auth();
+
+  console.log('userId Create Session', userId)
 
   if (!userId) {
     return { error: "Unauthorized" };
   }
 
-  const { title, date, description, location, capacity } = data;
+  const { title, date, description, location, image, capacity } = data;
 
   try {
+    
     const session = await prisma.volunteerSession.create({
       data: {
         title,
@@ -20,6 +27,7 @@ export const handler = async (data: InputType): Promise<ReturnType> => {
         location,
         description,
         capacity,
+        image,
       },
     });
 
@@ -32,11 +40,13 @@ export const handler = async (data: InputType): Promise<ReturnType> => {
         description: session.description,
         location: session.location,
         capacity: session.capacity,
+        image: session.image,
         volunteers: [],
       },
     };
   } catch (error) {
     console.error("Error creating session:", error);
+    console.error("Full error details:", JSON.stringify(error, null, 2));
     await prisma.$disconnect();
     return { error: "Failed to create session" };
   }

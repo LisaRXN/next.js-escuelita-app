@@ -1,21 +1,21 @@
 import { prisma } from "@/lib/prisma";
-import { auth } from "@clerk/nextjs/server";
 import { InputType, ReturnType } from "./types";
+import { auth } from "@clerk/nextjs/server";
 
 
 export const handler = async (data: InputType): Promise<ReturnType> => {
   
   const { userId } = await auth();
-  // const user = await currentUser();
+
+  console.log("🔐 Handler called with userId:", userId);
 
   if (!userId) {
     return { error: "Unauthorized" };
   }
 
-  // const email = user?.emailAddresses[0]?.emailAddress;
-  const { firstName, lastName, email, phone, instagram, birthDate } = data;
-
   try {
+
+    const { firstName, lastName, email, phone, instagram, birthDate } = data;
     const volunteer = await prisma.volunteer.create({
       data: {
         clerkUserId:userId,

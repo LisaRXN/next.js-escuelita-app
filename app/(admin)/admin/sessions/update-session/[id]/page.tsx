@@ -7,7 +7,8 @@ interface SessionPageProps {
 
 export const UpdateSessionPage = async ({ params }: SessionPageProps) => {
 
-  const sessionId = parseInt(params.id);
+  const paramsUrl = await params;
+  const sessionId = Number(paramsUrl.id);
 
   const session = await prisma.volunteerSession.findUnique({
     where: { id: sessionId },

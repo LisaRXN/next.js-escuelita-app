@@ -10,6 +10,7 @@ interface SessionCardProps {
   location: string;
   date: string | Date;
   sessionId: number;
+  image:string;
   isAdmin?: boolean;
   shadow: boolean;
 }
@@ -19,6 +20,7 @@ const SessionCard = ({
   location,
   date,
   sessionId,
+  image,
   isAdmin = false,
   shadow = true,
 }: SessionCardProps) => {
@@ -52,7 +54,15 @@ const SessionCard = ({
     if (dialogRef.current) {
       dialogRef.current.close();
     }
-  }
+  };
+
+  const handleClick = () => {
+    if (isAdmin) {
+      router.push(`/admin/sessions/${sessionId}`);
+    } else {
+      handleOpenModal(sessionId);
+    }
+  };
 
   return (
     <div
@@ -60,24 +70,24 @@ const SessionCard = ({
         shadow ? "shadow-md bg-white" : "border border-zinc-300 bg-zinc-50"
       } overflow-hidden`}
     >
-      <a
-        href={`/admin/sessions/update-session/${sessionId}`}
+      <div
+        onClick={handleClick}
         className="relative h-[150px] w-full cursor-pointer"
       >
         <Image
-          src="/img/photos/tutorias.jpg"
+          src={image}
           alt="Tutorias"
           fill
           className="object-cover h-full w-full"
         />
-      </a>
+      </div>
       <div className="p-4 flex flex-col gap-2 items-start h-auto w-full">
-        <a
-          href={`/admin/sessions/update-session/${sessionId}`}
+        <span
+          onClick={handleClick}
           className="md:text-[20px] font-bold cursor-pointer"
         >
           {title}
-        </a>
+        </span>
         <div className="flex items-start justify-center gap-3">
           <i className="fa-solid fa-location-dot text-myorange"></i>
           <p className="font-semibold text-mygrey text-[14px]">{location}</p>

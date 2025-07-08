@@ -9,7 +9,7 @@ import SessionList from "./_components/sessionList";
 import SessionListMobile from "./_components/sessionListMobile";
 
 export default function VolunteerProfil() {
-  const { userId } = useAuth();
+  const { isLoaded, userId } = useAuth();
   const [isMobile, setIsMobile] = useState(false);
   const [sessionSelected, setSessionSelected] = useState<number | undefined>(
     undefined
@@ -31,6 +31,10 @@ export default function VolunteerProfil() {
   const handleOpenModal = (sessionId: number) => {
     setSessionSelected(sessionId);
   };
+  const handleCloseModal = () => {
+    setSessionSelected(undefined);
+    dialogRef.current?.close();
+  };
   
 
   useEffect(() => {
@@ -42,6 +46,8 @@ export default function VolunteerProfil() {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  if (!isLoaded) return null;
 
   if (loadingUser)
     return (
@@ -91,7 +97,7 @@ export default function VolunteerProfil() {
         />
       )}
       {sessionSelected && (
-        <SessionModal sessionId={sessionSelected} dialogRef={dialogRef} />
+        <SessionModal sessionId={sessionSelected} dialogRef={dialogRef} handleCloseModal={handleCloseModal} />
       )}
     </main>
   );

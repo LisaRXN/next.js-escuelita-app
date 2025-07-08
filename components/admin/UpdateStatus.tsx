@@ -36,7 +36,7 @@ const UpdateStatus = ({ registrationId, status }: UpdateStatusProps) => {
       className={`
         appearance-none px-2  md:px-4 rounded py-1.5 text-sm focus:outline-none focus:none text-center
         ${status === "CONFIRMED" ? "bg-mygreen text-white" : ""}
-        ${status === "PENDING" ? "bg-mygray text-white " : ""}
+        ${status === "PENDING" ? "bg-slate-400 text-white " : ""}
         ${status === "CANCELLED" ? "bg-myorange text-white" : ""}
         ${status === "NO_SHOW" ? "bg-myred text-white" : ""}
       `}

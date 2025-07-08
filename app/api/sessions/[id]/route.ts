@@ -12,11 +12,14 @@ interface Params {
 export async function GET(req: Request, { params }: Params) {
   const { userId } = await auth();
 
+  console.log('User ID from auth:', userId);
+
   if (!userId) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const sessionId = parseInt(params.id, 10);
+  const paramsUrl = await params;
+  const sessionId = parseInt(paramsUrl.id, 10);
 
   if (isNaN(sessionId)) {
     return NextResponse.json({ error: "Invalid session ID" }, { status: 400 });
@@ -53,6 +56,7 @@ export async function GET(req: Request, { params }: Params) {
     const {
       isUserRegistered,
       isSessionInFuture24h,
+      isSessionPassed,
       isVolunteerActive,
     } = await getVolunteerSessionStatus(userId, sessionId, session.date);
 
@@ -63,6 +67,7 @@ export async function GET(req: Request, { params }: Params) {
         isUserRegistered,
         isSessionInFuture24h,
         isVolunteerActive,
+        isSessionPassed,
       },
     });
   } catch (error) {

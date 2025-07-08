@@ -272,8 +272,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 6.9.0
-   * Query Engine version: 81e4af48011447c3cc503a190e86995b66d2a28e
+   * Prisma Client JS version: 6.11.1
+   * Query Engine version: f40f79ec31188888a2e33acda0ecc8fd10a853a9
    */
   export type PrismaVersion = {
     client: string
@@ -1172,6 +1172,7 @@ export namespace Prisma {
     description: string | null
     location: string | null
     capacity: number | null
+    image: string | null
     type: $Enums.SessionTypes | null
     createdAt: Date | null
   }
@@ -1183,6 +1184,7 @@ export namespace Prisma {
     description: string | null
     location: string | null
     capacity: number | null
+    image: string | null
     type: $Enums.SessionTypes | null
     createdAt: Date | null
   }
@@ -1194,6 +1196,7 @@ export namespace Prisma {
     description: number
     location: number
     capacity: number
+    image: number
     type: number
     createdAt: number
     _all: number
@@ -1217,6 +1220,7 @@ export namespace Prisma {
     description?: true
     location?: true
     capacity?: true
+    image?: true
     type?: true
     createdAt?: true
   }
@@ -1228,6 +1232,7 @@ export namespace Prisma {
     description?: true
     location?: true
     capacity?: true
+    image?: true
     type?: true
     createdAt?: true
   }
@@ -1239,6 +1244,7 @@ export namespace Prisma {
     description?: true
     location?: true
     capacity?: true
+    image?: true
     type?: true
     createdAt?: true
     _all?: true
@@ -1337,6 +1343,7 @@ export namespace Prisma {
     description: string
     location: string
     capacity: number
+    image: string
     type: $Enums.SessionTypes
     createdAt: Date
     _count: VolunteerSessionCountAggregateOutputType | null
@@ -1367,6 +1374,7 @@ export namespace Prisma {
     description?: boolean
     location?: boolean
     capacity?: boolean
+    image?: boolean
     type?: boolean
     createdAt?: boolean
     volunteers?: boolean | VolunteerSession$volunteersArgs<ExtArgs>
@@ -1380,6 +1388,7 @@ export namespace Prisma {
     description?: boolean
     location?: boolean
     capacity?: boolean
+    image?: boolean
     type?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["volunteerSession"]>
@@ -1391,6 +1400,7 @@ export namespace Prisma {
     description?: boolean
     location?: boolean
     capacity?: boolean
+    image?: boolean
     type?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["volunteerSession"]>
@@ -1402,11 +1412,12 @@ export namespace Prisma {
     description?: boolean
     location?: boolean
     capacity?: boolean
+    image?: boolean
     type?: boolean
     createdAt?: boolean
   }
 
-  export type VolunteerSessionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "date" | "description" | "location" | "capacity" | "type" | "createdAt", ExtArgs["result"]["volunteerSession"]>
+  export type VolunteerSessionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "date" | "description" | "location" | "capacity" | "image" | "type" | "createdAt", ExtArgs["result"]["volunteerSession"]>
   export type VolunteerSessionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     volunteers?: boolean | VolunteerSession$volunteersArgs<ExtArgs>
     _count?: boolean | VolunteerSessionCountOutputTypeDefaultArgs<ExtArgs>
@@ -1426,6 +1437,7 @@ export namespace Prisma {
       description: string
       location: string
       capacity: number
+      image: string
       type: $Enums.SessionTypes
       createdAt: Date
     }, ExtArgs["result"]["volunteerSession"]>
@@ -1858,6 +1870,7 @@ export namespace Prisma {
     readonly description: FieldRef<"VolunteerSession", 'String'>
     readonly location: FieldRef<"VolunteerSession", 'String'>
     readonly capacity: FieldRef<"VolunteerSession", 'Int'>
+    readonly image: FieldRef<"VolunteerSession", 'String'>
     readonly type: FieldRef<"VolunteerSession", 'SessionTypes'>
     readonly createdAt: FieldRef<"VolunteerSession", 'DateTime'>
   }
@@ -4614,6 +4627,7 @@ export namespace Prisma {
     description: 'description',
     location: 'location',
     capacity: 'capacity',
+    image: 'image',
     type: 'type',
     createdAt: 'createdAt'
   };
@@ -4783,6 +4797,7 @@ export namespace Prisma {
     description?: StringFilter<"VolunteerSession"> | string
     location?: StringFilter<"VolunteerSession"> | string
     capacity?: IntFilter<"VolunteerSession"> | number
+    image?: StringFilter<"VolunteerSession"> | string
     type?: EnumSessionTypesFilter<"VolunteerSession"> | $Enums.SessionTypes
     createdAt?: DateTimeFilter<"VolunteerSession"> | Date | string
     volunteers?: VolunteerRegistrationListRelationFilter
@@ -4795,6 +4810,7 @@ export namespace Prisma {
     description?: SortOrder
     location?: SortOrder
     capacity?: SortOrder
+    image?: SortOrder
     type?: SortOrder
     createdAt?: SortOrder
     volunteers?: VolunteerRegistrationOrderByRelationAggregateInput
@@ -4810,6 +4826,7 @@ export namespace Prisma {
     description?: StringFilter<"VolunteerSession"> | string
     location?: StringFilter<"VolunteerSession"> | string
     capacity?: IntFilter<"VolunteerSession"> | number
+    image?: StringFilter<"VolunteerSession"> | string
     type?: EnumSessionTypesFilter<"VolunteerSession"> | $Enums.SessionTypes
     createdAt?: DateTimeFilter<"VolunteerSession"> | Date | string
     volunteers?: VolunteerRegistrationListRelationFilter
@@ -4822,6 +4839,7 @@ export namespace Prisma {
     description?: SortOrder
     location?: SortOrder
     capacity?: SortOrder
+    image?: SortOrder
     type?: SortOrder
     createdAt?: SortOrder
     _count?: VolunteerSessionCountOrderByAggregateInput
@@ -4841,6 +4859,7 @@ export namespace Prisma {
     description?: StringWithAggregatesFilter<"VolunteerSession"> | string
     location?: StringWithAggregatesFilter<"VolunteerSession"> | string
     capacity?: IntWithAggregatesFilter<"VolunteerSession"> | number
+    image?: StringWithAggregatesFilter<"VolunteerSession"> | string
     type?: EnumSessionTypesWithAggregatesFilter<"VolunteerSession"> | $Enums.SessionTypes
     createdAt?: DateTimeWithAggregatesFilter<"VolunteerSession"> | Date | string
   }
@@ -5004,6 +5023,7 @@ export namespace Prisma {
     description: string
     location: string
     capacity: number
+    image: string
     type?: $Enums.SessionTypes
     createdAt?: Date | string
     volunteers?: VolunteerRegistrationCreateNestedManyWithoutSessionInput
@@ -5016,6 +5036,7 @@ export namespace Prisma {
     description: string
     location: string
     capacity: number
+    image: string
     type?: $Enums.SessionTypes
     createdAt?: Date | string
     volunteers?: VolunteerRegistrationUncheckedCreateNestedManyWithoutSessionInput
@@ -5027,6 +5048,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     location?: StringFieldUpdateOperationsInput | string
     capacity?: IntFieldUpdateOperationsInput | number
+    image?: StringFieldUpdateOperationsInput | string
     type?: EnumSessionTypesFieldUpdateOperationsInput | $Enums.SessionTypes
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     volunteers?: VolunteerRegistrationUpdateManyWithoutSessionNestedInput
@@ -5039,6 +5061,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     location?: StringFieldUpdateOperationsInput | string
     capacity?: IntFieldUpdateOperationsInput | number
+    image?: StringFieldUpdateOperationsInput | string
     type?: EnumSessionTypesFieldUpdateOperationsInput | $Enums.SessionTypes
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     volunteers?: VolunteerRegistrationUncheckedUpdateManyWithoutSessionNestedInput
@@ -5051,6 +5074,7 @@ export namespace Prisma {
     description: string
     location: string
     capacity: number
+    image: string
     type?: $Enums.SessionTypes
     createdAt?: Date | string
   }
@@ -5061,6 +5085,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     location?: StringFieldUpdateOperationsInput | string
     capacity?: IntFieldUpdateOperationsInput | number
+    image?: StringFieldUpdateOperationsInput | string
     type?: EnumSessionTypesFieldUpdateOperationsInput | $Enums.SessionTypes
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -5072,6 +5097,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     location?: StringFieldUpdateOperationsInput | string
     capacity?: IntFieldUpdateOperationsInput | number
+    image?: StringFieldUpdateOperationsInput | string
     type?: EnumSessionTypesFieldUpdateOperationsInput | $Enums.SessionTypes
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -5294,6 +5320,7 @@ export namespace Prisma {
     description?: SortOrder
     location?: SortOrder
     capacity?: SortOrder
+    image?: SortOrder
     type?: SortOrder
     createdAt?: SortOrder
   }
@@ -5310,6 +5337,7 @@ export namespace Prisma {
     description?: SortOrder
     location?: SortOrder
     capacity?: SortOrder
+    image?: SortOrder
     type?: SortOrder
     createdAt?: SortOrder
   }
@@ -5321,6 +5349,7 @@ export namespace Prisma {
     description?: SortOrder
     location?: SortOrder
     capacity?: SortOrder
+    image?: SortOrder
     type?: SortOrder
     createdAt?: SortOrder
   }
@@ -6016,6 +6045,7 @@ export namespace Prisma {
     description: string
     location: string
     capacity: number
+    image: string
     type?: $Enums.SessionTypes
     createdAt?: Date | string
   }
@@ -6027,6 +6057,7 @@ export namespace Prisma {
     description: string
     location: string
     capacity: number
+    image: string
     type?: $Enums.SessionTypes
     createdAt?: Date | string
   }
@@ -6093,6 +6124,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     location?: StringFieldUpdateOperationsInput | string
     capacity?: IntFieldUpdateOperationsInput | number
+    image?: StringFieldUpdateOperationsInput | string
     type?: EnumSessionTypesFieldUpdateOperationsInput | $Enums.SessionTypes
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -6104,6 +6136,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     location?: StringFieldUpdateOperationsInput | string
     capacity?: IntFieldUpdateOperationsInput | number
+    image?: StringFieldUpdateOperationsInput | string
     type?: EnumSessionTypesFieldUpdateOperationsInput | $Enums.SessionTypes
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

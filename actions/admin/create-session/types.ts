@@ -11,6 +11,7 @@ export type ReturnType =
         description: string;
         location: string;
         capacity: number;
+        image: string;
         volunteers: string[];
       };
     }

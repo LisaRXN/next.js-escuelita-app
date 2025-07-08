@@ -1,11 +1,23 @@
+"use server";
+
 import { prisma } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
 import { InputType, ReturnType } from "./types";
+import { cookies } from "next/headers";
 
 export const handler = async (data: InputType): Promise<ReturnType> => {
   try {
-    const { userId } = await auth();
 
+    const cookieStore = await cookies();
+    console.log("Clerk cookies:", cookieStore.get("__session")); // Vérifie si le cookie est présent
+
+    console.log("CLERK_SECRET_KEY:", process.env.CLERK_SECRET_KEY);
+console.log("CLERK_FRONTEND_API:", process.env.CLERK_FRONTEND_API);
+
+    const { userId } = await auth();
+    
+    console.log("userId:", userId);
+   
     if (!userId) {
       return { error: "Unauthorized" };
     }
@@ -70,3 +82,4 @@ export const handler = async (data: InputType): Promise<ReturnType> => {
     return { error: "Error interno del servidor" };
   }
 };
+

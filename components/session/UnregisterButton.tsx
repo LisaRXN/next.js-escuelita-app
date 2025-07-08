@@ -6,7 +6,6 @@ import { useQueryClient } from "@tanstack/react-query";
 import { unregisterToSession } from '@/actions/sessions/unregister-to-session';
 import { useUser } from '@clerk/nextjs';
 
-
 type UnregisterButtonProps = {
   sessionId: number;
   fullWidth?: boolean,
@@ -15,10 +14,11 @@ type UnregisterButtonProps = {
 
 export default function UnregisterButton({ sessionId, fullWidth=false, isReduce=false }: UnregisterButtonProps) {
 
-  const { user, isLoaded } = useUser();
-  const isAdmin = user?.publicMetadata?.role === "admin";
-
   const queryClient = useQueryClient(); 
+
+  const { user, isLoaded } = useUser();
+
+  const isAdmin = user?.publicMetadata?.role === "admin";
 
   const { execute: executeUnregister, isLoading } = useAction(unregisterToSession, {
     onSuccess: () => {

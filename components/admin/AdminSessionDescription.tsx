@@ -11,12 +11,12 @@ import DeleteSessionButton from "./DeleteSessionButton";
 interface AdminSessionDescriptionProps {
   sessionId: number;
   isAdmin?: boolean;
-  handleCloseModal?: ()=>void;
+  handleCloseModal?: () => void;
 }
 
 const AdminSessionDescription = ({
   sessionId,
-  handleCloseModal
+  handleCloseModal,
 }: AdminSessionDescriptionProps) => {
   const router = useRouter();
 
@@ -38,13 +38,9 @@ const AdminSessionDescription = ({
   if (!data || !data.userStatus) return <p>Ninguna sesión encontrada</p>;
 
   const session = data.session;
-  // const registeredVolunteers = data.registeredVolunteers;
-  // const userStatus = data.userStatus;
   const isUserRegistered = data.userStatus.isUserRegistered;
-  // const isSessionInFuture24h = data.userStatus.isSessionInFuture24h;
   const isSessionPassed = data.userStatus.isSessionPassed;
   const isVolunteerActive = data.userStatus.isVolunteerActive;
-
 
   // Formattage des dates
   const formattedDate = new Date(session.date).toLocaleDateString("es-ES", {
@@ -65,7 +61,7 @@ const AdminSessionDescription = ({
       <div className="w-full max-w-[500px] mx-auto text-inter">
         <div className="relative w-full h-[180px] md:h-[250px] rounded-md overflow-hidden mb-2">
           <Image
-            src="/img/photos/tutorias.jpg"
+            src={session.image}
             alt="Tutorias"
             fill
             className="object-cover h-full w-full object-top"
@@ -110,10 +106,8 @@ const AdminSessionDescription = ({
             )}
 
             <div className="flex flex-col items-start justify-center gap-3 w-full">
-            {/* If Non Registered */}
-            {!isUserRegistered &&
-              isVolunteerActive &&
-              !isSessionPassed && (
+              {/* If Non Registered */}
+              {!isUserRegistered && isVolunteerActive && !isSessionPassed && (
                 <div className="flex w-full items-center justify-center">
                   <SignUpToSessionButton
                     fullWidth={true}
@@ -121,60 +115,74 @@ const AdminSessionDescription = ({
                   />
                 </div>
               )}
-            {/* If Registered */}
-            {isUserRegistered && (
-              <div className="w-full flex items-center justify-center">
-                <p className="font-semibold text-mygreen">
-                  Ya te has inscrito en esta sesión!
-                </p>
-              </div>
-            )}
-            {/* Désinscription */}
-            {isUserRegistered && !isSessionPassed && (
-              <div className="w-full flex items-center justify-center">
-                <UnregisterButton
-                  fullWidth={true}
-                  sessionId={session.id}
-                />
-              </div>
-            )}
-            {/* Modifier */}
-              <div className="w-full flex items-center justify-center">
-                <button
-                  onClick={() =>
-                    router.push(`/admin/sessions/update-session/${sessionId}`)
-                  }
-                  className="w-full px-5 py-2 bg-mygray text-white font-semibold rounded-md"
-                >
-                  Modificar el evento
-                </button>
-              </div>
+              {/* If Registered */}
+              {isUserRegistered && (
+                <div className="w-full flex items-center justify-center">
+                  <p className="text-mygreen text-center">
+                    <span className="mr-2">
+                      <i className="fa-solid fa-circle-check"></i>
+                    </span>
+                    Ya te has inscrito en esta sesión!
+                  </p>
+                </div>
+              )}
+              {/* Désinscription */}
+              {isUserRegistered && !isSessionPassed && (
+                <div className="w-full flex items-center justify-center">
+                  <UnregisterButton fullWidth={true} sessionId={session.id} />
+                </div>
+              )}
+              {/* Modifier */}
+              {!isSessionPassed && (
+                <div className="w-full flex items-center justify-center">
+                  <button
+                    onClick={() =>
+                      router.push(`/admin/sessions/update-session/${sessionId}`)
+                    }
+                    className="w-full px-5 py-2 bg-mygray text-white font-semibold rounded-md"
+                  >
+                    Modificar el evento
+                  </button>
+                </div>
+              )}
 
-            {/* Supprimer */}
-              <div className="w-full flex items-center justify-center">
-              <DeleteSessionButton sessionId={sessionId} handleCloseModal={handleCloseModal}/>
-              </div>
+              {/* Supprimer */}
+              {!isSessionPassed && (
+                <div className="w-full flex items-center justify-center">
+                  <DeleteSessionButton
+                    sessionId={sessionId}
+                    handleCloseModal={handleCloseModal}
+                  />
+                </div>
+              )}
 
-            {!isVolunteerActive && (
-              <div className="w-full flex items-center justify-center">
-                <p className="text-myred">
-                  Para inscribirse en esta sesión es necesario ser voluntario en
-                  activo
-                </p>
-              </div>
-            )}
-          </div>
+              {!isVolunteerActive && (
+                <div className="w-full flex items-center justify-center">
+                  <p className="text-myred text-center">
+                    <span className="mr-2">
+                      <i className="fa-solid fa-lock"></i>
+                    </span>{" "}
+                    Para inscribirse en esta sesión es necesario ser voluntario
+                    en activo
+                  </p>
+                </div>
+              )}
 
-        </div>
-
-
+              {isSessionPassed && (
+                <div className="w-full flex items-center justify-center">
+                  <p className="text-myred text-center">
+                    <span className="mr-2">
+                      <i className="fa-solid fa-lock"></i>
+                    </span>{" "}
+                    Esta sesión ya ha pasado. Ya no es posible inscribirse ni
+                    realizar modificaciones.
+                  </p>
+                </div>
+              )}
             </div>
-
-
-
+          </div>
+        </div>
       </div>
-
-      
     </>
   );
 };

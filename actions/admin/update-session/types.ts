@@ -10,6 +10,7 @@ export type ReturnType =
         title?: string | undefined;
         capacity?: number | undefined;
         location?: string | undefined;
+        image?: string | undefined;
         date?: string | undefined;
         description?: string | undefined;
       };

@@ -17,8 +17,8 @@ const DeleteSessionButton = ({ sessionId, handleCloseModal }: DeleteSessionButto
     onSuccess: (data) => {
       toast.success(`Sesión "${data.title}" suprimida !`);
       queryClient.invalidateQueries({ queryKey: ["sessions"] });
-      queryClient.invalidateQueries({ queryKey: ["NextSessions"] });
-      queryClient.invalidateQueries({ queryKey: ["SessionWithLiders"] });
+      queryClient.invalidateQueries({ queryKey: ["nextSessions"] });
+      queryClient.invalidateQueries({ queryKey: ["sessionsWithLiders"] });
       handleCloseModal?.();
       dialogRef.current?.close();
     },

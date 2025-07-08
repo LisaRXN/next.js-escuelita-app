@@ -9,13 +9,14 @@ export const handler = async (data: InputType): Promise<ReturnType> => {
     return { error: "Unauthorized" };
   }
 
-  const {sessionId, title, date, description, location, capacity } = data;
+  const {sessionId, title, date, description, location, capacity, image } = data;
   
   const updateData: Record<string, unknown> = {};
   if (title !== undefined) updateData.title = title;
   if (description !== undefined) updateData.description = description;
   if (location !== undefined) updateData.location = location;
   if (capacity !== undefined) updateData.capacity = capacity;
+  if (image !== undefined) updateData.image = image;
   if (date !== undefined) updateData.date = new Date(date);
 
   try {
@@ -30,6 +31,7 @@ export const handler = async (data: InputType): Promise<ReturnType> => {
       title: session.title,
       date: session.date.toISOString(),
       location: session.location ?? "",
+      image: session.image ?? "",
       description: session.description ?? "",
       capacity: session.capacity,
     },

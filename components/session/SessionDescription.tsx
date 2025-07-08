@@ -11,10 +11,7 @@ interface SessionDescriptionProps {
   isAdmin?: boolean;
 }
 
-const SessionDescription = ({
-  sessionId,
-}: SessionDescriptionProps) => {
-
+const SessionDescription = ({ sessionId }: SessionDescriptionProps) => {
   const { data, isLoading: loadingSession } = useQuery({
     queryKey: ["sessionById", sessionId],
     queryFn: () => fetcher(`/api/sessions/${sessionId}`),
@@ -36,6 +33,7 @@ const SessionDescription = ({
   const isUserRegistered = data.userStatus.isUserRegistered;
   const isSessionInFuture24h = data.userStatus.isSessionInFuture24h;
   const isVolunteerActive = data.userStatus.isVolunteerActive;
+  const isSessionPassed = data.userStatus.isSessionPassed;
 
   // Formattage des dates
   const formattedDate = new Date(session.date).toLocaleDateString("es-ES", {
@@ -56,7 +54,7 @@ const SessionDescription = ({
       <div className="max-w-[500px] mx-auto text-inter">
         <div className="relative w-full h-[180px] md:h-[250px] rounded-md overflow-hidden mb-2">
           <Image
-            src="/img/photos/tutorias.jpg"
+            src={session.image}
             alt="Tutorias"
             fill
             className="object-cover h-full w-full object-top"
@@ -103,7 +101,8 @@ const SessionDescription = ({
             {/* If Non Registered */}
             {!isUserRegistered &&
               isVolunteerActive &&
-              !isSessionInFuture24h && (
+              !isSessionInFuture24h &&
+              !isSessionPassed && (
                 <div className="flex w-full items-center justify-center">
                   <SignUpToSessionButton
                     fullWidth={true}
@@ -121,36 +120,54 @@ const SessionDescription = ({
             )}
 
             {/* Désinscription */}
-            {isUserRegistered && !isSessionInFuture24h && (
+            {isUserRegistered && !isSessionInFuture24h && !isSessionPassed && (
               <div className="w-full flex items-center justify-center">
-                <UnregisterButton
-                  fullWidth={true}
-                  sessionId={session.id}
-                />
+                <UnregisterButton fullWidth={true} sessionId={session.id} />
               </div>
             )}
 
             {!isVolunteerActive && (
               <div className="w-full flex items-center justify-center">
                 <p className="text-myred text-center">
-                  Para inscribirse en esta sesión es necesario ser voluntario en
-                  activo
+                  <span className="mr-2">
+                    <i className="fa-solid fa-lock"></i>
+                  </span>
+                  Para inscribirte necesitas ser un voluntario activo. ¡Contacta
+                  a un coordinador para activarte! 😊
                 </p>
               </div>
             )}
           </div>
-            {isSessionInFuture24h && (
-              <div className="w-full flex items-center justify-center">
-                <p className="text-myred text-center">
+          {isSessionInFuture24h && (
+            <div className="w-full flex items-center justify-center">
+              <p className="text-myred text-center">
+                <span className="mr-2">
+                  <i className="fa-solid fa-lock"></i>
+                </span>
                 Esta sesión ya está completa. ¡Esperamos verte en la próxima! 😊
-                </p>
-              </div>
-            )}
+              </p>
+            </div>
+          )}
 
           {isUserRegistered && isSessionInFuture24h && (
-            <div className="w-3/4 flex items-center justify-center m-auto">
+            <div className="w-full flex items-center justify-center">
               <p className="text-myred text-center">
-              ¡Ya no se puede cancelar la inscripción, ¡pero te esperamos con ganas! 😊 
+                <span className="mr-2">
+                  <i className="fa-solid fa-lock"></i>
+                </span>
+                ¡Ya no se puede cancelar la inscripción, ¡pero te esperamos con
+                ganas! 😊
+              </p>
+            </div>
+          )}
+
+          {isSessionPassed && (
+            <div className="w-full flex items-center justify-center">
+              <p className="text-myred text-center">
+                <span className="mr-2">
+                  <i className="fa-solid fa-lock"></i>
+                </span>
+                Esta sesión ya ha pasado. Ya no es posible inscribirse o cancelar!
               </p>
             </div>
           )}

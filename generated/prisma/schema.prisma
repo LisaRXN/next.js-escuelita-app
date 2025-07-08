@@ -33,6 +33,7 @@ model VolunteerSession {
   description String
   location    String // ✅ Nouveau champ : localisation de la session
   capacity    Int
+  image       String
   type        SessionTypes            @default(TUTORING)
   createdAt   DateTime                @default(now())
   volunteers  VolunteerRegistration[] // relation inverse

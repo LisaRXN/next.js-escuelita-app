@@ -36,8 +36,8 @@ export async function getVolunteerSessionStatus(userId: string, sessionId: numbe
     const now = new Date();
     const diffHours =
       (new Date(sessionDate).getTime() - now.getTime()) / (1000 * 60 * 60);
-    isSessionInFuture24h = diffHours <= 24;
-    isSessionPassed = diffHours <= 0;
+      isSessionPassed = diffHours < 0;
+      isSessionInFuture24h = diffHours > 0 && diffHours <= 24;
   }
 
   return {

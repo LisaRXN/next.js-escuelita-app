@@ -38,3 +38,13 @@ export function isSessionInLessThan24h(sessionDate: Date) {
 
   return isSessionInFuture24h;
 }
+
+export function isSessionPassed(sessionDate: Date) {
+  const now = new Date();
+  const diffHours =
+    (new Date(sessionDate).getTime() - now.getTime()) / (1000 * 60 * 60);
+
+  const isSessionPassed = diffHours <= 0;
+
+  return isSessionPassed;
+}

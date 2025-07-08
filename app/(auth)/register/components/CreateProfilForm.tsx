@@ -6,10 +6,12 @@ import { toast } from "sonner";
 import { FormErrors } from "@/components/form/form-errors";
 import { useRef } from "react";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@clerk/nextjs";
 
 export default function CreateProfilForm() {
   const formRef = useRef<HTMLFormElement>(null);
   const router = useRouter();
+  const { isLoaded, userId } = useAuth();
 
   const { execute, fieldErrors, isLoading } = useAction(createVolunteer, {
     onSuccess: () => {
@@ -20,7 +22,18 @@ export default function CreateProfilForm() {
     onError: (error) => {
       toast.error(error);
     },
-  });
+  })
+
+  // const { execute, fieldErrors, isLoading } = useCreateVolunteer( {
+  //   onSuccess: () => {
+  //     toast.success("Gracias, tu perfil está completo!");
+  //     formRef.current?.reset();
+  //     router.push("/");
+  //   },
+  //   onError: (error) => {
+  //     toast.error(error);
+  //   },
+  // });
 
   const onSubmit = (formData: FormData) => {
     const firstName = formData.get("firstName")?.toString().trim() || "";
@@ -37,6 +50,16 @@ export default function CreateProfilForm() {
 
     execute({ firstName, lastName, email, phone, instagram, birthDate });
   };
+
+
+  if (!isLoaded || !userId) {
+      return (
+        <main className="text-center p-20 flex flex-col items-center justify-start gap-4 m-auto text-mylightgray">
+          <span className="loading loading-spinner loading-xl"></span>
+          <p>Cargando...</p>
+        </main>
+      );
+    }
 
   return (
     <form
@@ -132,6 +155,7 @@ export default function CreateProfilForm() {
       <button
         disabled={isLoading}
         type="submit"
+        aria-label="Enviar formulario"
         className="self-end bg-myorange hover:bg-myorange/80 transition transform duration-200 focus:scale-95 text-white px-6 py-2.5 rounded"
       >
         Enviar

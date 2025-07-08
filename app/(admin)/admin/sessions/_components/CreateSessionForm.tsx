@@ -8,6 +8,7 @@ import { FormErrors } from "@/components/form/form-errors";
 import Image from "next/image";
 import { getNextSaturdayDateTime } from "@/services/sessionService";
 import { useQueryClient } from "@tanstack/react-query";
+import sessionImages from "@/public/data/images.json";
 
 interface CreateSessionFormProps {
   date?: string | undefined | null;
@@ -18,11 +19,11 @@ export default function CreateSessionForm({
   date,
   closeModal,
 }: CreateSessionFormProps) {
-  const [selectedImage, setSelectedImage] = useState(0);
   const [isTutorias, setIsTutorias] = useState(false);
   const dateTime = `${date}T08:00`;
+  const images = sessionImages;
 
-  const queryClient = useQueryClient(); 
+  const queryClient = useQueryClient();
 
   const [formData, setFormData] = useState({
     title: "",
@@ -30,14 +31,15 @@ export default function CreateSessionForm({
     location: "",
     description: "",
     capacity: 1,
+    image: "",
   });
 
   const { execute, fieldErrors, isLoading } = useAction(createSession, {
     onSuccess: (data) => {
       toast.success(`Sesión "${data.title}" creada !`);
-      queryClient.invalidateQueries({ queryKey: ['sessions'] }); 
-      queryClient.invalidateQueries({ queryKey: ['nextSessions'] }); 
-      queryClient.invalidateQueries({ queryKey: ['sessionsWithLiders'] }); 
+      queryClient.invalidateQueries({ queryKey: ["sessions"] });
+      queryClient.invalidateQueries({ queryKey: ["nextSessions"] });
+      queryClient.invalidateQueries({ queryKey: ["sessionsWithLiders"] });
       if (closeModal) closeModal();
       setIsTutorias(false);
       setFormData({
@@ -46,6 +48,7 @@ export default function CreateSessionForm({
         location: "",
         description: "",
         capacity: 1,
+        image: "",
       });
     },
     onError: (error) => {
@@ -58,7 +61,6 @@ export default function CreateSessionForm({
     setIsTutorias(checked);
 
     if (checked) {
-      setSelectedImage(1);
       setFormData({
         title: "Sesión de tutorías",
         date: date ? dateTime : getNextSaturdayDateTime(),
@@ -66,30 +68,56 @@ export default function CreateSessionForm({
         description:
           "Nos encontramos a las 8:20 a. m. en la Universidad Ricardo Palma o a las 9:00 a. m. en la Comisaría n.° 2 de Pamplona Alta.",
         capacity: 30,
+        image: "/img/photos/tutorias.jpg",
       });
     } else {
-      setSelectedImage(0);
       setFormData({
         title: "",
         date: date ? dateTime : "",
         location: "",
         description: "",
         capacity: 0,
+        image: "",
       });
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    execute(formData);
+  const onSubmit = (formData: FormData) => {
+    const data = {
+      title: formData.get("title") as string,
+      date: formData.get("date") as string,
+      location: formData.get("location") as string,
+      description: formData.get("description") as string,
+      capacity: parseInt(formData.get("capacity") as string, 10),
+      image: formData.get("image") as string,
+    };
+    console.log(data);
+    if (
+      !data.title ||
+      !data.date ||
+      !data.location ||
+      !data.description ||
+      !data.capacity ||
+      !data.image
+    ) {
+      toast.error("Por favor, completa todos los campos obligatorios.");
+      return;
+    }
+
+    execute(data);
   };
+
+  // const handleSubmit = (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   execute(formData);
+  // };
 
   const handleChange = (field: string, value: string | number) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleImageSelect = (id: number) => {
-    setSelectedImage(id);
+  const handleImageSelect = (url: string) => {
+    setFormData((prev) => ({ ...prev, image: url }));
   };
 
   return (
@@ -97,14 +125,14 @@ export default function CreateSessionForm({
       <h1 className="text-2xl font-bold mb-4 text-center">
         Creación del evento
       </h1>
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form action={onSubmit} className="space-y-4">
         <div className="flex items-center justify-start gap-2">
           <input
             type="checkbox"
             onChange={handleCheckboxChange}
             checked={isTutorias}
             className="checkbox checkbox-warning checkbox-md"
-            />
+          />
           <label>Crear sesión de tutorias</label>
         </div>
         <div>
@@ -184,58 +212,23 @@ export default function CreateSessionForm({
             Elegir una imagen
           </label>
           <div className="flex items-center justify-start w-full gap-2 lg:gap-5">
-            <div
-              onClick={() => handleImageSelect(1)}
-              className={`${
-                selectedImage === 1 ? "border-4 border-zinc-100" : ""
-              } relative w-[60px] h-[60px] lg:w-[100px] lg:h-[100px] rounded-xl overflow-hidden`}
-            >
-              <Image
-                src="/img/photos/tutorias.jpg"
-                fill
-                className="w-full h-full object-cover p-2 rounded-xl"
-                alt="Sesión de tutorias"
-              />
-            </div>
-            <div
-              onClick={() => handleImageSelect(2)}
-              className={`${
-                selectedImage === 2 ? "border-4 border-zinc-100" : ""
-              } relative w-[60px] h-[60px] lg:w-[100px] lg:h-[100px] rounded-xl overflow-hidden`}
-            >
-              <Image
-                src="/img/photos/tutorias.jpg"
-                fill
-                className="w-full h-full object-cover p-2 rounded-xl"
-                alt="Sesión de tutorias"
-              />
-            </div>
-            <div
-              onClick={() => handleImageSelect(3)}
-              className={`${
-                selectedImage === 3 ? "border-4 border-zinc-100" : ""
-              } relative w-[60px] h-[60px] lg:w-[100px] lg:h-[100px] rounded-xl overflow-hidden`}
-            >
-              <Image
-                src="/img/photos/tutorias.jpg"
-                fill
-                className="w-full h-full object-cover p-2 rounded-xl"
-                alt="Sesión de tutorias"
-              />
-            </div>
-            <div
-              onClick={() => handleImageSelect(4)}
-              className={`${
-                selectedImage === 4 ? "border-4 border-zinc-100" : ""
-              } relative w-[60px] h-[60px] lg:w-[100px] lg:h-[100px] rounded-xl overflow-hidden`}
-            >
-              <Image
-                src="/img/photos/tutorias.jpg"
-                fill
-                className="w-full h-full object-cover p-2 rounded-xl"
-                alt="Sesión de tutorias"
-              />
-            </div>
+            <input type="hidden" name="image" value={formData.image} />
+            {images.map((image) => (
+              <div
+                key={image.id}
+                onClick={() => handleImageSelect(image.url)}
+                className={`${
+                  formData.image === image.url ? "border-4 border-zinc-100" : ""
+                } relative w-[60px] h-[60px] lg:w-[100px] lg:h-[100px] rounded-xl overflow-hidden`}
+              >
+                <Image
+                  src={image.url}
+                  fill
+                  className="w-full h-full object-cover p-2 rounded-xl"
+                  alt="Imagen del evento"
+                />
+              </div>
+            ))}
           </div>
         </div>
 

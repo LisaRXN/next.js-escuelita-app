@@ -31,6 +31,7 @@ export async function GET() {
     date: s.date.toISOString(),
     description: s.description,
     location: s.location,
+    image: s.image,
     capacity: s.capacity,
     createdAt: s.createdAt.toISOString(),
   }));

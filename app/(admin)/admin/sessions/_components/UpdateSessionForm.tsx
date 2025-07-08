@@ -7,17 +7,18 @@ import { deleteSession } from "@/actions/admin/delete-session";
 import { useAction } from "@/hooks/use-action";
 import { FormErrors } from "@/components/form/form-errors";
 import Image from "next/image";
-import { VolunteerSession } from "@/app/generated/prisma";
 import { useRouter } from "next/navigation";
 import { useQueryClient } from "@tanstack/react-query"; 
+import sessionImages from "@/public/data/images.json";
+import { VolunteerSession } from "@/generated/prisma";
 
 interface UpdateSessionFormProps {
   session: VolunteerSession;
 }
 
 const UpdateSessionForm = ({ session }: UpdateSessionFormProps) => {
-  const [selectedImage, setSelectedImage] = useState(0);
   const router = useRouter();
+  const images = sessionImages;
 
   const queryClient = useQueryClient();
 
@@ -26,6 +27,7 @@ const UpdateSessionForm = ({ session }: UpdateSessionFormProps) => {
     title: session.title,
     date: formatDateForInput(session.date),
     location: session.location,
+    image: session.image,
     description: session.description,
     capacity: session.capacity,
   });
@@ -33,6 +35,11 @@ const UpdateSessionForm = ({ session }: UpdateSessionFormProps) => {
   function formatDateForInput(date: Date | string): string {
     const d = typeof date === "string" ? new Date(date) : date;
     return d.toISOString().slice(0, 16);
+  }
+
+
+  const handleImageSelect = (url: string) => {
+    setFormData((prev) => ({ ...prev, image: url }));
   }
 
   const {
@@ -83,9 +90,6 @@ const UpdateSessionForm = ({ session }: UpdateSessionFormProps) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleImageSelect = (id: number) => {
-    setSelectedImage(id);
-  };
 
   return (
     <div className="bg-white rounded-2xl shadow-sm p-10 max-w-xl mx-auto text-myzinc">
@@ -157,59 +161,24 @@ const UpdateSessionForm = ({ session }: UpdateSessionFormProps) => {
 
         <div>
           <label className="block font-medium mb-2">Elegir una imagen</label>
-          <div className="flex items-center justify-start w-full gap-2 lg:gap-5 mb-8">
-            <div
-              onClick={() => handleImageSelect(1)}
-              className={`${
-                selectedImage === 1 ? "border-4 border-zinc-100" : ""
-              } relative w-[60px] h-[60px] md:w-[100px] md:h-[100px] rounded-xl overflow-hidden`}
-            >
-              <Image
-                src="/img/photos/tutorias.jpg"
-                fill
-                className="w-full h-full object-cover p-2 rounded-xl"
-                alt="Sesión de tutorias"
-              />
-            </div>
-            <div
-              onClick={() => handleImageSelect(2)}
-              className={`${
-                selectedImage === 2 ? "border-4 border-zinc-100" : ""
-              } relative w-[60px] h-[60px] md:w-[100px] md:h-[100px] rounded-xl overflow-hidden`}
-            >
-              <Image
-                src="/img/photos/tutorias.jpg"
-                fill
-                className="w-full h-full object-cover p-2 rounded-xl"
-                alt="Sesión de tutorias"
-              />
-            </div>
-            <div
-              onClick={() => handleImageSelect(3)}
-              className={`${
-                selectedImage === 3 ? "border-4 border-zinc-100" : ""
-              } relative w-[60px] h-[60px] md:w-[100px] md:h-[100px] rounded-xl overflow-hidden`}
-            >
-              <Image
-                src="/img/photos/tutorias.jpg"
-                fill
-                className="w-full h-full object-cover p-2 rounded-xl"
-                alt="Sesión de tutorias"
-              />
-            </div>
-            <div
-              onClick={() => handleImageSelect(4)}
-              className={`${
-                selectedImage === 4 ? "border-4 border-zinc-100" : ""
-              } relative w-[60px] h-[60px] md:w-[100px] md:h-[100px] rounded-xl overflow-hidden`}
-            >
-              <Image
-                src="/img/photos/tutorias.jpg"
-                fill
-                className="w-full h-full object-cover p-2 rounded-xl"
-                alt="Sesión de tutorias"
-              />
-            </div>
+          <div className="flex items-center justify-start w-full gap-2 lg:gap-5">
+            {images.map((image) => (
+              <div
+                key={image.id}
+                onClick={() => handleImageSelect(image.url)}
+                className={`${
+                  formData.image === image.url ? "border-4 border-zinc-100" : ""
+                } relative w-[60px] h-[60px] lg:w-[100px] lg:h-[100px] rounded-xl overflow-hidden`}
+              >
+                <Image
+                  src={image.url}
+                  fill
+                  className="w-full h-full object-cover p-2 rounded-xl"
+                  alt="Imagen del evento"
+                />
+              </div>
+            ))}
+
           </div>
         </div>
 

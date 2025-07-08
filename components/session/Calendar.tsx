@@ -45,7 +45,7 @@ const CalendarWithSessions = ({ isReduce, sessions }: CalendarProps) => {
   useEffect(() => {
     if (isModalOpen && dialogRef.current) {
       dialogRef.current.showModal();
-    }
+    } 
   }, [isModalOpen]);
 
   useEffect(() => {
@@ -65,10 +65,14 @@ const CalendarWithSessions = ({ isReduce, sessions }: CalendarProps) => {
   };
     // setSessionSelected(sessionId);
 
+    const handleCloseCreateModal = () => {
+    setIsModalOpen(false);
+    dialogRef.current?.close();
+  };
 
   const handleCloseModal = () => {
     setSessionSelected(undefined);
-    dialogRef.current?.close();
+    showSessionDialogRef.current?.close();
   };
 
   return (
@@ -155,7 +159,7 @@ const CalendarWithSessions = ({ isReduce, sessions }: CalendarProps) => {
                   ✕
                 </button>
               </form>
-              <CreateSessionForm date={selectedDate} closeModal={handleCloseModal} />
+              <CreateSessionForm date={selectedDate} closeModal={handleCloseCreateModal} />
             </div>
           </dialog>
         )}

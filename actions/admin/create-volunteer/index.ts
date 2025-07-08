@@ -1,5 +1,5 @@
 
-'use server';
+"use server";
 
 import { createSafeAction } from "@/lib/create-safe-action";
 import { CreateVolunteerSchema } from "./schema";

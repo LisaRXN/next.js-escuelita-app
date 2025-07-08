@@ -9,7 +9,7 @@ const Navbar = async () => {
   return (
     <nav className="fixed z-50 top-0 w-full h-20 mb-20 px-2 md:px-10 border-b shadow-sm bg-white">
       <div className="flex items-center max-w-screen-2xl m-auto">
-        <Link href="/" className="cursor-pointer">
+        <Link href="/dashboard" className="cursor-pointer">
           <Image
             src="/img/logos/logo.png"
             width={80}

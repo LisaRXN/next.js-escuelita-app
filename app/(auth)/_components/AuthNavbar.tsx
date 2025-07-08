@@ -1,5 +1,6 @@
 "use client";
 
+import { UserButton } from "@clerk/nextjs";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
@@ -14,6 +15,19 @@ const AuthNavbar = () => {
           width={80}
           height={80}
           alt="La Escuelita ONG"
+        />
+      </div>
+      <div className="flex-1 flex items-center justify-end w-full gap-10">
+        <UserButton
+          appearance={{
+            elements: {
+              avatarBox: {
+                height: 40,
+                width: 40,
+              },
+            },
+          }}
+          afterSignOutUrl="/sign-in"
         />
       </div>
     </nav>

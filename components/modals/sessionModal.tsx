@@ -17,7 +17,7 @@ const SessionModal = ({sessionId, dialogRef, isAdmin=false, handleCloseModal}:Cr
 
   return (
     <dialog ref={dialogRef} id="my_modal_3" className="modal">
-    <div className="modal-box bg-white h-full lg:h-auto w-full lg:max-h-4/5">
+    <div className="modal-box bg-white h-full md:h-auto w-full md:max-h-4/5">
       <form method="dialog">
         <button
           onClick={handleCloseModal}
