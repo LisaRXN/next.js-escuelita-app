@@ -17,7 +17,7 @@ export default function CreateProfilForm() {
     onSuccess: () => {
       toast.success("Gracias, tu perfil está completo!");
       formRef.current?.reset();
-      router.push("/");
+      router.push("/dashboard");
     },
     onError: (error) => {
       toast.error(error);
@@ -51,7 +51,6 @@ export default function CreateProfilForm() {
     execute({ firstName, lastName, email, phone, instagram, birthDate });
   };
 
-
   if (!isLoaded || !userId) {
       return (
         <main className="text-center p-20 flex flex-col items-center justify-start gap-4 m-auto text-mylightgray">
@@ -65,7 +64,7 @@ export default function CreateProfilForm() {
     <form
       action={onSubmit}
       ref={formRef}
-      className="w-full max-w-[600px] mx-auto bg-white rounded-xl p-10 border border-zinc-300 flex flex-col gap-4 items-start"
+      className="w-full max-w-[600px] mx-auto bg-white rounded-xl p-8 md:p-10 border border-zinc-300 flex flex-col gap-4 items-start text-myzinc"
     >
       <h1 className="text-xl font-bold text-center w-full">
         ¡Solo un paso más!

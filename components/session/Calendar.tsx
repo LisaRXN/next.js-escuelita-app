@@ -106,7 +106,6 @@ const CalendarWithSessions = ({ isReduce, sessions }: CalendarProps) => {
           dayCellDidMount={(info) => {
             info.el.classList.add("cursor-pointer");
           }}
-          
           eventDidMount={(info) => {
             const liders = info.event.extendedProps.liders;
             if (liders?.length) {
@@ -132,6 +131,7 @@ const CalendarWithSessions = ({ isReduce, sessions }: CalendarProps) => {
                 }
               }
             }
+            info.el.classList.add("cursor-pointer");
           }}
         />
 

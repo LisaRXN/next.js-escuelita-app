@@ -16,7 +16,7 @@ const CreateSessionModal = ({
 }: CreateSessionModalProps) => {
   return (
     <dialog ref={dialogRef} id="my_modal_3" className="modal p-2">
-      <div className="modal-box bg-white h-full w-full lg:h-4/5">
+      <div className="modal-box bg-white h-full w-full md:h-4/5">
         <form method="dialog">
           <button
             onClick={() => setIsModalOpen(false)}
