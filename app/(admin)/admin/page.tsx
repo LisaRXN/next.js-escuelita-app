@@ -113,8 +113,8 @@ const AdminPage = () => {
             {/* Colonne gauche : Sessions */}
             <div className="flex-1 gap-5 flex flex-col bg-white rounded-2xl p-3 lg:p-5 w-full max-h-[400px] lg:max-h-[725px]">
               <CardTitle
-                title="Marca la asistencia"
-                subtitle="Apunta a los voluntarios en cada sesión"
+                title="¡Sigue a tus voluntarios! 💖"
+                subtitle="Marca la asistencia de tus voluntarios en cada sesión"
                 link="/admin/sessions/get-sessions"
               />
               <div className="border border-zinc-300 rounded-lg w-full overflow-y-auto">
@@ -175,8 +175,8 @@ const AdminPage = () => {
               {/* Calendrier */}
               <div className="gap-5 flex flex-col bg-white rounded-2xl p-3 lg:p-5 w-full h-auto">
                 <CardTitle
-                  title="Calendario de sesiones"
-                  subtitle="Visualiza todas las fechas próximas"
+                  title="¡Lidera una sesión! 🙌"
+                  subtitle="Apúntate como líder y acompaña el grupo"
                   link="/admin/agenda"
                 />
                 <div className="p-2 lg:p-5 bg-zinc-50 rounded-xl">
@@ -186,7 +186,7 @@ const AdminPage = () => {
               {/* Voluntarios */}
               <div className="gap-5 flex flex-col bg-white rounded-2xl p-3 lg:p-5 w-full h-auto">
                 <CardTitle
-                  title="Administra la información"
+                  title="Administra la información 👥"
                   subtitle="Edita y utiliza los datos de los voluntarios"
                   link="/admin/users"
                 />

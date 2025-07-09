@@ -32,7 +32,7 @@ const AdminNavbar = async () => {
           href="/admin/agenda"
           className="px-4 py-2.5 bg-myzinc text-white font-semibold rounded-md"
         >
-          El agenda
+          Agenda
         </Link>
       </div>
       {/* Mobile */}

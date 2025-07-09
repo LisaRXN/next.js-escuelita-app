@@ -31,7 +31,7 @@ export default function CreateSessionForm({
     location: "",
     description: "",
     capacity: 1,
-    type:"",
+    type:"OTHER",
     image: "",
   });
 
@@ -49,7 +49,7 @@ export default function CreateSessionForm({
         location: "",
         description: "",
         capacity: 1,
-        type:"",
+        type:"OTHER",
         image: "",
       });
     },
