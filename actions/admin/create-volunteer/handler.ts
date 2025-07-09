@@ -10,9 +10,23 @@ export const handler = async (data: InputType): Promise<ReturnType> => {
   if (!userId) {
     return { error: "Unauthorized" };
   }
+  
 
   try {
     const { firstName, lastName, email, phone, instagram, birthDate } = data;
+
+    const existingVolunteer = await prisma.volunteer.findFirst({
+      where: {
+        OR: [
+          { clerkUserId: userId },
+          { email: email },
+        ],
+      },
+    });
+  
+    if (existingVolunteer) {
+      return { error: "Tu perfil ya esta registrado" };
+    }
 
     console.log( "Creating volunteer with data:", {
       userId,
@@ -47,8 +61,8 @@ export const handler = async (data: InputType): Promise<ReturnType> => {
       },
     };
   } catch (error) {
-    console.error("Error creating volunteer:", error);
+    console.error("Error creando el voluntario:", error);
     await prisma.$disconnect();
-    return { error: "Failed to create volunteer" };
+    return { error: "Error creando tu perfil" };
   }
 };

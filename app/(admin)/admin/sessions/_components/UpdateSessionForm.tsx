@@ -10,6 +10,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import sessionImages from "@/public/data/images.json";
 import { VolunteerSession } from "@/generated/prisma";
 import DeleteSessionButton from "@/components/admin/DeleteSessionButton";
+import { DateTime } from "luxon";
 
 interface UpdateSessionFormProps {
   session: VolunteerSession;
@@ -32,7 +33,9 @@ const UpdateSessionForm = ({ session }: UpdateSessionFormProps) => {
 
   function formatDateForInput(date: Date | string): string {
     const d = typeof date === "string" ? new Date(date) : date;
-    return d.toISOString().slice(0, 16);
+    return DateTime.fromJSDate(d)
+    .setZone("America/Lima")
+    .toFormat("yyyy-MM-dd'T'HH:mm");
   }
 
 
@@ -89,7 +92,7 @@ const UpdateSessionForm = ({ session }: UpdateSessionFormProps) => {
           <label className="block font-medium mb-2">Fecha del evento*</label>
           <input
             name="date"
-            type="datetime-date"
+            type="datetime-local"
             value={formData.date}
             onChange={(e) => handleChange("date", e.target.value)}
             className="w-full border rounded p-2 bg-zinc-100"

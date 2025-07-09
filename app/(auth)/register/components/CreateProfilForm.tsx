@@ -79,7 +79,7 @@ export default function CreateProfilForm() {
           type="text"
           name="firstName"
           placeholder="Nombre"
-          className="w-full border rounded p-2 bg-zinc-50"
+          className="w-full border rounded p-2 bg-zinc-100"
         />
         <FormErrors id="firstName" errors={fieldErrors} />
       </div>
@@ -90,7 +90,7 @@ export default function CreateProfilForm() {
           type="text"
           name="lastName"
           placeholder="Apellido"
-          className="w-full border rounded p-2 bg-zinc-50"
+          className="w-full border rounded p-2 bg-zinc-100"
         />
         <FormErrors id="lastName" errors={fieldErrors} />
       </div>
@@ -101,7 +101,7 @@ export default function CreateProfilForm() {
           type="email"
           name="email"
           placeholder="Email"
-          className="w-full border rounded p-2 bg-zinc-50"
+          className="w-full border rounded p-2 bg-zinc-100"
         />
         <FormErrors id="email" errors={fieldErrors} />
       </div>
@@ -114,7 +114,7 @@ export default function CreateProfilForm() {
           type="tel"
           name="phone"
           placeholder="900900900"
-          className="w-full border rounded p-2 bg-zinc-50"
+          className="w-full border rounded p-2 bg-zinc-100"
         />
         <FormErrors id="phone" errors={fieldErrors} />
       </div>
@@ -126,7 +126,7 @@ export default function CreateProfilForm() {
         <input
           type="date"
           name="birthDate"
-          className="w-full border rounded p-2 bg-zinc-50"
+          className="w-full border rounded p-2 bg-zinc-100"
         />
         <FormErrors id="birthDate" errors={fieldErrors} />
       </div>
@@ -139,7 +139,7 @@ export default function CreateProfilForm() {
           type="text"
           name="instagram"
           placeholder="Instagram"
-          className="w-full border rounded p-2 bg-zinc-50"
+          className="w-full border rounded p-2 bg-zinc-100"
         />
         <div className="py-2 flex items-start justify-start gap-2 mb-2">
           <i className="fa-solid fa-circle-info text-mygray text-lg"></i>
