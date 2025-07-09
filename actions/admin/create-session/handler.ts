@@ -25,8 +25,14 @@ export const handler = async (data: InputType): Promise<ReturnType> => {
 
   const { title, date, description, location, image, capacity } = data;
 
-  const localDate = DateTime.fromISO(date, { zone: "America/Lima" });
-  const dateToStore = localDate.toJSDate();
+// Interprète la date du champ comme heure locale de l'ordinateur
+const localDate = DateTime.fromISO(date);
+
+// Convertit en heure de Lima, quel que soit le fuseau initial
+const limaTime = localDate.setZone("America/Lima", { keepLocalTime: true });
+
+// Transforme en UTC pour stockage propre en DB
+const dateToStore = limaTime.toUTC().toJSDate();
 
 
   try {
