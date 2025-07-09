@@ -48,11 +48,15 @@ const AdminSessionDescription = ({
     year: "numeric",
     month: "long",
     day: "numeric",
+    timeZone: "UTC", // ✅ très important
+
   });
 
   const formattedTime = new Date(session.date).toLocaleTimeString("es-ES", {
     hour: "2-digit",
     minute: "2-digit",
+    timeZone: "UTC", // ✅ très important
+
   });
 
   return (

@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
 import { InputType, ReturnType } from "./types";
 import { isAdmin } from "@/lib/is-admin";
+import { DateTime } from "luxon";
 
 export const handler = async (data: InputType): Promise<ReturnType> => {
   const { userId } = await auth();
@@ -18,13 +19,17 @@ export const handler = async (data: InputType): Promise<ReturnType> => {
   const { sessionId, title, date, description, location, capacity, image } =
     data;
 
+    // Interprète la date du champ comme heure locale de l'ordinateur
+    const fixedDate = DateTime.fromISO(date, { zone: "utc" }).toJSDate();
+    
+
   const updateData: Record<string, unknown> = {};
   if (title !== undefined) updateData.title = title;
   if (description !== undefined) updateData.description = description;
   if (location !== undefined) updateData.location = location;
   if (capacity !== undefined) updateData.capacity = capacity;
   if (image !== undefined) updateData.image = image;
-  if (date !== undefined) updateData.date = new Date(date);
+  if (date !== undefined) updateData.date = fixedDate;
 
   try {
     const session = await prisma.volunteerSession.update({

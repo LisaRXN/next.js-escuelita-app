@@ -1,4 +1,3 @@
-import { Volunteer, VolunteerSession } from "@/generated/prisma";
 import { RegistrationWithSession, VolunteerWithRegistration } from "@/type";
 
 interface ActivityCardProps {

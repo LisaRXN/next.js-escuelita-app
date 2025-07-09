@@ -19,17 +19,15 @@ const CalendarVolunteer = ({ isReduce, sessions }: CalendarVolunteerProps) => {
     undefined
   );
   const dialogRef = useRef<HTMLDialogElement>(null);
-  
 
   const events = sessions.map((s: VolunteerSession) => ({
     id: String(s.id),
     title: s.title,
-    start: s.date,
+    start: new Date(s.date).toISOString(),
     extendedProps: {
       type: s.type,
     },
   }));
-
 
   const handleEventClick = (info: EventClickArg) => {
     const sessionId = parseInt(info.event.id);
@@ -44,10 +42,10 @@ const CalendarVolunteer = ({ isReduce, sessions }: CalendarVolunteerProps) => {
     dialogRef.current?.close();
   };
 
-
   return (
     <div className="w-full h-auto m-auto max-w-screen-lg">
       <FullCalendar
+        timeZone="UTC"
         locale={esLocale}
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin]}
         initialView={isReduce ? "listWeek" : "dayGridMonth"}

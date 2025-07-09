@@ -9,31 +9,42 @@ interface UserCardProps {
   };
 }
 const UserCard = ({ user }: UserCardProps) => {
-  
+  // Formattage des dates
+
+  const formattedDate = new Date(user.birthDate).toLocaleDateString("es-ES", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+    timeZone: "UTC",
+  });
 
   return (
     <tr key={user.id} className="hover:bg-zinc-50">
       <td className="px-2 lg:px-4 py-3 text-xs xl:text-sm whitespace-nowrap text-left">
         {user.firstName}
       </td>
-      <td className="px-2 lg:px-4 py-3 text-xs xl:text-sm whitespace-nowrap text-left">{user.lastName}</td>
-      <td className="px-2 lg:px-4 py-3 text-xs xl:text-sm whitespace-nowrap text-left">{user.phone}</td>
-      <td className="px-2 lg:px-4 py-3 text-xs xl:text-sm whitespace-nowrap text-left">{user.email}</td>
+      <td className="px-2 lg:px-4 py-3 text-xs xl:text-sm whitespace-nowrap text-left">
+        {user.lastName}
+      </td>
+      <td className="px-2 lg:px-4 py-3 text-xs xl:text-sm whitespace-nowrap text-left">
+        {user.phone}
+      </td>
+      <td className="px-2 lg:px-4 py-3 text-xs xl:text-sm whitespace-nowrap text-left">
+        {user.email}
+      </td>
       <td className="px-2 lg:px-4 py-3 text-xs xl:text-sm whitespace-nowrap text-left">
         {user.instagram || "-"}
       </td>
       <td className="px-2 lg:px-4 py-3 text-xs xl:text-sm whitespace-nowrap text-left">
-        {new Intl.DateTimeFormat("es-ES", {
-          day: "numeric",
-          month: "short",
-          year: "numeric",
-        }).format(new Date(user.birthDate))}
+        {formattedDate}
       </td>
       <td className="px-2 lg:px-4 py-3 text-xs xl:text-sm whitespace-nowrap text-center">
         {user.tutoringCount != null && user.tutoringCount >= 6 ? (
           <span className="text-mygreen font-bold">{user.tutoringCount}</span>
         ) : (
-          <span className="text-orange-500 font-bold">{user.tutoringCount}</span>
+          <span className="text-orange-500 font-bold">
+            {user.tutoringCount}
+          </span>
         )}
       </td>
       {/* <td className="px-2 lg:px-4 py-3 text-xs xl:text-sm whitespace-nowrap text-left">
@@ -44,9 +55,7 @@ const UserCard = ({ user }: UserCardProps) => {
         )}
       </td> */}
       <td className="px-2 lg:px-4 py-3 text-xs xl:text-sm whitespace-nowrap text-left">
-        <ToggleActiveButton
-          user={user}
-        />
+        <ToggleActiveButton user={user} />
       </td>
     </tr>
   );

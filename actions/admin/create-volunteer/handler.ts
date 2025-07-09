@@ -3,6 +3,7 @@
 import { prisma } from "@/lib/prisma";
 import { InputType, ReturnType } from "./types";
 import { auth } from "@clerk/nextjs/server";
+import { DateTime } from "luxon";
 
 export const handler = async (data: InputType): Promise<ReturnType> => {
   const { userId } = await auth();
@@ -10,7 +11,7 @@ export const handler = async (data: InputType): Promise<ReturnType> => {
   if (!userId) {
     return { error: "Unauthorized" };
   }
-  
+
 
   try {
     const { firstName, lastName, email, phone, instagram, birthDate } = data;
@@ -28,6 +29,9 @@ export const handler = async (data: InputType): Promise<ReturnType> => {
       return { error: "Tu perfil ya esta registrado" };
     }
 
+    const fixedDate = DateTime.fromISO(birthDate, { zone: "utc" }).toJSDate();
+    
+
     console.log( "Creating volunteer with data:", {
       userId,
       firstName,
@@ -35,7 +39,7 @@ export const handler = async (data: InputType): Promise<ReturnType> => {
       email,
       phone,
       instagram,
-      birthDate,
+      birthDate: fixedDate,
     });
 
     const volunteer = await prisma.volunteer.create({

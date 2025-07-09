@@ -35,7 +35,7 @@ const CalendarWithSessions = ({ isReduce, sessions }: CalendarProps) => {
   const events = sessions?.map((s: SessionWithLiders) => ({
     id: String(s.id),
     title: s.title,
-    start: s.date,
+    start: new Date(s.date).toISOString(),
     extendedProps: {
       type: s.type,
       liders: s.liders,
@@ -79,6 +79,7 @@ const CalendarWithSessions = ({ isReduce, sessions }: CalendarProps) => {
     sessions && (
       <div className="w-full h-auto m-auto">
         <FullCalendar
+          timeZone="UTC"
           locale={esLocale}
           plugins={[
             dayGridPlugin,

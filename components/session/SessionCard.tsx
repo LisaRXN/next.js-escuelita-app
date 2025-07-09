@@ -31,12 +31,13 @@ const SessionCard = ({
 
   const dialogRef = useRef<HTMLDialogElement>(null);
 
-  const dateFromDB = new Date(date); // ← ou ta date Prisma
+  const dateFromDB = new Date(date); 
 
   const formattedDate = new Intl.DateTimeFormat("es-ES", {
     weekday: "long",
     day: "numeric",
     month: "long",
+    timeZone: "UTC", // ✅ très important
   }).format(dateFromDB);
 
   useEffect(() => {

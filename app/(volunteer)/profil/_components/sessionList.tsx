@@ -10,6 +10,15 @@ const SessionList = ({
   volunteerWithSession,
   handleOpenModal,
 }: SessionListProps) => {
+  // Formattage des dates
+  const formattedDate = (date: Date | string) => {
+    return new Date(date).toLocaleDateString("es-ES", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+      timeZone: "UTC",
+    });
+  };
   return (
     <div className="rounded-lg w-full max-w-screen-lg mx-auto text-myzinc">
       <table className="min-w-full divide-y divide-zinc-200 rounded-lg overflow-hidden">
@@ -49,13 +58,12 @@ const SessionList = ({
                   <button
                     onClick={() => handleOpenModal(reg.session.id)}
                     className="underline"
-                  >{reg.session.title}</button>
+                  >
+                    {reg.session.title}
+                  </button>
                 </td>
                 <td className="px-2 md:px-6 py-4 whitespace-nowrap text-start">
-                  {new Intl.DateTimeFormat("es-ES", {
-                    day: "numeric",
-                    month: "numeric",
-                  }).format(new Date(reg.session.date))}
+                  {formattedDate(reg.session.date)}
                 </td>
                 <td className="px-2 md:px-6 py-4 whitespace-nowrap text-start">
                   <span
@@ -81,9 +89,7 @@ const SessionList = ({
                 </td>
                 <td className="px-2 md:px-6 py-4 whitespace-nowrap text-start">
                   {reg.status === "PENDING" ? (
-                    <UnregisterButton
-                      sessionId={reg.session.id}
-                    />
+                    <UnregisterButton sessionId={reg.session.id} />
                   ) : reg.status === "CONFIRMED" ? (
                     <i className="fa-solid fa-check text-mygreen text-lg"></i>
                   ) : reg.status === "CANCELLED" ? (

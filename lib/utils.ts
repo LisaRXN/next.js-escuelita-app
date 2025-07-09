@@ -48,3 +48,5 @@ export function isSessionPassed(sessionDate: Date) {
 
   return isSessionPassed;
 }
+
+

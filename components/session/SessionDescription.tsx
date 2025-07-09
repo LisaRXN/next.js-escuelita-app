@@ -41,11 +41,13 @@ const SessionDescription = ({ sessionId }: SessionDescriptionProps) => {
     year: "numeric",
     month: "long",
     day: "numeric",
+    timeZone: "UTC", 
   });
 
   const formattedTime = new Date(session.date).toLocaleTimeString("es-ES", {
     hour: "2-digit",
     minute: "2-digit",
+    timeZone: "UTC", 
   });
 
   return (

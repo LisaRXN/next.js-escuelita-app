@@ -8,6 +8,16 @@ interface SessionListMobileProps {
   handleOpenModal: (sessionId: number) => void;
 }
 
+// Formattage des dates
+const formattedDate = (date: Date | string) => {
+  return new Date(date).toLocaleDateString("es-ES", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    timeZone: "UTC",
+  });
+};
+
 export default function SessionListMobile({
   volunteerWithSession,
   handleOpenModal,
@@ -45,10 +55,7 @@ export default function SessionListMobile({
               <div className="flex flex-col  w-full p-4">
                 <div className="text-sm text-zinc-500">
                   <i className="fa-regular fa-calendar-days mr-2"></i>
-                  {new Intl.DateTimeFormat("es-ES", {
-                    day: "numeric",
-                    month: "long",
-                  }).format(new Date(reg.session.date))}
+                  {formattedDate(reg.session.date)}
                 </div>
 
                 <div className="flex justify-between items-end min-h-[35px]">

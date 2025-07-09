@@ -31,11 +31,20 @@ const UpdateSessionForm = ({ session }: UpdateSessionFormProps) => {
     capacity: session.capacity,
   });
 
+  // function formatDateForInput(date: Date | string): string {
+  //   const d = typeof date === "string" ? new Date(date) : date;
+  //   return DateTime.fromJSDate(d)
+  //   .setZone("America/Lima")
+  //   .toFormat("yyyy-MM-dd'T'HH:mm");
+  // }
+
   function formatDateForInput(date: Date | string): string {
     const d = typeof date === "string" ? new Date(date) : date;
+  
+    // Affiche exactement ce qui est en UTC, sans transformation
     return DateTime.fromJSDate(d)
-    .setZone("America/Lima")
-    .toFormat("yyyy-MM-dd'T'HH:mm");
+      .setZone("utc") // ✅ on force UTC, pas Lima ni local
+      .toFormat("yyyy-MM-dd'T'HH:mm");
   }
 
 
