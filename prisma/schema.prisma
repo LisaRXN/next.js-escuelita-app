@@ -31,7 +31,7 @@ enum SessionTypes {
 model VolunteerSession {
   id          Int                     @id @default(autoincrement())
   title       String
-  date        String
+  date        DateTime
   description String
   location    String // ✅ Nouveau champ : localisation de la session
   capacity    Int
@@ -49,7 +49,7 @@ model Volunteer {
   phone         String
   email         String
   instagram     String?
-  birthDate     String
+  birthDate     DateTime
   createdAt     DateTime                @default(now())
   isAdmin       Boolean                 @default(false)
   isLeader      Boolean                 @default(false)
