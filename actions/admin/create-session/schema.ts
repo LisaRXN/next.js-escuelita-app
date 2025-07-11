@@ -11,6 +11,7 @@ export const CreateSessionSchema = z.object({
     }),
   description: z.string(),
   location: z.string(),
+  type: z.enum(["TUTORING", "OTHER"]),
   capacity: z.number().min(1),
   image: z.string().min(1),
   date: z.string().refine((dateStr) => !isNaN(Date.parse(dateStr)), {

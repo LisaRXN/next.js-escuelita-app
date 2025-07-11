@@ -31,10 +31,18 @@ const CalendarWithSessions = ({ isReduce, sessions }: CalendarProps) => {
   const showSessionDialogRef = useRef<HTMLDialogElement>(null);
   const isMobile = window.innerWidth < 768;
 
+  const formattedTitle = (title: string) => {
+    if (!isReduce) {
+      return title.length > 13 ? title.slice(0, 13) + "..." : title;
+    } else {
+      return title;
+    }
+  };
+
   // Transforme les sessions en events FullCalendar
   const events = sessions?.map((s: SessionWithLiders) => ({
     id: String(s.id),
-    title: s.title,
+    title: formattedTitle(s.title),
     start: new Date(s.date).toISOString(),
     extendedProps: {
       type: s.type,
@@ -114,7 +122,7 @@ const CalendarWithSessions = ({ isReduce, sessions }: CalendarProps) => {
                 .map((l: Volunteer) => l.firstName.toLowerCase())
                 .join(", ");
               const namesEl = document.createElement("div");
-              namesEl.className = "text-xs font-semibold text-myorange mt-1";
+              namesEl.className = "text-xs font-semibold text-myorange mt-1 flex flex-wrap";
               namesEl.innerText = names;
 
               const possibleTargets = [

@@ -129,7 +129,7 @@ const UpdateSessionForm = ({ session }: UpdateSessionFormProps) => {
             type="number"
             min={1}
             value={formData.capacity}
-            onChange={(e) => handleChange("capacity", parseInt(e.target.value))}
+            onChange={(e) => e.target.value === "" ? "" : handleChange("capacity", parseInt(e.target.value))}
             className="w-full border rounded p-2 bg-zinc-100"
             required
           />

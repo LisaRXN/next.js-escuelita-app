@@ -9,6 +9,7 @@ import Image from "next/image";
 import { getNextSaturdayDateTime } from "@/services/sessionService";
 import { useQueryClient } from "@tanstack/react-query";
 import sessionImages from "@/public/data/images.json";
+import { SessionTypes } from "@/generated/prisma";
 
 interface CreateSessionFormProps {
   date?: string | undefined | null;
@@ -31,7 +32,7 @@ export default function CreateSessionForm({
     location: "",
     description: "",
     capacity: 1,
-    type:"OTHER",
+    type: "",
     image: "",
   });
 
@@ -49,7 +50,7 @@ export default function CreateSessionForm({
         location: "",
         description: "",
         capacity: 1,
-        type:"OTHER",
+        type: "",
         image: "",
       });
     },
@@ -70,7 +71,7 @@ export default function CreateSessionForm({
         description:
           "Nos encontramos a las 8:20 a. m. en la Universidad Ricardo Palma o a las 9:00 a. m. en la Comisaría n.° 2 de Pamplona Alta.",
         capacity: 30,
-        type:"TUTORING",
+        type: "TUTORING",
         image: "/img/photos/tutorias.jpg",
       });
     } else {
@@ -79,8 +80,8 @@ export default function CreateSessionForm({
         date: date ? dateTime : "",
         location: "",
         description: "",
-        capacity: 0,
-        type:"OTHER",
+        capacity: 1,
+        type: "",
         image: "",
       });
     }
@@ -92,6 +93,7 @@ export default function CreateSessionForm({
       date: formData.get("date") as string,
       location: formData.get("location") as string,
       description: formData.get("description") as string,
+      type: formData.get("type") as SessionTypes,
       capacity: parseInt(formData.get("capacity") as string, 10),
       image: formData.get("image") as string,
     };
@@ -101,6 +103,7 @@ export default function CreateSessionForm({
       !data.date ||
       !data.location ||
       !data.description ||
+      !data.type ||
       !data.capacity ||
       !data.image
     ) {
@@ -111,10 +114,6 @@ export default function CreateSessionForm({
     execute(data);
   };
 
-  // const handleSubmit = (e: React.FormEvent) => {
-  //   e.preventDefault();
-  //   execute(formData);
-  // };
 
   const handleChange = (field: string, value: string | number) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -136,6 +135,11 @@ export default function CreateSessionForm({
             onChange={handleCheckboxChange}
             checked={isTutorias}
             className="checkbox checkbox-warning checkbox-md"
+          />
+          <input
+            type="hidden"
+            name="type"
+            value={isTutorias ? "TUTORING" : "OTHER"}
           />
           <label>Crear sesión de tutorias</label>
         </div>
@@ -191,7 +195,7 @@ export default function CreateSessionForm({
             type="number"
             min={1}
             value={formData.capacity}
-            onChange={(e) => handleChange("capacity", parseInt(e.target.value))}
+            onChange={(e) => e.target.value === "" ? "" : handleChange("capacity", parseInt(e.target.value))}
             className="w-full border rounded p-2 bg-zinc-100"
             required
           />

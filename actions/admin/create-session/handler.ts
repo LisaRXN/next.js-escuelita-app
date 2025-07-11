@@ -23,7 +23,7 @@ export const handler = async (data: InputType): Promise<ReturnType> => {
     return { error: "Unauthorized" };
   }
 
-  const { title, date, description, location, image, capacity } = data;
+  const { title, date, description, location, type, image, capacity } = data;
 
 // Interprète la date du champ comme heure locale de l'ordinateur
 const fixedDate = DateTime.fromISO(date, { zone: "utc" }).toJSDate();
@@ -35,6 +35,7 @@ const fixedDate = DateTime.fromISO(date, { zone: "utc" }).toJSDate();
         date: fixedDate,
         location,
         description,
+        type,
         capacity,
         image,
       },
@@ -49,6 +50,7 @@ const fixedDate = DateTime.fromISO(date, { zone: "utc" }).toJSDate();
         description: session.description,
         location: session.location,
         capacity: session.capacity,
+        type: session.type,
         image: session.image,
         volunteers: [],
       },
