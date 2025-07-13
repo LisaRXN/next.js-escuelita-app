@@ -21,8 +21,8 @@ const AdminPage = () => {
   });
 
   const { data: sessions, isLoading: loadingSessions } = useQuery<SessionWithLiders[]>({
-    queryKey: ["sessionsWithLiders"],
-    queryFn: () => fetcher("/api/sessionsWithLiders"),
+    queryKey: ["LastSessionsWithLiders"],
+    queryFn: () => fetcher("/api/lastSessionsWithLiders"),
     staleTime: 0,
   });
 
