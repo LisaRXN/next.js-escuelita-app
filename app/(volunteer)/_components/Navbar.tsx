@@ -22,12 +22,18 @@ const Navbar = async () => {
         </span>
 
         <div className="flex-1 flex items-center justify-end w-full gap-10">
-          <a
-            href="/profil"
+          <Link
+            href="/activity"
             className="hidden md:block px-5 py-2.5 bg-myzinc text-white font-semibold rounded-lg"
           >
             Mi actividad
-          </a>
+          </Link>
+          {/* <Link
+            href="/profil"
+            className="hidden md:block px-5 py-2.5 bg-myzinc text-white font-semibold rounded-lg"
+          >
+            Mi perfil
+          </Link> */}
           <UserButton
             appearance={{
               elements: {

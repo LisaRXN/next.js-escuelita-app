@@ -141,7 +141,7 @@ export default function DashboardPage () {
               <CardTitle
                 title="Mi actividad ✨"
                 subtitle="Vea todas las sesiones en las que ha participado."
-                link="/profil"
+                link="/activity"
               />
               <ActivityCard
                 volunteerWithSession={volunteerWithSession}

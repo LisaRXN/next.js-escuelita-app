@@ -29,7 +29,6 @@ const AdminPage = () => {
   const { data: volunteers, isLoading: loadingVolunteers } = useQuery({
     queryKey: ["volunteers"],
     queryFn: fetchLastVolunteers,
-    select: (data) => data.slice(0, 3),
     staleTime: 0,
   });
 
@@ -110,6 +109,8 @@ const AdminPage = () => {
 
           {/* Deux colonnes */}
           <div className="flex flex-col lg:flex-row items-start justify-center gap-8 w-full">
+          <div className="flex-1 flex flex-col items-start justify-center gap-8 w-full ">
+
             {/* Colonne gauche : Sessions */}
             <div className="flex-1 gap-5 flex flex-col bg-white rounded-2xl p-3 lg:p-5 w-full max-h-[400px] lg:max-h-[725px]">
               <CardTitle
@@ -169,22 +170,8 @@ const AdminPage = () => {
                 </table>
               </div>
             </div>
-
-            {/* Colonne droite */}
-            <div className="flex-1 flex flex-col items-start justify-center gap-8 w-full ">
-              {/* Calendrier */}
-              <div className="gap-5 flex flex-col bg-white rounded-2xl p-3 lg:p-5 w-full h-auto">
-                <CardTitle
-                  title="¡Lidera una sesión! 🙌"
-                  subtitle="Apúntate como líder y acompaña el grupo"
-                  link="/admin/agenda"
-                />
-                <div className="p-2 lg:p-5 bg-zinc-50 rounded-xl">
-                  {sessions && <Calendar sessions={sessions} isReduce={true} />}
-                </div>
-              </div>
-              {/* Voluntarios */}
-              <div className="gap-5 flex flex-col bg-white rounded-2xl p-3 lg:p-5 w-full h-auto">
+                      {/* Voluntarios */}
+                      <div className="gap-5 flex flex-col bg-white rounded-2xl p-3 lg:p-5 w-full h-auto">
                 <CardTitle
                   title="Administra la información 👥"
                   subtitle="Edita y utiliza los datos de los voluntarios"
@@ -229,6 +216,23 @@ const AdminPage = () => {
                   </table>
                 </div>
               </div>
+
+            </div>
+
+            {/* Colonne droite */}
+            <div className="flex-1 flex flex-col items-start justify-center gap-8 w-full ">
+              {/* Calendrier */}
+              <div className="gap-5 flex flex-col bg-white rounded-2xl p-3 lg:p-5 w-full h-auto">
+                <CardTitle
+                  title="¡Lidera una sesión! 🙌"
+                  subtitle="Apúntate como líder y acompaña el grupo"
+                  link="/admin/agenda"
+                />
+                <div className="p-2 lg:p-5 bg-zinc-50 rounded-xl">
+                  {sessions && <Calendar sessions={nextSessions} isReduce={true} />}
+                </div>
+              </div>
+    
             </div>
           </div>
         </div>

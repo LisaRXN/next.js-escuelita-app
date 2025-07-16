@@ -1,7 +1,7 @@
 "use client";
 
 import SignUpToSessionButton from "@/components/session/SignUpToSessionButton";
-import UnregisterButton from "@/components/session/UnregisterButton";
+// import UnregisterButton from "@/components/session/UnregisterButton";
 import { fetcher } from "@/lib/fetcher";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
@@ -65,7 +65,7 @@ const SessionDescription = ({ sessionId }: SessionDescriptionProps) => {
 
         {/* Titre & description */}
         <div className="p-2 md:p-8 w-full h-auto flex flex-col gap-4 md:gap-6 text-myzinc">
-          <h1 className="text-3xl font-bold text-center">{session.title}</h1>
+          <h1 className="text-2xl font-bold text-center">{session.title}</h1>
           <div className="flex flex-col justify-start items-start gap-5">
             <div className="flex items-start justify-center gap-3">
               <i className="fa-solid fa-location-dot text-myorange"></i>
@@ -122,11 +122,11 @@ const SessionDescription = ({ sessionId }: SessionDescriptionProps) => {
             )}
 
             {/* Désinscription */}
-            {isUserRegistered && !isSessionInFuture24h && !isSessionPassed && (
+            {/* {isUserRegistered && !isSessionInFuture24h && !isSessionPassed && (
               <div className="w-full flex items-center justify-center">
                 <UnregisterButton fullWidth={true} sessionId={session.id} />
               </div>
-            )}
+            )} */}
 
             {!isVolunteerActive && (
               <div className="w-full flex items-center justify-center">

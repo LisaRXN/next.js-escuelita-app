@@ -85,9 +85,9 @@ const SessionCard = ({
       <div className="p-4 flex flex-col gap-2 items-start h-auto w-full">
         <span
           onClick={handleClick}
-          className="md:text-[20px] font-bold cursor-pointer"
+          className="md:text-[16px] font-bold cursor-pointer"
         >
-          {title}
+          {title.length > 35 ? title.slice(0,35) + "..." : title}
         </span>
         <div className="flex items-start justify-center gap-3">
           <i className="fa-solid fa-location-dot text-myorange"></i>
@@ -103,7 +103,7 @@ const SessionCard = ({
           <div className="flex w-full items-center justify-end gap-2">
             <button
               onClick={() => handleOpenModal(sessionId)}
-              className="self-end px-3 py-1 md:px-5 md:py-2 bg-myorange hover:bg-myorange/80 text-white font-semibold rounded-md transition duration-300"
+              className="self-end text-sm px-3 md:px-5 py-2 bg-myorange hover:bg-myorange/80 text-white font-semibold rounded-md transition duration-300"
             >
               Insribirte
             </button>
@@ -111,7 +111,7 @@ const SessionCard = ({
               onClick={() =>
                 router.push(`/admin/sessions/update-session/${sessionId}`)
               }
-              className="self-end px-3 py-1 md:px-5 md:py-2 bg-slate-400 hover:bg-slate-500 text-white font-semibold rounded-md transition duration-300"
+              className="self-end  text-sm px-3 md:px-5 py-2 bg-slate-400 hover:bg-slate-500 text-white font-semibold rounded-md transition duration-300"
             >
               Modificar
             </button>
@@ -119,7 +119,7 @@ const SessionCard = ({
         ) : (
           <button
             onClick={() => handleOpenModal(sessionId)}
-            className="self-end px-3 py-1 md:px-5 md:py-2 bg-myorange text-white font-semibold rounded-md"
+            className="self-end text-sm  px-3 md:px-5 py-2 bg-myorange text-white font-semibold rounded-md"
           >
             Saber más
           </button>

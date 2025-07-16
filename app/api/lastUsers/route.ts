@@ -17,7 +17,7 @@ export interface Volunteer {
 export async function GET() {
   const users = await prisma.volunteer.findMany({
     orderBy: { createdAt: "asc" },
-    take: 3,
+    take: 1,
 
   });
 

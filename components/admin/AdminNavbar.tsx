@@ -24,13 +24,19 @@ const AdminNavbar = async () => {
       <div className="hidden flex-1 md:flex items-center justify-end w-full gap-6 mr-6">
         <Link
           href="/admin/sessions/create-session"
-          className="px-4 py-2.5 bg-myorange text-white font-semibold rounded-md"
+          className="text-sm px-4 py-2.5 bg-myorange text-white font-semibold rounded-md"
         >
           Crear evento
         </Link>
         <Link
+          href="/admin/users"
+          className="text-sm px-4 py-2.5 bg-myzinc text-white font-semibold rounded-md hoover:bg-myzinc/80 transition duration-300"
+        >
+          Los voluntarios
+        </Link>
+        <Link
           href="/admin/agenda"
-          className="px-4 py-2.5 bg-myzinc text-white font-semibold rounded-md"
+          className="text-sm px-4 py-2.5 bg-myzinc text-white font-semibold rounded-md"
         >
           Agenda
         </Link>
@@ -57,11 +63,7 @@ const AdminNavbar = async () => {
           },
         }}
       />
-
-
     </nav>
-
-    
   );
 };
 

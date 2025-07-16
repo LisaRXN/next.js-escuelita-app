@@ -64,6 +64,7 @@ const AdminSessionPage = ({ sessionId }: AdminSessionPageProps) => {
               link=""
             />
             <VolunteerList
+            sessionId={sessionId}
               registeredVolunteers={data.registeredVolunteers.filter(
                 (vol: RegisteredVolunteer) => !vol.isAdmin
               )}

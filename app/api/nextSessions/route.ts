@@ -21,7 +21,8 @@ export async function GET() {
         gte: today  //greater than or equal (prochaines sessions)
       }
     },
-    orderBy: { date: 'asc' }
+    orderBy: { date: 'asc' },
+    take:5,
     });
 
   // Prisma retourne des Dates en JS, ici on convertit en ISO string pour simplifier le JSON

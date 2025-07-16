@@ -4,7 +4,6 @@ import { useAction } from '@/hooks/use-action';
 import { toast } from 'sonner';
 import { useQueryClient } from "@tanstack/react-query"; 
 import { unregisterToSession } from '@/actions/sessions/unregister-to-session';
-import { useUser } from '@clerk/nextjs';
 
 type UnregisterButtonProps = {
   sessionId: number;
@@ -12,13 +11,9 @@ type UnregisterButtonProps = {
   isReduce?: boolean,
 };
 
-export default function UnregisterButton({ sessionId, fullWidth=false, isReduce=false }: UnregisterButtonProps) {
+const UnregisterButton = ({ sessionId, fullWidth=false, isReduce=false }: UnregisterButtonProps) => {
 
   const queryClient = useQueryClient(); 
-
-  const { user, isLoaded } = useUser();
-
-  const isAdmin = user?.publicMetadata?.role === "admin";
 
   const { execute: executeUnregister, isLoading } = useAction(unregisterToSession, {
     onSuccess: () => {
@@ -37,15 +32,16 @@ export default function UnregisterButton({ sessionId, fullWidth=false, isReduce=
   const handleUnregister = () => {
     executeUnregister({ sessionId });
   }
-  if (!isLoaded) return null;
 
   return (
       <button
         onClick={handleUnregister}
-        disabled={isLoading && !isAdmin}
+        disabled={isLoading}
         className={`${fullWidth ? 'w-full':''} bg-myred text-white ${isReduce ? 'px-2 md:px-4 py-1.5':'px-4 py-2'} rounded hover:bg-myred/80 transition disabled:opacity-50`}
       >
         {isLoading ? 'Cancelación...' : !isReduce ? 'Cancelar inscripción' : 'Cancelar'}
       </button>
   );
 }
+
+export default UnregisterButton;

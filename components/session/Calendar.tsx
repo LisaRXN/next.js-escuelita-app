@@ -32,8 +32,8 @@ const CalendarWithSessions = ({ isReduce, sessions }: CalendarProps) => {
   const isMobile = window.innerWidth < 768;
 
   const formattedTitle = (title: string) => {
-    if (!isReduce) {
-      return title.length > 13 ? title.slice(0, 13) + "..." : title;
+    if (!isReduce && !isMobile) {
+      return title.length > 15 ? title.slice(0, 15) + "..." : title;
     } else {
       return title;
     }
@@ -116,6 +116,17 @@ const CalendarWithSessions = ({ isReduce, sessions }: CalendarProps) => {
             info.el.classList.add("cursor-pointer");
           }}
           eventDidMount={(info) => {
+
+            const timeEl = info.el.querySelector(".fc-event-time") as HTMLElement;
+            if (timeEl) {
+              timeEl.style.fontSize = "10px";
+            }
+
+            const titleEl = info.el.querySelector(".fc-event-title") as HTMLElement;
+            if (timeEl) {
+              titleEl.style.fontSize = "12px";
+            }
+
             const liders = info.event.extendedProps.liders;
             if (liders?.length) {
               const names = liders

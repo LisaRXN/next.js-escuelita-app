@@ -74,7 +74,7 @@ const AdminSessionDescription = ({
 
         {/* Titre & description */}
         <div className="p-2 md:p-8 w-full h-auto flex flex-col gap-4 md:gap-6 text-myzinc">
-          <h1 className="text-3xl font-bold text-center">{session.title}</h1>
+          <h1 className="text-2xl font-bold text-center">{session.title}</h1>
           <div className="flex flex-col justify-start items-start gap-5">
             <div className="flex items-start justify-center gap-3">
               <i className="fa-solid fa-location-dot text-myorange"></i>
