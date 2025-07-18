@@ -48,8 +48,8 @@ export const handler = async (data: InputType): Promise<ReturnType> => {
     const now = new Date();
     const diffInHours = (session.date.getTime() - now.getTime()) / (1000 * 60 * 60);
 
-    if (diffInHours < 24 && !volunteer.isAdmin ) {
-      return { error: "No se puede cancelar antes de 24 horas" };
+    if (diffInHours < 0 && !volunteer.isAdmin) {
+      return { error: "No se puede cancelar, la sesión ya ha pasado" };
     }
 
     // Supprimer l'inscription 
