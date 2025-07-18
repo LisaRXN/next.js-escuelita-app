@@ -44,6 +44,7 @@ export async function GET(req: Request, { params }: Params) {
       return NextResponse.json({ error: "Session not found" }, { status: 404 });
     }
 
+
     const registeredVolunteers = session.volunteers.map((registration) => ({
       registrationId: registration.id,
       clerkUserId: registration.volunteer.clerkUserId,

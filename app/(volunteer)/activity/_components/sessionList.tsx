@@ -89,7 +89,7 @@ const SessionList = ({
                 </td>
                 <td className="px-2 md:px-6 py-4 whitespace-nowrap text-start">
                   {reg.status === "PENDING" ? (
-                    <UnregisterButton sessionId={reg.session.id} />
+                    <UnregisterButton sessionId={reg.session.id} isAdmin={false} />
                   ) : reg.status === "CONFIRMED" ? (
                     <i className="fa-solid fa-check text-mygreen text-lg"></i>
                   ) : reg.status === "CANCELLED" ? (

@@ -34,6 +34,9 @@ const SessionDescription = ({ sessionId }: SessionDescriptionProps) => {
   const isSessionInFuture24h = data.userStatus.isSessionInFuture24h;
   const isVolunteerActive = data.userStatus.isVolunteerActive;
   const isSessionPassed = data.userStatus.isSessionPassed;
+  const isComplete = data.registeredVolunteers.length >= session.capacity;
+
+  console.log("isCOMPLETE", isComplete);
 
   // Formattage des dates
   const formattedDate = new Date(session.date).toLocaleDateString("es-ES", {
@@ -41,13 +44,13 @@ const SessionDescription = ({ sessionId }: SessionDescriptionProps) => {
     year: "numeric",
     month: "long",
     day: "numeric",
-    timeZone: "UTC", 
+    timeZone: "UTC",
   });
 
   const formattedTime = new Date(session.date).toLocaleTimeString("es-ES", {
     hour: "2-digit",
     minute: "2-digit",
-    timeZone: "UTC", 
+    timeZone: "UTC",
   });
 
   return (
@@ -101,17 +104,14 @@ const SessionDescription = ({ sessionId }: SessionDescriptionProps) => {
             )}
 
             {/* If Non Registered */}
-            {!isUserRegistered &&
-              isVolunteerActive &&
-              !isSessionInFuture24h &&
-              !isSessionPassed && (
-                <div className="flex w-full items-center justify-center">
-                  <SignUpToSessionButton
-                    fullWidth={true}
-                    sessionId={session.id}
-                  />
-                </div>
-              )}
+            {!isUserRegistered && isVolunteerActive && !isSessionPassed && (
+              <div className="flex w-full items-center justify-center">
+                <SignUpToSessionButton
+                  fullWidth={true}
+                  sessionId={session.id}
+                />
+              </div>
+            )}
             {/* If Registered */}
             {isUserRegistered && (
               <div className="w-full flex items-center justify-center">
@@ -140,7 +140,7 @@ const SessionDescription = ({ sessionId }: SessionDescriptionProps) => {
               </div>
             )}
           </div>
-          {isSessionInFuture24h && (
+          {!isUserRegistered && isComplete && (
             <div className="w-full flex items-center justify-center">
               <p className="text-myred text-center">
                 <span className="mr-2">
@@ -169,7 +169,8 @@ const SessionDescription = ({ sessionId }: SessionDescriptionProps) => {
                 <span className="mr-2">
                   <i className="fa-solid fa-lock"></i>
                 </span>
-                Esta sesión ya ha pasado. Ya no es posible inscribirse o cancelar!
+                Esta sesión ya ha pasado. Ya no es posible inscribirse o
+                cancelar!
               </p>
             </div>
           )}

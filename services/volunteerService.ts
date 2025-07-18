@@ -32,7 +32,6 @@ export async function getVolunteerSessionStatus(userId: string, sessionId: numbe
       );
       isVolunteerActive = volunteer.isActive;
     }
-
     const now = new Date();
     const diffHours =
       (new Date(sessionDate).getTime() - now.getTime()) / (1000 * 60 * 60);

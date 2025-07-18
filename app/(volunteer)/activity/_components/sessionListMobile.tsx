@@ -67,7 +67,7 @@ export default function SessionListMobile({
                     Ver sesión
                   </button>
                   {reg.status === "PENDING" ? (
-                    <UnregisterButton sessionId={reg.session.id} isReduce />
+                    <UnregisterButton sessionId={reg.session.id} isReduce={true} isAdmin={false}/>
                   ) : null}
                 </div>
               </div>
