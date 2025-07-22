@@ -55,6 +55,7 @@ const CoordinatorList = ({
                   <UnregisterButton
                     sessionId={sessionId}
                     isReduce={true}
+                  isAdmin={true}
                   />
                 ) : ('')}
               </td>
