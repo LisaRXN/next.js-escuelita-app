@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { Prisma, RegistrationStatus, SessionTypes } from "@/generated/prisma";
+import { Prisma, RegistrationStatus, SessionTypes, Volunteer } from "@/generated/prisma";
 import { NextRequest } from "next/server";
 
 type SortableColumn = 'firstName' | 'lastName' | 'email' | 'createdAt';
@@ -53,7 +53,7 @@ export async function GET(req: NextRequest) {
   // ✅ Ajoute le count à chacun — tout d’un coup
   const usersWithCounts = await Promise.all(
 
-    users.map(async (u) => {
+    users.map(async (u:Volunteer) => {
       const count = await prisma.volunteerRegistration.count({
         where: {
           volunteerId: u.id,
