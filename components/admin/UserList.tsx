@@ -1,5 +1,5 @@
 import React from "react";
-import { Volunteer } from "@/generated/prisma";
+import { Volunteer } from "@prisma/client";
 import UserCard from "./UserCard";
 
 

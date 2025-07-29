@@ -1,7 +1,7 @@
 import { toggleVolunteerStatus } from "@/actions/admin/toggle-volunteer-status";
 import { toast } from "sonner";
 import { useAction } from "@/hooks/use-action";
-import { RegistrationStatus } from "@/generated/prisma";
+import { RegistrationStatus } from "@prisma/client";
 import { useQueryClient } from "@tanstack/react-query";
 
 interface UpdateStatusProps {

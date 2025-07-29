@@ -9,7 +9,7 @@ import Image from "next/image";
 import { getNextSaturdayDateTime } from "@/services/sessionService";
 import { useQueryClient } from "@tanstack/react-query";
 import sessionImages from "@/public/data/images.json";
-import { SessionTypes } from "@/generated/prisma";
+import { SessionTypes } from "@prisma/client";
 
 interface CreateSessionFormProps {
   date?: string | undefined | null;

@@ -1,6 +1,6 @@
 "use client";
 
-import { Volunteer } from "@/generated/prisma";
+import { Volunteer } from "@prisma/client";
 import ToggleActiveButton from "@/components/admin/ToggleActiveButton";
 
 interface UserCardProps {

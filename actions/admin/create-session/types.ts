@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { CreateSessionSchema } from "./schema";
-import { SessionTypes } from "@/generated/prisma";
+import { SessionTypes } from "@prisma/client";
 
 export type InputType = z.infer<typeof CreateSessionSchema>;
 

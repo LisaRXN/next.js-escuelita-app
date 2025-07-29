@@ -3,7 +3,7 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import { useRef, useState } from "react";
-import { VolunteerSession } from "@/generated/prisma";
+import { VolunteerSession } from "@prisma/client";
 import listPlugin from "@fullcalendar/list";
 import esLocale from "@fullcalendar/core/locales/es";
 import SessionModal from "@/components/modals/SessionModal";

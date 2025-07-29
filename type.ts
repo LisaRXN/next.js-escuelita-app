@@ -1,4 +1,4 @@
-import {RegistrationStatus, Volunteer, VolunteerRegistration, VolunteerSession } from "@/generated/prisma";
+import {RegistrationStatus, Volunteer, VolunteerRegistration, VolunteerSession } from "@prisma/client";
 
 
   export type VolunteerWithTutoringCount = Volunteer & {

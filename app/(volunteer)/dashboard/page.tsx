@@ -3,7 +3,7 @@
 import { fetcher } from "@/lib/fetcher";
 import { useQuery } from "@tanstack/react-query";
 import SessionCard from "@/components/session/SessionCard";
-import { VolunteerSession } from "@/generated/prisma";
+import { VolunteerSession } from "@prisma/client";
 import CardTitle from "../../(admin)/admin/_components/CardTitle";
 import { useEffect, useRef, useState } from "react";
 import { useAuth } from "@clerk/clerk-react";

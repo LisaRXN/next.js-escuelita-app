@@ -2,7 +2,7 @@ import { toggleVolunteerActive } from "@/actions/admin/toggle-volunteer-active";
 import { toast } from "sonner";
 import { useAction } from "@/hooks/use-action";
 import { useQueryClient } from "@tanstack/react-query"; 
-import { Volunteer } from "@/generated/prisma";
+import { Volunteer } from "@prisma/client";
 
 
 interface ToggleActiveButtonProps {

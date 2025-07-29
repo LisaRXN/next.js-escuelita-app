@@ -1,7 +1,7 @@
 // actions/admin/toggle-volunteer-active/types.ts
 import { z } from "zod";
 import { ToggleVolunteerStatusSchema } from "./schema";
-import { RegistrationStatus } from "@/generated/prisma"
+import { RegistrationStatus } from "@prisma/client"
 
 export type InputType = z.infer<typeof ToggleVolunteerStatusSchema>;
 

@@ -6,7 +6,7 @@ import Link from "next/link";
 import CardTitle from "./_components/CardTitle";
 import { useQuery } from "@tanstack/react-query";
 import { fetcher } from "@/lib/fetcher";
-import { VolunteerSession } from "@/generated/prisma";
+import { VolunteerSession } from "@prisma/client";
 import Calendar from "@/components/session/Calendar";
 import { useRef } from "react";
 import { SessionWithLiders } from "@/type";

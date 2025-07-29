@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { Prisma, RegistrationStatus, SessionTypes, Volunteer } from "@/generated/prisma";
+import { Prisma, RegistrationStatus, SessionTypes, Volunteer } from "@prisma/client";
 import { NextRequest } from "next/server";
 
 type SortableColumn = 'firstName' | 'lastName' | 'email' | 'createdAt';

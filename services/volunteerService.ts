@@ -1,4 +1,4 @@
-import { Volunteer } from "@/generated/prisma";
+import { Volunteer } from "@prisma/client";
 import { prisma } from "@/lib/prisma"; 
 
 export async function fetchVolunteers(): Promise<Volunteer[]> {

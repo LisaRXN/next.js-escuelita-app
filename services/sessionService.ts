@@ -1,4 +1,4 @@
-import { VolunteerSession } from "@/generated/prisma";
+import { VolunteerSession } from "@prisma/client";
 
 export async function fetchLastSessions(): Promise<VolunteerSession[]> {
   const res = await fetch("/api/lastSessions");

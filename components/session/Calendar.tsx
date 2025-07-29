@@ -11,7 +11,7 @@ import listPlugin from "@fullcalendar/list";
 import esLocale from "@fullcalendar/core/locales/es";
 import { EventClickArg } from "@fullcalendar/core/index.js";
 import { SessionWithLiders } from "@/type";
-import { Volunteer } from "@/generated/prisma";
+import { Volunteer } from "@prisma/client";
 import SessionModal from "@/components/modals/SessionModal";
 import CreateSessionModal from "@/components/modals/CreateSessionModal";
 

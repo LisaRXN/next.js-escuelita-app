@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { RegistrationStatus } from "@/generated/prisma";
+import { RegistrationStatus } from "@prisma/client";
 import { NextRequest } from "next/server";
 
 

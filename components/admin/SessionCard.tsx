@@ -1,7 +1,7 @@
 "use client"
 
 import Image from "next/image";
-import { SessionTypes, RegistrationStatus } from "@/generated/prisma";
+import { SessionTypes, RegistrationStatus } from "@prisma/client";
 import { useRouter } from "next/navigation";
 
 interface SessionCardProps {

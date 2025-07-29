@@ -8,7 +8,7 @@ import { FormErrors } from "@/components/form/form-errors";
 import Image from "next/image";
 import { useQueryClient } from "@tanstack/react-query"; 
 import sessionImages from "@/public/data/images.json";
-import { VolunteerSession } from "@/generated/prisma";
+import { VolunteerSession } from "@prisma/client";
 import DeleteSessionButton from "@/components/admin/DeleteSessionButton";
 import { DateTime } from "luxon";
 
