@@ -1,13 +1,16 @@
 "use client";
 
-import { RefObject, useState } from "react";
+import { RefObject, useRef, useState } from "react";
 import { Alumno } from "@/generated/prisma";
 import { useAction } from "@/hooks/use-action";
 import { updateAlumno } from "@/actions/admin/update-alumno";
 import { deleteAlumno } from "@/actions/admin/delete-alumno";
 import { FormErrors } from "@/components/form/form-errors";
 import { toast } from "sonner";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { fetcher } from "@/lib/fetcher";
+import { calificacionColor, calificacionLabel } from "@/lib/calificacion";
+import SeguimientoModal from "./SeguimientoModal";
 
 const NIVELES = [
   "Nido",
@@ -24,6 +27,14 @@ interface AlumnoModalProps {
 const AlumnoModal = ({ alumno, dialogRef, onClose }: AlumnoModalProps) => {
   const queryClient = useQueryClient();
   const [confirmDelete, setConfirmDelete] = useState(false);
+  const [activeTab, setActiveTab] = useState<"info" | "historial">("info");
+  const [showSeguimientoModal, setShowSeguimientoModal] = useState(false);
+  const seguimientoDialogRef = useRef<HTMLDialogElement>(null);
+
+  const { data: historialData } = useQuery({
+    queryKey: ["seguimientos-alumno", alumno.id],
+    queryFn: () => fetcher(`/api/seguimientos?alumnoId=${alumno.id}`),
+  });
 
   const [formData, setFormData] = useState({
     id: alumno.id,
@@ -68,22 +79,71 @@ const AlumnoModal = ({ alumno, dialogRef, onClose }: AlumnoModalProps) => {
     });
   };
 
+  const historial = historialData?.data ?? [];
+
+  const openNewSeguimiento = () => {
+    setShowSeguimientoModal(true);
+    seguimientoDialogRef.current?.showModal();
+  };
+
   return (
+    <>
     <dialog ref={dialogRef} className="modal p-2">
       <div className="modal-box bg-white w-full max-w-2xl max-h-[90vh] overflow-y-auto">
         {/* Header */}
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center justify-between mb-4">
           <h2 className="text-xl font-bold text-myzinc">
             {alumno.nombre} {alumno.apellidos}
           </h2>
+          <button onClick={onClose} className="btn btn-sm btn-circle btn-ghost text-zinc-400">✕</button>
+        </div>
+
+        {/* Tabs */}
+        <div className="flex gap-1 mb-5 border-b border-zinc-200">
           <button
-            onClick={onClose}
-            className="btn btn-sm btn-circle btn-ghost text-zinc-400"
+            onClick={() => setActiveTab("info")}
+            className={`px-4 py-2 text-sm font-medium transition border-b-2 -mb-px ${activeTab === "info" ? "border-myorange text-myorange" : "border-transparent text-mygray hover:text-myzinc"}`}
           >
-            ✕
+            Información
+          </button>
+          <button
+            onClick={() => setActiveTab("historial")}
+            className={`px-4 py-2 text-sm font-medium transition border-b-2 -mb-px ${activeTab === "historial" ? "border-myorange text-myorange" : "border-transparent text-mygray hover:text-myzinc"}`}
+          >
+            Historial ({historial.length})
           </button>
         </div>
 
+        {/* Tab: Historial */}
+        {activeTab === "historial" && (
+          <div className="flex flex-col gap-3">
+            <button
+              onClick={openNewSeguimiento}
+              className="self-end text-sm px-4 py-2 bg-myorange text-white rounded-md hover:bg-myorange/80 transition"
+            >
+              + Nuevo seguimiento
+            </button>
+            {historial.length === 0 ? (
+              <p className="text-mygray text-sm text-center py-6">Sin seguimientos aún.</p>
+            ) : (
+              historial.map((s: { id: number; fechaSesion: string; tema: string; calificacion: string; observacion: string }) => (
+                <div key={s.id} className="border border-zinc-200 rounded-lg p-3 flex flex-col gap-1">
+                  <div className="flex items-center justify-between">
+                    <p className="text-xs text-mygray">{new Date(s.fechaSesion).toLocaleDateString("es-PE")}</p>
+                    <span className={`px-2 py-0.5 rounded-full text-xs font-medium text-white ${calificacionColor[s.calificacion]}`}>
+                      {calificacionLabel[s.calificacion]}
+                    </span>
+                  </div>
+                  <p className="text-sm font-medium text-myzinc">{s.tema}</p>
+                  {s.observacion && <p className="text-xs text-mygray">{s.observacion}</p>}
+                </div>
+              ))
+            )}
+          </div>
+        )}
+
+        {/* Tab: Info */}
+        {activeTab === "info" && (
         <form onSubmit={handleSubmit} className="flex flex-col gap-4 text-myzinc">
           {/* Nombre y apellidos */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -247,8 +307,19 @@ const AlumnoModal = ({ alumno, dialogRef, onClose }: AlumnoModalProps) => {
             </button>
           </div>
         </form>
+        )}
       </div>
     </dialog>
+
+    {showSeguimientoModal && (
+      <SeguimientoModal
+        dialogRef={seguimientoDialogRef}
+        onClose={() => { setShowSeguimientoModal(false); seguimientoDialogRef.current?.close(); }}
+        defaultAlumnoId={alumno.id}
+        defaultEscuelita={alumno.escuelita as "Peruanidad" | "Valle_Ecologico"}
+      />
+    )}
+    </>
   );
 };
 

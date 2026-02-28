@@ -27,6 +27,14 @@ enum Escuelita {
   Valle_Ecologico
 }
 
+enum Calificacion {
+  Excelente
+  Bueno
+  Regular
+  Con_dificultad
+  Con_mucha_dificultad
+}
+
 enum RegistrationStatus {
   PENDING
   CONFIRMED
@@ -69,17 +77,31 @@ model Volunteer {
 }
 
 model Alumno {
-  id              Int       @id @default(autoincrement())
+  id              Int           @id @default(autoincrement())
   apellidos       String
   nombre          String
   fechaNacimiento DateTime
   sexo            Sexo
-  dni             Int       @unique
+  dni             Int           @unique
   colegio         String
   nivel           String
-  fechaMatricula  DateTime  @default(now())
+  fechaMatricula  DateTime      @default(now())
   escuelita       Escuelita
-  createdAt       DateTime  @default(now())
+  createdAt       DateTime      @default(now())
+  seguimientos    Seguimiento[]
+}
+
+model Seguimiento {
+  id           Int          @id @default(autoincrement())
+  fechaSesion  DateTime
+  escuelita    Escuelita
+  alumno       Alumno       @relation(fields: [alumnoId], references: [id], onDelete: Cascade)
+  alumnoId     Int
+  tema         String
+  calificacion Calificacion
+  dificultad   String
+  observacion  String
+  createdAt    DateTime     @default(now())
 }
 
 model VolunteerRegistration {
