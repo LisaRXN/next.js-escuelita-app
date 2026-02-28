@@ -1,9 +1,9 @@
 "use client";
 
+import { useState } from "react";
 import UnregisterButton from "../session/UnregisterButton";
 import { useAuth } from "@clerk/nextjs";
 import { RegisteredVolunteer } from "@/type";
-
 
 interface CoordinatorListProps {
   liders: RegisteredVolunteer[];
@@ -11,56 +11,87 @@ interface CoordinatorListProps {
   sessionDate: Date;
 }
 
-const CoordinatorList = ({
-  liders,
+const LiderRow = ({
+  lider,
   sessionId,
-}: CoordinatorListProps) => {
+  currentUserId,
+}: {
+  lider: RegisteredVolunteer;
+  sessionId: number;
+  currentUserId: string | null | undefined;
+}) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const isCurrentUser = currentUserId === lider.clerkUserId;
+
+  return (
+    <>
+      <tr
+        onClick={() => setIsOpen((prev) => !prev)}
+        className="cursor-pointer hover:bg-zinc-50 transition"
+      >
+        <td className="px-4 py-3 text-sm font-medium text-myzinc whitespace-nowrap">
+          {lider.firstName} {lider.lastName.slice(0, 1)}.
+        </td>
+        <td className="px-4 py-3" onClick={(e) => e.stopPropagation()}>
+          {isCurrentUser && (
+            <UnregisterButton sessionId={sessionId} isReduce={true} isAdmin={true} />
+          )}
+        </td>
+        <td className="px-4 py-3 text-zinc-300 text-xs text-right pr-5">
+          <i className={`fa-solid fa-chevron-${isOpen ? "up" : "down"}`}></i>
+        </td>
+      </tr>
+
+      {isOpen && (
+        <tr className="bg-zinc-50/70">
+          <td colSpan={3} className="px-6 py-3 border-t border-zinc-100">
+            <div>
+              <p className="text-[10px] font-semibold text-zinc-400 uppercase tracking-widest mb-1">
+                Número
+              </p>
+              <p className="text-sm text-myzinc">{lider.phone || "—"}</p>
+            </div>
+          </td>
+        </tr>
+      )}
+    </>
+  );
+};
+
+const CoordinatorList = ({ liders, sessionId }: CoordinatorListProps) => {
   const { userId } = useAuth();
 
   return (
-    <div className="border border-zinc-400 rounded-lg w-full overflow-x-auto text-myzinc">
-      <table className="min-w-full divide-y divide-zinc-200 rounded-lg overflow-hidden">
-        <thead className="bg-zinc-200 text-myzinc w-full">
+    <div className="w-full bg-white rounded-xl overflow-hidden border border-zinc-200 text-myzinc">
+      <table className="w-full text-sm">
+        <thead className="bg-zinc-100">
           <tr>
-            <th className="px-2 md:px-6 py-3 text-left text-xs font-bold uppercase tracking-wider">
-              <div className="flex items-center gap-2">
-                <i className="fa-solid fa-user"></i> Nombre
-              </div>
+            <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-zinc-500">
+              Nombre
             </th>
-            <th className="px-2 md:px-6 py-3 text-left text-xs font-bold uppercase tracking-wider">
-              <div className="flex items-center gap-2">
-                <i className="fa-solid fa-phone"></i> Número
-              </div>
+            <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-zinc-500">
+              Acción
             </th>
-            <th className="px-2 md:px-6 py-3 text-left text-xs font-bold uppercase tracking-wider0">
-              <span className="flex items-center justify-start gap-2">
-                <i className="fa-solid fa-users"></i>
-                <p>Asistencia</p>
-              </span>
-            </th>
+            <th className="px-4 py-3"></th>
           </tr>
         </thead>
-        <tbody className=" divide-y divide-zinc-200">
-          {liders.map((lider) => (
-            <tr key={lider.clerkUserId} className="hover:bg-zinc-50">
-              <td className="px-2 md:px-6 py-4 text-sm whitespace-nowrap">
-                {lider.firstName}{" "}
-                {lider.lastName.slice(0, 1)}.
-              </td>
-              <td className="px-2 md:px-6 py-4 text-sm whitespace-nowrap">
-                {lider.phone}
-              </td>
-              <td className="px-2 md:px-6 py-4 text-sm whitespace-nowrap">
-                {userId === lider.clerkUserId ? (
-                  <UnregisterButton
-                    sessionId={sessionId}
-                    isReduce={true}
-                  isAdmin={true}
-                  />
-                ) : ('')}
+        <tbody className="divide-y divide-zinc-100">
+          {liders.length === 0 ? (
+            <tr>
+              <td colSpan={3} className="px-4 py-8 text-center text-mygray text-sm">
+                Ningún coordinador inscrito aún.
               </td>
             </tr>
-          ))}
+          ) : (
+            liders.map((lider) => (
+              <LiderRow
+                key={lider.clerkUserId}
+                lider={lider}
+                sessionId={sessionId}
+                currentUserId={userId}
+              />
+            ))
+          )}
         </tbody>
       </table>
     </div>
