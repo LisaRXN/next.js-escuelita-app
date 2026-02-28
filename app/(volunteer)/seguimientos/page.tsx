@@ -13,7 +13,7 @@ type SeguimientoWithAlumno = Seguimiento & {
 
 type Group = {
   key: string;
-  fechaSesion: string; // ISO date "YYYY-MM-DD"
+  fechaSesion: string;
   escuelita: "Peruanidad" | "Valle_Ecologico";
   seguimientos: SeguimientoWithAlumno[];
 };
@@ -24,41 +24,30 @@ function groupSeguimientos(seguimientos: SeguimientoWithAlumno[]): Group[] {
     const dateKey = new Date(s.fechaSesion).toISOString().split("T")[0];
     const key = `${dateKey}_${s.escuelita}`;
     if (!map.has(key)) {
-      map.set(key, {
-        key,
-        fechaSesion: dateKey,
-        escuelita: s.escuelita as "Peruanidad" | "Valle_Ecologico",
-        seguimientos: [],
-      });
+      map.set(key, { key, fechaSesion: dateKey, escuelita: s.escuelita as "Peruanidad" | "Valle_Ecologico", seguimientos: [] });
     }
     map.get(key)!.seguimientos.push(s);
   }
   return [...map.values()].sort((a, b) => b.fechaSesion.localeCompare(a.fechaSesion));
 }
 
-export default function SeguimientosPage() {
+export default function SeguimientosVolunteerPage() {
   const [search, setSearch] = useState("");
   const [escuelita, setEscuelita] = useState("");
   const [calificacion, setCalificacion] = useState("");
   const [expandedKeys, setExpandedKeys] = useState<Set<string>>(new Set());
-  const [selected, setSelected] = useState<SeguimientoWithAlumno | null>(null);
-  const [isCreating, setIsCreating] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const dialogRef = useRef<HTMLDialogElement>(null);
+
+  useEffect(() => { setExpandedKeys(new Set()); }, [search, escuelita, calificacion]);
 
   const toggle = (key: string) => {
     setExpandedKeys((prev) => {
       const next = new Set(prev);
-      if (next.has(key)) {
-        next.delete(key);
-      } else {
-        next.add(key);
-      }
+      next.has(key) ? next.delete(key) : next.add(key);
       return next;
     });
   };
-
-  // Reset expanded when filters change
-  useEffect(() => { setExpandedKeys(new Set()); }, [search, escuelita, calificacion]);
 
   const params = new URLSearchParams({ all: "true" });
   if (search) params.set("search", search);
@@ -66,7 +55,7 @@ export default function SeguimientosPage() {
   if (calificacion) params.set("calificacion", calificacion);
 
   const { data, isLoading } = useQuery({
-    queryKey: ["seguimientos", search, escuelita, calificacion],
+    queryKey: ["seguimientos-v", search, escuelita, calificacion],
     queryFn: () => fetcher(`/api/seguimientos?${params.toString()}`),
   });
 
@@ -74,24 +63,6 @@ export default function SeguimientosPage() {
   const total: number = data?.total ?? 0;
   const stats: { calificacion: string; _count: { calificacion: number } }[] = data?.statsByCalificacion ?? [];
   const groups = groupSeguimientos(seguimientos);
-
-  const openEdit = (s: SeguimientoWithAlumno) => {
-    setSelected(s);
-    setIsCreating(false);
-    dialogRef.current?.showModal();
-  };
-
-  const openCreate = () => {
-    setSelected(null);
-    setIsCreating(true);
-    dialogRef.current?.showModal();
-  };
-
-  const onClose = () => {
-    setSelected(null);
-    setIsCreating(false);
-    dialogRef.current?.close();
-  };
 
   return (
     <>
@@ -102,7 +73,7 @@ export default function SeguimientosPage() {
             Seguimientos <span className="md:text-[30px] ml-2">📋</span>
           </h1>
           <button
-            onClick={openCreate}
+            onClick={() => { setShowModal(true); dialogRef.current?.showModal(); }}
             className="text-sm px-4 py-2.5 bg-myorange text-white font-semibold rounded-md hover:bg-myorange/80 transition"
           >
             + Nuevo seguimiento
@@ -131,7 +102,7 @@ export default function SeguimientosPage() {
         </div>
 
         {/* Filtros */}
-        <div className="w-full md:w-auto flex flex-col lg:flex-row gap-3">
+        <div className="w-full flex flex-col lg:flex-row gap-3">
           <div className="flex items-center h-[50px] flex-1 bg-zinc-50 rounded-full justify-between p-2 text-sm">
             <input
               className="appearance-none bg-zinc-50 p-3 rounded-full w-full border-none focus:outline-none"
@@ -163,9 +134,9 @@ export default function SeguimientosPage() {
           </div>
         </div>
 
-        {/* Liste groupée */}
+        {/* Liste groupée — lecture seule */}
         {isLoading ? (
-          <div className="text-center p-20 flex flex-col items-center gap-4 m-auto text-mylightgray">
+          <div className="text-center p-20 flex flex-col items-center gap-4 text-mylightgray">
             <span className="loading loading-spinner loading-xl"></span>
             <p>Cargando...</p>
           </div>
@@ -176,14 +147,10 @@ export default function SeguimientosPage() {
             {groups.map((group) => {
               const isOpen = expandedKeys.has(group.key);
               const dateLabel = new Date(group.fechaSesion + "T12:00:00").toLocaleDateString("es-PE", {
-                weekday: "long",
-                day: "numeric",
-                month: "long",
-                year: "numeric",
+                weekday: "long", day: "numeric", month: "long", year: "numeric",
               });
               return (
                 <div key={group.key} className="w-full bg-white rounded-xl overflow-hidden border border-zinc-200">
-                  {/* Header du groupe */}
                   <button
                     onClick={() => toggle(group.key)}
                     className="w-full flex items-center justify-between px-4 py-3 hover:bg-zinc-50 transition text-left"
@@ -200,24 +167,20 @@ export default function SeguimientosPage() {
                     </span>
                   </button>
 
-                  {/* Contenu déplié */}
                   {isOpen && (
                     <div className="border-t border-zinc-100">
-                      {/* Desktop list */}
+                      {/* Desktop */}
                       <div className="hidden md:block w-full text-sm">
-                        {/* Header */}
                         <div className="grid grid-cols-[2fr_2fr_1fr_2fr] bg-zinc-50 px-4 py-2 text-xs font-semibold uppercase text-zinc-500">
                           <span>Alumno</span>
                           <span>Tema</span>
                           <span>Calificación</span>
                           <span>Observación</span>
                         </div>
-                        {/* Rows */}
                         {group.seguimientos.map((s, i) => (
                           <div
                             key={s.id}
-                            onClick={() => openEdit(s)}
-                            className={`grid grid-cols-[2fr_2fr_1fr_2fr] px-4 py-2.5 cursor-pointer hover:bg-zinc-100 transition items-center ${i % 2 === 0 ? "bg-white" : "bg-zinc-50/50"}`}
+                            className={`grid grid-cols-[2fr_2fr_1fr_2fr] px-4 py-2.5 items-center ${i % 2 === 0 ? "bg-white" : "bg-zinc-50/50"}`}
                           >
                             <span className="font-medium text-myzinc">{s.alumno.nombre} {s.alumno.apellidos}</span>
                             <span className="truncate text-mygray">{s.tema}</span>
@@ -231,14 +194,10 @@ export default function SeguimientosPage() {
                         ))}
                       </div>
 
-                      {/* Mobile cards */}
+                      {/* Mobile */}
                       <div className="md:hidden flex flex-col divide-y divide-zinc-100">
                         {group.seguimientos.map((s) => (
-                          <div
-                            key={s.id}
-                            onClick={() => openEdit(s)}
-                            className="px-4 py-3 flex items-center justify-between gap-3 cursor-pointer hover:bg-zinc-50 transition"
-                          >
+                          <div key={s.id} className="px-4 py-3 flex items-center justify-between gap-3">
                             <div className="flex flex-col gap-0.5 min-w-0">
                               <p className="text-sm font-medium text-myzinc">{s.alumno.nombre} {s.alumno.apellidos}</p>
                               <p className="text-xs text-mygray truncate">{s.tema}</p>
@@ -258,11 +217,10 @@ export default function SeguimientosPage() {
         )}
       </main>
 
-      {(isCreating || selected) && (
+      {showModal && (
         <SeguimientoModal
           dialogRef={dialogRef}
-          onClose={onClose}
-          seguimiento={selected ?? undefined}
+          onClose={() => { setShowModal(false); dialogRef.current?.close(); }}
         />
       )}
     </>

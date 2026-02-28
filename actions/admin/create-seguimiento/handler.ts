@@ -2,15 +2,12 @@
 
 import { prisma } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
-import { isAdmin } from "@/lib/is-admin";
 import { InputType, ReturnType } from "./types";
 import { Escuelita, Calificacion } from "@/generated/prisma";
 
 export const handler = async (data: InputType): Promise<ReturnType> => {
   const { userId } = await auth();
   if (!userId) return { error: "Unauthorized" };
-  const isUserAdmin = await isAdmin(userId);
-  if (!isUserAdmin) return { error: "Unauthorized" };
 
   try {
     const seguimiento = await prisma.seguimiento.create({
