@@ -1,7 +1,7 @@
 import { isAdmin } from "@/lib/is-admin";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
-import Navbar from "./_components/Navbar";
+import VolunteerSidebar from "@/components/volunteer/VolunteerSidebar";
 import { ReactQueryProvider } from "@/components/providers/query-provider";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "sonner";
@@ -25,9 +25,11 @@ const VolunteerLayout = async ({ children }: { children: React.ReactNode }) => {
     <ClerkProvider>
       <ReactQueryProvider>
         <Toaster />
-        <Navbar />
-        <div className="pt-20 m-auto min-h-screen bg-myteal text-myzinc text-open font-medium">
-          {children}
+        <div className="flex min-h-screen bg-myteal">
+          <VolunteerSidebar />
+          <div className="flex-1 md:ml-60 pt-14 md:pt-0 min-h-screen text-myzinc font-medium">
+            {children}
+          </div>
         </div>
       </ReactQueryProvider>
     </ClerkProvider>

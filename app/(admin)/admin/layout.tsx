@@ -1,4 +1,4 @@
-import AdminNavbar from "@/components/admin/AdminNavbar";
+import AdminSidebar from "@/components/admin/AdminSidebar";
 // import { isVolunteerProfileComplete } from "@/lib/check-user";
 import { isAdmin } from "@/lib/is-admin";
 import { auth } from "@clerk/nextjs/server";
@@ -25,9 +25,12 @@ const AdminLayout = async ({ children }: { children: React.ReactNode }) => {
   return (
     <ClerkProvider>
       <ReactQueryProvider>
-        <Toaster /> <AdminNavbar />
-        <div className="pt-20 m-auto min-h-screen bg-myteal text-myzinc text-open font-medium">
-          {children}
+        <Toaster />
+        <div className="flex min-h-screen bg-myteal">
+          <AdminSidebar />
+          <div className="flex-1 md:ml-60 pt-14 md:pt-0 min-h-screen text-myzinc font-medium">
+            {children}
+          </div>
         </div>
       </ReactQueryProvider>
     </ClerkProvider>
