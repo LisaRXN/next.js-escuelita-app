@@ -28,12 +28,12 @@ const Navbar = async () => {
           >
             Mi actividad
           </Link>
-          {/* <Link
+          <Link
             href="/profil"
             className="hidden md:block px-5 py-2.5 bg-myzinc text-white font-semibold rounded-lg"
           >
             Mi perfil
-          </Link> */}
+          </Link>
           <UserButton
             appearance={{
               elements: {
