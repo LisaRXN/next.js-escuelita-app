@@ -40,6 +40,12 @@ const AdminNavbar = async () => {
         >
           Agenda
         </Link>
+        <Link
+          href="/admin/profil"
+          className="text-sm px-4 py-2.5 bg-myzinc text-white font-semibold rounded-md"
+        >
+          Mi perfil
+        </Link>
       </div>
       {/* Mobile */}
       <div className="md:hidden flex-1 flex items-center justify-end w-full">
