@@ -29,7 +29,6 @@ export const handler = async (
     return { data: { registrationId: updated.id, status: updated.status } };
   } catch (error) {
     console.error("Erreur toggle status:", error);
-    await prisma.$disconnect();
     return { error: "Erreur toggle status" };
   }
 };

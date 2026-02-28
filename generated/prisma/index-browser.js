@@ -147,6 +147,20 @@ exports.Prisma.VolunteerScalarFieldEnum = {
   isActive: 'isActive'
 };
 
+exports.Prisma.AlumnoScalarFieldEnum = {
+  id: 'id',
+  apellidos: 'apellidos',
+  nombre: 'nombre',
+  fechaNacimiento: 'fechaNacimiento',
+  sexo: 'sexo',
+  dni: 'dni',
+  colegio: 'colegio',
+  nivel: 'nivel',
+  fechaMatricula: 'fechaMatricula',
+  escuelita: 'escuelita',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.VolunteerRegistrationScalarFieldEnum = {
   id: 'id',
   volunteerId: 'volunteerId',
@@ -174,6 +188,16 @@ exports.SessionTypes = exports.$Enums.SessionTypes = {
   OTHER: 'OTHER'
 };
 
+exports.Sexo = exports.$Enums.Sexo = {
+  M: 'M',
+  F: 'F'
+};
+
+exports.Escuelita = exports.$Enums.Escuelita = {
+  Peruanidad: 'Peruanidad',
+  Valle_Ecologico: 'Valle_Ecologico'
+};
+
 exports.RegistrationStatus = exports.$Enums.RegistrationStatus = {
   PENDING: 'PENDING',
   CONFIRMED: 'CONFIRMED',
@@ -184,6 +208,7 @@ exports.RegistrationStatus = exports.$Enums.RegistrationStatus = {
 exports.Prisma.ModelName = {
   VolunteerSession: 'VolunteerSession',
   Volunteer: 'Volunteer',
+  Alumno: 'Alumno',
   VolunteerRegistration: 'VolunteerRegistration'
 };
 

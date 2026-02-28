@@ -21,16 +21,16 @@ const Navbar = async () => {
           Hola {user?.firstName} !
         </span>
 
-        <div className="flex-1 flex items-center justify-end w-full gap-10">
+        <div className="flex-1 flex items-center justify-end w-full gap-5">
           <Link
             href="/activity"
-            className="hidden md:block px-5 py-2.5 bg-myzinc text-white font-semibold rounded-lg"
+            className="hidden md:block px-5 py-2 bg-myzinc text-white font-semibold rounded-lg"
           >
             Mi actividad
           </Link>
           <Link
             href="/profil"
-            className="hidden md:block px-5 py-2.5 bg-myzinc text-white font-semibold rounded-lg"
+            className="hidden md:block px-5 py-2 bg-myzinc text-white font-semibold rounded-lg"
           >
             Mi perfil
           </Link>

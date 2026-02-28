@@ -35,13 +35,13 @@ export default function VolunteerProfil() {
           <div className="bg-white rounded-xl p-6 border border-zinc-200 flex flex-col gap-3">
             <h2 className="text-lg font-bold text-myzinc">Mi actividad</h2>
             <div
-              className={`rounded-lg overflow-hidden flex items-center justify-start ${volunteer?.tutoringCount >= 6 ? "bg-mygreen" : "bg-myorange"}`}
+              className={`p-1 rounded-lg overflow-hidden flex items-center justify-start ${volunteer?.tutoringCount >= 6 ? "bg-mygreen" : "bg-myorange"}`}
             >
               <div className="flex-1 text-white p-4 flex items-center gap-2 text-sm font-medium">
                 <i className="fa-solid fa-hand-holding-heart"></i>
                 <span>Tutorías completadas</span>
               </div>
-              <span className="bg-white text-myzinc font-bold p-4 text-lg">
+              <span className="bg-white text-myzinc font-bold p-4 text-lg rounded-md">
                 {volunteer?.tutoringCount ?? 0}
               </span>
             </div>

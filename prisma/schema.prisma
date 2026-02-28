@@ -12,8 +12,19 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum Sexo {
+  M
+  F
+}
+
+enum Escuelita {
+  Peruanidad
+  Valle_Ecologico
 }
 
 enum RegistrationStatus {
@@ -55,6 +66,20 @@ model Volunteer {
   isLeader      Boolean                 @default(false)
   isActive      Boolean                 @default(false)
   registrations VolunteerRegistration[] // relation vers la table de liaison
+}
+
+model Alumno {
+  id             Int       @id @default(autoincrement())
+  apellidos      String
+  nombre         String
+  fechaNacimiento DateTime
+  sexo           Sexo
+  dni            Int       @unique
+  colegio        String
+  nivel          String
+  fechaMatricula DateTime  @default(now())
+  escuelita      Escuelita
+  createdAt      DateTime  @default(now())
 }
 
 model VolunteerRegistration {

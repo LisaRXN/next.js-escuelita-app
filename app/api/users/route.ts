@@ -2,10 +2,12 @@ import { prisma } from "@/lib/prisma";
 import { Prisma, RegistrationStatus, SessionTypes, Volunteer } from "@/generated/prisma";
 import { NextRequest } from "next/server";
 
-type SortableColumn = 'firstName' | 'lastName' | 'email' | 'createdAt';
+type SortableColumn = "firstName" | "lastName" | "email" | "createdAt";
+
+const PAGE_SIZE = 20;
 
 export async function GET(req: NextRequest) {
-  
+
   const searchParams = req.nextUrl.searchParams;
 
   // Filtres
@@ -13,6 +15,8 @@ export async function GET(req: NextRequest) {
   const isActiveParam = searchParams.get("isActive");
   const search = searchParams.get("search");
   const sortBy = searchParams.get("sortBy");
+  const page = Math.max(1, parseInt(searchParams.get("page") ?? "1", 10));
+  const skip = (page - 1) * PAGE_SIZE;
 
   const where: Prisma.VolunteerWhereInput = {};
   const orderBy: Prisma.VolunteerOrderByWithRelationInput = {};
@@ -34,23 +38,30 @@ export async function GET(req: NextRequest) {
   }
 
     // ✅ Logique de tri
-    if (sortBy && ['firstName', 'lastName', 'email'].includes(sortBy as SortableColumn)) {
-      orderBy[sortBy as SortableColumn] = 'asc';
-      
+    if (sortBy && ["firstName", "lastName", "email"].includes(sortBy as SortableColumn)) {
+      orderBy[sortBy as SortableColumn] = "asc";
+
     }else {
-        orderBy.createdAt = 'desc';
+        orderBy.createdAt = "desc";
     }
 
-  const users = await prisma.volunteer.findMany({
-    where,
-    orderBy,
-  });
+  const [users, total] = await Promise.all([
+    prisma.volunteer.findMany({
+      where,
+      orderBy,
+      skip,
+      take: PAGE_SIZE,
+    }),
+    prisma.volunteer.count({ where }),
+  ]);
+
+  const totalPages = Math.ceil(total / PAGE_SIZE);
 
   if (!withCounts) {
-    return Response.json(users);
+    return Response.json({ data: users, total, totalPages, page });
   }
 
-  // ✅ Ajoute le count à chacun — tout d’un coup
+  // ✅ Ajoute le count à chacun — tout d"un coup
   const usersWithCounts = await Promise.all(
 
     users.map(async (u:Volunteer) => {
@@ -71,7 +82,7 @@ export async function GET(req: NextRequest) {
     })
   );
 
-  return Response.json(usersWithCounts);
+  return Response.json({ data: usersWithCounts, total, totalPages, page });
 }
 
 

@@ -120,7 +120,7 @@ export default function ProfilForm({
           placeholder="@miusuario"
           className="w-full border rounded p-2 bg-zinc-50 text-myzinc"
         />
-        <div className="py-2 flex items-start justify-start gap-2">
+        <div className="py-2 flex items-center justify-start gap-2">
           <i className="fa-solid fa-circle-info text-mygray text-lg"></i>
           <p className="text-sm text-mygray">
             Déjala solo si aceptas que te etiquetemos en nuestras publicaciones

@@ -66,7 +66,6 @@ export const handler = async (data: InputType): Promise<ReturnType> => {
     };
   } catch (error) {
     console.error("Error creando el voluntario:", error);
-    await prisma.$disconnect();
     return { error: "Error creando tu perfil" };
   }
 };

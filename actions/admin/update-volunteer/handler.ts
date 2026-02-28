@@ -43,7 +43,6 @@ export const handler = async (data: InputType): Promise<ReturnType> => {
     };
   } catch (error) {
     console.error("Error updating volunteer:", error);
-    await prisma.$disconnect();
     return { error: "Failed to update volunteer" };
   }
 };

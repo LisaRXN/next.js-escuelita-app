@@ -50,7 +50,6 @@ export const handler = async (data: InputType): Promise<ReturnType> => {
     };
   } catch (error) {
     console.error("Error updating session:", error);
-    await prisma.$disconnect();
     return { error: "Failed to update session" };
   }
 };

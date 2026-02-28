@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import UserList from "@/components/admin/UserList";
 import UserListMobile from "@/components/admin/UserListMobile";
 import FilterBar from "./_components/FilterBar";
+import Pagination from "./_components/Pagination";
 import { VolunteerWithTutoringCount } from "@/type";
 import { useFetchUsers } from '@/hooks/use-fetch-users';
 
@@ -11,9 +12,16 @@ export default function UsersPage() {
   const [search, setSearch] = useState("");
   const [sortBy, setSortBy] = useState<string>("createdAt");
   const [isActive, setIsActive] = useState<string>("");
+  const [page, setPage] = useState(1);
   const [isMobile, setIsMobile] = useState(false);
 
-  const { data: volunteers, isLoading } = useFetchUsers(search, isActive, sortBy);
+  const { data, isLoading } = useFetchUsers(search, isActive, sortBy, page);
+  const volunteers = data?.data;
+
+  // Remet à la page 1 quand les filtres changent
+  useEffect(() => {
+    setPage(1);
+  }, [search, isActive, sortBy]);
 
   useEffect(() => {
     setIsMobile(window.innerWidth < 1000);
@@ -54,6 +62,12 @@ export default function UsersPage() {
                 <UserListMobile key={user.id} user={user} users={volunteers} />
               ))
             )}
+            <Pagination
+              page={page}
+              totalPages={data?.totalPages ?? 1}
+              total={data?.total ?? 0}
+              onPageChange={setPage}
+            />
           </div>
         )}
       </main>
