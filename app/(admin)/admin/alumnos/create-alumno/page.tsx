@@ -147,12 +147,28 @@ export default function CreateAlumnoPage() {
           </div>
           <div>
             <label className="block font-medium mb-2">Nivel*</label>
-            <input
+            <select
               value={formData.nivel}
               onChange={(e) => handleChange("nivel", e.target.value)}
-              placeholder="Ej: Primaria, Secundaria..."
               className="w-full border rounded p-2 bg-zinc-50"
-            />
+            >
+              <option value="">Seleccionar...</option>
+              <option value="Nido">Nido</option>
+              <optgroup label="Primaria">
+                <option value="Primaria 1°">Primaria 1°</option>
+                <option value="Primaria 2°">Primaria 2°</option>
+                <option value="Primaria 3°">Primaria 3°</option>
+                <option value="Primaria 4°">Primaria 4°</option>
+                <option value="Primaria 5°">Primaria 5°</option>
+              </optgroup>
+              <optgroup label="Secundaria">
+                <option value="Secundaria 1°">Secundaria 1°</option>
+                <option value="Secundaria 2°">Secundaria 2°</option>
+                <option value="Secundaria 3°">Secundaria 3°</option>
+                <option value="Secundaria 4°">Secundaria 4°</option>
+                <option value="Secundaria 5°">Secundaria 5°</option>
+              </optgroup>
+            </select>
             <FormErrors id="nivel" errors={fieldErrors} />
           </div>
         </div>

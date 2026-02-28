@@ -29,10 +29,10 @@ const AdminNavbar = async () => {
           Crear evento
         </Link>
         <Link
-          href="/admin/alumnos/create-alumno"
-          className="text-sm px-4 py-2 bg-myorange text-white font-semibold rounded-md"
+          href="/admin/alumnos"
+          className="text-sm px-4 py-2 bg-myzinc text-white font-semibold rounded-md"
         >
-          Crear alumno
+          Los alumnos
         </Link>
         <Link
           href="/admin/users"
