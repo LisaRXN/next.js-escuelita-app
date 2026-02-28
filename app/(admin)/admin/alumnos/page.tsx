@@ -1,34 +1,23 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { fetcher } from "@/lib/fetcher";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import AlumnosFilterBar from "./_components/AlumnosFilterBar";
-import AlumnoModal from "@/components/modals/AlumnoModal";
 import { Alumno } from "@/generated/prisma";
 
 export default function AlumnosPage() {
+  const router = useRouter();
   const [search, setSearch] = useState("");
   const [nivel, setNivel] = useState("");
   const [escuelita, setEscuelita] = useState("");
-  const [selectedAlumno, setSelectedAlumno] = useState<Alumno | null>(null);
   const [page, setPage] = useState(1);
-  const dialogRef = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
     setPage(1);
   }, [search, nivel, escuelita]);
-
-  const handleOpenModal = (alumno: Alumno) => {
-    setSelectedAlumno(alumno);
-    dialogRef.current?.showModal();
-  };
-
-  const handleCloseModal = () => {
-    setSelectedAlumno(null);
-    dialogRef.current?.close();
-  };
 
   const params = new URLSearchParams();
   if (search) params.set("search", search);
@@ -103,7 +92,7 @@ export default function AlumnosPage() {
                   {alumnos.map((alumno, i) => (
                     <tr
                       key={alumno.id}
-                      onClick={() => handleOpenModal(alumno)}
+                      onClick={() => router.push(`/admin/alumnos/${alumno.id}`)}
                       className={`cursor-pointer hover:bg-zinc-100 transition ${i % 2 === 0 ? "bg-white" : "bg-zinc-50"}`}
                     >
                       <td className="px-4 py-3 font-medium">{alumno.nombre}</td>
@@ -140,7 +129,7 @@ export default function AlumnosPage() {
               {alumnos.map((alumno) => (
                 <div
                   key={alumno.id}
-                  onClick={() => handleOpenModal(alumno)}
+                  onClick={() => router.push(`/admin/alumnos/${alumno.id}`)}
                   className="bg-white rounded-xl p-4 flex flex-col gap-2 text-myzinc text-sm cursor-pointer hover:bg-zinc-50 transition"
                 >
                   <div className="flex items-center justify-between">
@@ -197,13 +186,6 @@ export default function AlumnosPage() {
         )}
       </main>
 
-      {selectedAlumno && (
-        <AlumnoModal
-          alumno={selectedAlumno}
-          dialogRef={dialogRef}
-          onClose={handleCloseModal}
-        />
-      )}
     </>
   );
 }

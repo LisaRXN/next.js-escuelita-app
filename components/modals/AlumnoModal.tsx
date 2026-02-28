@@ -22,9 +22,10 @@ interface AlumnoModalProps {
   alumno: Alumno;
   dialogRef: RefObject<HTMLDialogElement | null>;
   onClose: () => void;
+  onDelete?: () => void;
 }
 
-const AlumnoModal = ({ alumno, dialogRef, onClose }: AlumnoModalProps) => {
+const AlumnoModal = ({ alumno, dialogRef, onClose, onDelete }: AlumnoModalProps) => {
   const queryClient = useQueryClient();
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [activeTab, setActiveTab] = useState<"info" | "historial">("info");
@@ -66,7 +67,7 @@ const AlumnoModal = ({ alumno, dialogRef, onClose }: AlumnoModalProps) => {
     onSuccess: () => {
       toast.success("Alumno eliminado");
       queryClient.invalidateQueries({ queryKey: ["alumnos"] });
-      onClose();
+      onDelete ? onDelete() : onClose();
     },
     onError: (error) => toast.error(error),
   });
