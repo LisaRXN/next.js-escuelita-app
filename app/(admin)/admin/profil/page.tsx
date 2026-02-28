@@ -3,7 +3,7 @@
 import { useAuth } from "@clerk/nextjs";
 import { useQuery } from "@tanstack/react-query";
 import { fetcher } from "@/lib/fetcher";
-import ProfilForm from "../../(volunteer)/profil/_components/ProfilForm";
+import ProfilForm from "@/app/(volunteer)/profil/_components/ProfilForm";
 
 export default function AdminProfil() {
   const { isLoaded, userId } = useAuth();
