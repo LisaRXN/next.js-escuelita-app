@@ -4,6 +4,7 @@ import { auth } from "@clerk/nextjs/server";
 import { prisma } from "@/lib/prisma";
 import { InputType, ReturnType } from "./types";
 import { revalidatePath } from "next/cache";
+import { isAdmin as checkIsAdmin } from "@/lib/is-admin";
 
 export const handler = async (
   { volunteerId, isAdmin } : InputType
@@ -11,6 +12,8 @@ export const handler = async (
   const { userId } = await auth();
   if (!userId) return { error: "Non autorisé" };
 
+  const authorized = await checkIsAdmin(userId);
+  if (!authorized) return { error: "Non autorisé" };
 
   try {
     const updated = await prisma.volunteer.update({
@@ -24,7 +27,6 @@ export const handler = async (
     return { data: { volunteerId: updated.id, isAdmin: updated.isAdmin ?? false } };
   } catch (error) {
     console.error("Erreur toggle active:", error);
-    await prisma.$disconnect();
     return { error: "Échec de la mise à jour" };
   }
 };

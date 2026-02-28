@@ -58,7 +58,6 @@ const fixedDate = DateTime.fromISO(date, { zone: "utc" }).toJSDate();
   } catch (error) {
     console.error("Error creating session:", error);
     console.error("Full error details:", JSON.stringify(error, null, 2));
-    await prisma.$disconnect();
     return { error: "Failed to create session" };
   }
 };

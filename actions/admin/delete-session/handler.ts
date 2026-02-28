@@ -31,7 +31,6 @@ export const handler = async (data: InputType): Promise<ReturnType> => {
     return { data: session };
   } catch (error) {
     console.error(error);
-    await prisma.$disconnect();
     return { error: "Erreur lors de la suppression de la session" };
   }
 };

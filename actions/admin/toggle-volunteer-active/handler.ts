@@ -30,7 +30,6 @@ export const handler = async (
     return { data: { volunteerId: updated.id, isActive: updated.isActive ?? false } };
   } catch (error) {
     console.error("Erreur toggle active:", error);
-    await prisma.$disconnect();
     return { error: "Échec de la mise à jour" };
   }
 };

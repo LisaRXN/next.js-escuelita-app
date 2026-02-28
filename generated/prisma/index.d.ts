@@ -24,6 +24,16 @@ export type VolunteerSession = $Result.DefaultSelection<Prisma.$VolunteerSession
  */
 export type Volunteer = $Result.DefaultSelection<Prisma.$VolunteerPayload>
 /**
+ * Model Alumno
+ * 
+ */
+export type Alumno = $Result.DefaultSelection<Prisma.$AlumnoPayload>
+/**
+ * Model Seguimiento
+ * 
+ */
+export type Seguimiento = $Result.DefaultSelection<Prisma.$SeguimientoPayload>
+/**
  * Model VolunteerRegistration
  * 
  */
@@ -33,7 +43,34 @@ export type VolunteerRegistration = $Result.DefaultSelection<Prisma.$VolunteerRe
  * Enums
  */
 export namespace $Enums {
-  export const RegistrationStatus: {
+  export const Sexo: {
+  M: 'M',
+  F: 'F'
+};
+
+export type Sexo = (typeof Sexo)[keyof typeof Sexo]
+
+
+export const Escuelita: {
+  Peruanidad: 'Peruanidad',
+  Valle_Ecologico: 'Valle_Ecologico'
+};
+
+export type Escuelita = (typeof Escuelita)[keyof typeof Escuelita]
+
+
+export const Calificacion: {
+  Excelente: 'Excelente',
+  Bueno: 'Bueno',
+  Regular: 'Regular',
+  Con_dificultad: 'Con_dificultad',
+  Con_mucha_dificultad: 'Con_mucha_dificultad'
+};
+
+export type Calificacion = (typeof Calificacion)[keyof typeof Calificacion]
+
+
+export const RegistrationStatus: {
   PENDING: 'PENDING',
   CONFIRMED: 'CONFIRMED',
   CANCELLED: 'CANCELLED',
@@ -51,6 +88,18 @@ export const SessionTypes: {
 export type SessionTypes = (typeof SessionTypes)[keyof typeof SessionTypes]
 
 }
+
+export type Sexo = $Enums.Sexo
+
+export const Sexo: typeof $Enums.Sexo
+
+export type Escuelita = $Enums.Escuelita
+
+export const Escuelita: typeof $Enums.Escuelita
+
+export type Calificacion = $Enums.Calificacion
+
+export const Calificacion: typeof $Enums.Calificacion
 
 export type RegistrationStatus = $Enums.RegistrationStatus
 
@@ -204,6 +253,26 @@ export class PrismaClient<
     * ```
     */
   get volunteer(): Prisma.VolunteerDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.alumno`: Exposes CRUD operations for the **Alumno** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Alumnos
+    * const alumnos = await prisma.alumno.findMany()
+    * ```
+    */
+  get alumno(): Prisma.AlumnoDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.seguimiento`: Exposes CRUD operations for the **Seguimiento** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Seguimientos
+    * const seguimientos = await prisma.seguimiento.findMany()
+    * ```
+    */
+  get seguimiento(): Prisma.SeguimientoDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.volunteerRegistration`: Exposes CRUD operations for the **VolunteerRegistration** model.
@@ -656,6 +725,8 @@ export namespace Prisma {
   export const ModelName: {
     VolunteerSession: 'VolunteerSession',
     Volunteer: 'Volunteer',
+    Alumno: 'Alumno',
+    Seguimiento: 'Seguimiento',
     VolunteerRegistration: 'VolunteerRegistration'
   };
 
@@ -675,7 +746,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "volunteerSession" | "volunteer" | "volunteerRegistration"
+      modelProps: "volunteerSession" | "volunteer" | "alumno" | "seguimiento" | "volunteerRegistration"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -824,6 +895,154 @@ export namespace Prisma {
           count: {
             args: Prisma.VolunteerCountArgs<ExtArgs>
             result: $Utils.Optional<VolunteerCountAggregateOutputType> | number
+          }
+        }
+      }
+      Alumno: {
+        payload: Prisma.$AlumnoPayload<ExtArgs>
+        fields: Prisma.AlumnoFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AlumnoFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AlumnoPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AlumnoFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AlumnoPayload>
+          }
+          findFirst: {
+            args: Prisma.AlumnoFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AlumnoPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AlumnoFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AlumnoPayload>
+          }
+          findMany: {
+            args: Prisma.AlumnoFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AlumnoPayload>[]
+          }
+          create: {
+            args: Prisma.AlumnoCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AlumnoPayload>
+          }
+          createMany: {
+            args: Prisma.AlumnoCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AlumnoCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AlumnoPayload>[]
+          }
+          delete: {
+            args: Prisma.AlumnoDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AlumnoPayload>
+          }
+          update: {
+            args: Prisma.AlumnoUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AlumnoPayload>
+          }
+          deleteMany: {
+            args: Prisma.AlumnoDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AlumnoUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.AlumnoUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AlumnoPayload>[]
+          }
+          upsert: {
+            args: Prisma.AlumnoUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AlumnoPayload>
+          }
+          aggregate: {
+            args: Prisma.AlumnoAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAlumno>
+          }
+          groupBy: {
+            args: Prisma.AlumnoGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AlumnoGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AlumnoCountArgs<ExtArgs>
+            result: $Utils.Optional<AlumnoCountAggregateOutputType> | number
+          }
+        }
+      }
+      Seguimiento: {
+        payload: Prisma.$SeguimientoPayload<ExtArgs>
+        fields: Prisma.SeguimientoFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SeguimientoFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeguimientoPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SeguimientoFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeguimientoPayload>
+          }
+          findFirst: {
+            args: Prisma.SeguimientoFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeguimientoPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SeguimientoFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeguimientoPayload>
+          }
+          findMany: {
+            args: Prisma.SeguimientoFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeguimientoPayload>[]
+          }
+          create: {
+            args: Prisma.SeguimientoCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeguimientoPayload>
+          }
+          createMany: {
+            args: Prisma.SeguimientoCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SeguimientoCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeguimientoPayload>[]
+          }
+          delete: {
+            args: Prisma.SeguimientoDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeguimientoPayload>
+          }
+          update: {
+            args: Prisma.SeguimientoUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeguimientoPayload>
+          }
+          deleteMany: {
+            args: Prisma.SeguimientoDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SeguimientoUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.SeguimientoUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeguimientoPayload>[]
+          }
+          upsert: {
+            args: Prisma.SeguimientoUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeguimientoPayload>
+          }
+          aggregate: {
+            args: Prisma.SeguimientoAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSeguimiento>
+          }
+          groupBy: {
+            args: Prisma.SeguimientoGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SeguimientoGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SeguimientoCountArgs<ExtArgs>
+            result: $Utils.Optional<SeguimientoCountAggregateOutputType> | number
           }
         }
       }
@@ -987,6 +1206,8 @@ export namespace Prisma {
   export type GlobalOmitConfig = {
     volunteerSession?: VolunteerSessionOmit
     volunteer?: VolunteerOmit
+    alumno?: AlumnoOmit
+    seguimiento?: SeguimientoOmit
     volunteerRegistration?: VolunteerRegistrationOmit
   }
 
@@ -1136,6 +1357,37 @@ export namespace Prisma {
    */
   export type VolunteerCountOutputTypeCountRegistrationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: VolunteerRegistrationWhereInput
+  }
+
+
+  /**
+   * Count Type AlumnoCountOutputType
+   */
+
+  export type AlumnoCountOutputType = {
+    seguimientos: number
+  }
+
+  export type AlumnoCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    seguimientos?: boolean | AlumnoCountOutputTypeCountSeguimientosArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * AlumnoCountOutputType without action
+   */
+  export type AlumnoCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AlumnoCountOutputType
+     */
+    select?: AlumnoCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * AlumnoCountOutputType without action
+   */
+  export type AlumnoCountOutputTypeCountSeguimientosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SeguimientoWhereInput
   }
 
 
@@ -3499,6 +3751,2340 @@ export namespace Prisma {
 
 
   /**
+   * Model Alumno
+   */
+
+  export type AggregateAlumno = {
+    _count: AlumnoCountAggregateOutputType | null
+    _avg: AlumnoAvgAggregateOutputType | null
+    _sum: AlumnoSumAggregateOutputType | null
+    _min: AlumnoMinAggregateOutputType | null
+    _max: AlumnoMaxAggregateOutputType | null
+  }
+
+  export type AlumnoAvgAggregateOutputType = {
+    id: number | null
+    dni: number | null
+  }
+
+  export type AlumnoSumAggregateOutputType = {
+    id: number | null
+    dni: number | null
+  }
+
+  export type AlumnoMinAggregateOutputType = {
+    id: number | null
+    apellidos: string | null
+    nombre: string | null
+    fechaNacimiento: Date | null
+    sexo: $Enums.Sexo | null
+    dni: number | null
+    colegio: string | null
+    nivel: string | null
+    fechaMatricula: Date | null
+    escuelita: $Enums.Escuelita | null
+    createdAt: Date | null
+  }
+
+  export type AlumnoMaxAggregateOutputType = {
+    id: number | null
+    apellidos: string | null
+    nombre: string | null
+    fechaNacimiento: Date | null
+    sexo: $Enums.Sexo | null
+    dni: number | null
+    colegio: string | null
+    nivel: string | null
+    fechaMatricula: Date | null
+    escuelita: $Enums.Escuelita | null
+    createdAt: Date | null
+  }
+
+  export type AlumnoCountAggregateOutputType = {
+    id: number
+    apellidos: number
+    nombre: number
+    fechaNacimiento: number
+    sexo: number
+    dni: number
+    colegio: number
+    nivel: number
+    fechaMatricula: number
+    escuelita: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type AlumnoAvgAggregateInputType = {
+    id?: true
+    dni?: true
+  }
+
+  export type AlumnoSumAggregateInputType = {
+    id?: true
+    dni?: true
+  }
+
+  export type AlumnoMinAggregateInputType = {
+    id?: true
+    apellidos?: true
+    nombre?: true
+    fechaNacimiento?: true
+    sexo?: true
+    dni?: true
+    colegio?: true
+    nivel?: true
+    fechaMatricula?: true
+    escuelita?: true
+    createdAt?: true
+  }
+
+  export type AlumnoMaxAggregateInputType = {
+    id?: true
+    apellidos?: true
+    nombre?: true
+    fechaNacimiento?: true
+    sexo?: true
+    dni?: true
+    colegio?: true
+    nivel?: true
+    fechaMatricula?: true
+    escuelita?: true
+    createdAt?: true
+  }
+
+  export type AlumnoCountAggregateInputType = {
+    id?: true
+    apellidos?: true
+    nombre?: true
+    fechaNacimiento?: true
+    sexo?: true
+    dni?: true
+    colegio?: true
+    nivel?: true
+    fechaMatricula?: true
+    escuelita?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type AlumnoAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Alumno to aggregate.
+     */
+    where?: AlumnoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Alumnos to fetch.
+     */
+    orderBy?: AlumnoOrderByWithRelationInput | AlumnoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AlumnoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Alumnos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Alumnos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Alumnos
+    **/
+    _count?: true | AlumnoCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: AlumnoAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: AlumnoSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AlumnoMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AlumnoMaxAggregateInputType
+  }
+
+  export type GetAlumnoAggregateType<T extends AlumnoAggregateArgs> = {
+        [P in keyof T & keyof AggregateAlumno]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAlumno[P]>
+      : GetScalarType<T[P], AggregateAlumno[P]>
+  }
+
+
+
+
+  export type AlumnoGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AlumnoWhereInput
+    orderBy?: AlumnoOrderByWithAggregationInput | AlumnoOrderByWithAggregationInput[]
+    by: AlumnoScalarFieldEnum[] | AlumnoScalarFieldEnum
+    having?: AlumnoScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AlumnoCountAggregateInputType | true
+    _avg?: AlumnoAvgAggregateInputType
+    _sum?: AlumnoSumAggregateInputType
+    _min?: AlumnoMinAggregateInputType
+    _max?: AlumnoMaxAggregateInputType
+  }
+
+  export type AlumnoGroupByOutputType = {
+    id: number
+    apellidos: string
+    nombre: string
+    fechaNacimiento: Date
+    sexo: $Enums.Sexo
+    dni: number
+    colegio: string
+    nivel: string
+    fechaMatricula: Date
+    escuelita: $Enums.Escuelita
+    createdAt: Date
+    _count: AlumnoCountAggregateOutputType | null
+    _avg: AlumnoAvgAggregateOutputType | null
+    _sum: AlumnoSumAggregateOutputType | null
+    _min: AlumnoMinAggregateOutputType | null
+    _max: AlumnoMaxAggregateOutputType | null
+  }
+
+  type GetAlumnoGroupByPayload<T extends AlumnoGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AlumnoGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AlumnoGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AlumnoGroupByOutputType[P]>
+            : GetScalarType<T[P], AlumnoGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AlumnoSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    apellidos?: boolean
+    nombre?: boolean
+    fechaNacimiento?: boolean
+    sexo?: boolean
+    dni?: boolean
+    colegio?: boolean
+    nivel?: boolean
+    fechaMatricula?: boolean
+    escuelita?: boolean
+    createdAt?: boolean
+    seguimientos?: boolean | Alumno$seguimientosArgs<ExtArgs>
+    _count?: boolean | AlumnoCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["alumno"]>
+
+  export type AlumnoSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    apellidos?: boolean
+    nombre?: boolean
+    fechaNacimiento?: boolean
+    sexo?: boolean
+    dni?: boolean
+    colegio?: boolean
+    nivel?: boolean
+    fechaMatricula?: boolean
+    escuelita?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["alumno"]>
+
+  export type AlumnoSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    apellidos?: boolean
+    nombre?: boolean
+    fechaNacimiento?: boolean
+    sexo?: boolean
+    dni?: boolean
+    colegio?: boolean
+    nivel?: boolean
+    fechaMatricula?: boolean
+    escuelita?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["alumno"]>
+
+  export type AlumnoSelectScalar = {
+    id?: boolean
+    apellidos?: boolean
+    nombre?: boolean
+    fechaNacimiento?: boolean
+    sexo?: boolean
+    dni?: boolean
+    colegio?: boolean
+    nivel?: boolean
+    fechaMatricula?: boolean
+    escuelita?: boolean
+    createdAt?: boolean
+  }
+
+  export type AlumnoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "apellidos" | "nombre" | "fechaNacimiento" | "sexo" | "dni" | "colegio" | "nivel" | "fechaMatricula" | "escuelita" | "createdAt", ExtArgs["result"]["alumno"]>
+  export type AlumnoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    seguimientos?: boolean | Alumno$seguimientosArgs<ExtArgs>
+    _count?: boolean | AlumnoCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type AlumnoIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type AlumnoIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $AlumnoPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Alumno"
+    objects: {
+      seguimientos: Prisma.$SeguimientoPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      apellidos: string
+      nombre: string
+      fechaNacimiento: Date
+      sexo: $Enums.Sexo
+      dni: number
+      colegio: string
+      nivel: string
+      fechaMatricula: Date
+      escuelita: $Enums.Escuelita
+      createdAt: Date
+    }, ExtArgs["result"]["alumno"]>
+    composites: {}
+  }
+
+  type AlumnoGetPayload<S extends boolean | null | undefined | AlumnoDefaultArgs> = $Result.GetResult<Prisma.$AlumnoPayload, S>
+
+  type AlumnoCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AlumnoFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AlumnoCountAggregateInputType | true
+    }
+
+  export interface AlumnoDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Alumno'], meta: { name: 'Alumno' } }
+    /**
+     * Find zero or one Alumno that matches the filter.
+     * @param {AlumnoFindUniqueArgs} args - Arguments to find a Alumno
+     * @example
+     * // Get one Alumno
+     * const alumno = await prisma.alumno.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AlumnoFindUniqueArgs>(args: SelectSubset<T, AlumnoFindUniqueArgs<ExtArgs>>): Prisma__AlumnoClient<$Result.GetResult<Prisma.$AlumnoPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Alumno that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {AlumnoFindUniqueOrThrowArgs} args - Arguments to find a Alumno
+     * @example
+     * // Get one Alumno
+     * const alumno = await prisma.alumno.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AlumnoFindUniqueOrThrowArgs>(args: SelectSubset<T, AlumnoFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AlumnoClient<$Result.GetResult<Prisma.$AlumnoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Alumno that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AlumnoFindFirstArgs} args - Arguments to find a Alumno
+     * @example
+     * // Get one Alumno
+     * const alumno = await prisma.alumno.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AlumnoFindFirstArgs>(args?: SelectSubset<T, AlumnoFindFirstArgs<ExtArgs>>): Prisma__AlumnoClient<$Result.GetResult<Prisma.$AlumnoPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Alumno that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AlumnoFindFirstOrThrowArgs} args - Arguments to find a Alumno
+     * @example
+     * // Get one Alumno
+     * const alumno = await prisma.alumno.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AlumnoFindFirstOrThrowArgs>(args?: SelectSubset<T, AlumnoFindFirstOrThrowArgs<ExtArgs>>): Prisma__AlumnoClient<$Result.GetResult<Prisma.$AlumnoPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Alumnos that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AlumnoFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Alumnos
+     * const alumnos = await prisma.alumno.findMany()
+     * 
+     * // Get first 10 Alumnos
+     * const alumnos = await prisma.alumno.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const alumnoWithIdOnly = await prisma.alumno.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AlumnoFindManyArgs>(args?: SelectSubset<T, AlumnoFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AlumnoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Alumno.
+     * @param {AlumnoCreateArgs} args - Arguments to create a Alumno.
+     * @example
+     * // Create one Alumno
+     * const Alumno = await prisma.alumno.create({
+     *   data: {
+     *     // ... data to create a Alumno
+     *   }
+     * })
+     * 
+     */
+    create<T extends AlumnoCreateArgs>(args: SelectSubset<T, AlumnoCreateArgs<ExtArgs>>): Prisma__AlumnoClient<$Result.GetResult<Prisma.$AlumnoPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Alumnos.
+     * @param {AlumnoCreateManyArgs} args - Arguments to create many Alumnos.
+     * @example
+     * // Create many Alumnos
+     * const alumno = await prisma.alumno.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AlumnoCreateManyArgs>(args?: SelectSubset<T, AlumnoCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Alumnos and returns the data saved in the database.
+     * @param {AlumnoCreateManyAndReturnArgs} args - Arguments to create many Alumnos.
+     * @example
+     * // Create many Alumnos
+     * const alumno = await prisma.alumno.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Alumnos and only return the `id`
+     * const alumnoWithIdOnly = await prisma.alumno.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AlumnoCreateManyAndReturnArgs>(args?: SelectSubset<T, AlumnoCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AlumnoPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Alumno.
+     * @param {AlumnoDeleteArgs} args - Arguments to delete one Alumno.
+     * @example
+     * // Delete one Alumno
+     * const Alumno = await prisma.alumno.delete({
+     *   where: {
+     *     // ... filter to delete one Alumno
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AlumnoDeleteArgs>(args: SelectSubset<T, AlumnoDeleteArgs<ExtArgs>>): Prisma__AlumnoClient<$Result.GetResult<Prisma.$AlumnoPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Alumno.
+     * @param {AlumnoUpdateArgs} args - Arguments to update one Alumno.
+     * @example
+     * // Update one Alumno
+     * const alumno = await prisma.alumno.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AlumnoUpdateArgs>(args: SelectSubset<T, AlumnoUpdateArgs<ExtArgs>>): Prisma__AlumnoClient<$Result.GetResult<Prisma.$AlumnoPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Alumnos.
+     * @param {AlumnoDeleteManyArgs} args - Arguments to filter Alumnos to delete.
+     * @example
+     * // Delete a few Alumnos
+     * const { count } = await prisma.alumno.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AlumnoDeleteManyArgs>(args?: SelectSubset<T, AlumnoDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Alumnos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AlumnoUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Alumnos
+     * const alumno = await prisma.alumno.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AlumnoUpdateManyArgs>(args: SelectSubset<T, AlumnoUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Alumnos and returns the data updated in the database.
+     * @param {AlumnoUpdateManyAndReturnArgs} args - Arguments to update many Alumnos.
+     * @example
+     * // Update many Alumnos
+     * const alumno = await prisma.alumno.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Alumnos and only return the `id`
+     * const alumnoWithIdOnly = await prisma.alumno.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends AlumnoUpdateManyAndReturnArgs>(args: SelectSubset<T, AlumnoUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AlumnoPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Alumno.
+     * @param {AlumnoUpsertArgs} args - Arguments to update or create a Alumno.
+     * @example
+     * // Update or create a Alumno
+     * const alumno = await prisma.alumno.upsert({
+     *   create: {
+     *     // ... data to create a Alumno
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Alumno we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AlumnoUpsertArgs>(args: SelectSubset<T, AlumnoUpsertArgs<ExtArgs>>): Prisma__AlumnoClient<$Result.GetResult<Prisma.$AlumnoPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Alumnos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AlumnoCountArgs} args - Arguments to filter Alumnos to count.
+     * @example
+     * // Count the number of Alumnos
+     * const count = await prisma.alumno.count({
+     *   where: {
+     *     // ... the filter for the Alumnos we want to count
+     *   }
+     * })
+    **/
+    count<T extends AlumnoCountArgs>(
+      args?: Subset<T, AlumnoCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AlumnoCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Alumno.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AlumnoAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AlumnoAggregateArgs>(args: Subset<T, AlumnoAggregateArgs>): Prisma.PrismaPromise<GetAlumnoAggregateType<T>>
+
+    /**
+     * Group by Alumno.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AlumnoGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AlumnoGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AlumnoGroupByArgs['orderBy'] }
+        : { orderBy?: AlumnoGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AlumnoGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAlumnoGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Alumno model
+   */
+  readonly fields: AlumnoFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Alumno.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AlumnoClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    seguimientos<T extends Alumno$seguimientosArgs<ExtArgs> = {}>(args?: Subset<T, Alumno$seguimientosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SeguimientoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Alumno model
+   */
+  interface AlumnoFieldRefs {
+    readonly id: FieldRef<"Alumno", 'Int'>
+    readonly apellidos: FieldRef<"Alumno", 'String'>
+    readonly nombre: FieldRef<"Alumno", 'String'>
+    readonly fechaNacimiento: FieldRef<"Alumno", 'DateTime'>
+    readonly sexo: FieldRef<"Alumno", 'Sexo'>
+    readonly dni: FieldRef<"Alumno", 'Int'>
+    readonly colegio: FieldRef<"Alumno", 'String'>
+    readonly nivel: FieldRef<"Alumno", 'String'>
+    readonly fechaMatricula: FieldRef<"Alumno", 'DateTime'>
+    readonly escuelita: FieldRef<"Alumno", 'Escuelita'>
+    readonly createdAt: FieldRef<"Alumno", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Alumno findUnique
+   */
+  export type AlumnoFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Alumno
+     */
+    select?: AlumnoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Alumno
+     */
+    omit?: AlumnoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AlumnoInclude<ExtArgs> | null
+    /**
+     * Filter, which Alumno to fetch.
+     */
+    where: AlumnoWhereUniqueInput
+  }
+
+  /**
+   * Alumno findUniqueOrThrow
+   */
+  export type AlumnoFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Alumno
+     */
+    select?: AlumnoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Alumno
+     */
+    omit?: AlumnoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AlumnoInclude<ExtArgs> | null
+    /**
+     * Filter, which Alumno to fetch.
+     */
+    where: AlumnoWhereUniqueInput
+  }
+
+  /**
+   * Alumno findFirst
+   */
+  export type AlumnoFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Alumno
+     */
+    select?: AlumnoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Alumno
+     */
+    omit?: AlumnoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AlumnoInclude<ExtArgs> | null
+    /**
+     * Filter, which Alumno to fetch.
+     */
+    where?: AlumnoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Alumnos to fetch.
+     */
+    orderBy?: AlumnoOrderByWithRelationInput | AlumnoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Alumnos.
+     */
+    cursor?: AlumnoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Alumnos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Alumnos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Alumnos.
+     */
+    distinct?: AlumnoScalarFieldEnum | AlumnoScalarFieldEnum[]
+  }
+
+  /**
+   * Alumno findFirstOrThrow
+   */
+  export type AlumnoFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Alumno
+     */
+    select?: AlumnoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Alumno
+     */
+    omit?: AlumnoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AlumnoInclude<ExtArgs> | null
+    /**
+     * Filter, which Alumno to fetch.
+     */
+    where?: AlumnoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Alumnos to fetch.
+     */
+    orderBy?: AlumnoOrderByWithRelationInput | AlumnoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Alumnos.
+     */
+    cursor?: AlumnoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Alumnos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Alumnos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Alumnos.
+     */
+    distinct?: AlumnoScalarFieldEnum | AlumnoScalarFieldEnum[]
+  }
+
+  /**
+   * Alumno findMany
+   */
+  export type AlumnoFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Alumno
+     */
+    select?: AlumnoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Alumno
+     */
+    omit?: AlumnoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AlumnoInclude<ExtArgs> | null
+    /**
+     * Filter, which Alumnos to fetch.
+     */
+    where?: AlumnoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Alumnos to fetch.
+     */
+    orderBy?: AlumnoOrderByWithRelationInput | AlumnoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Alumnos.
+     */
+    cursor?: AlumnoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Alumnos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Alumnos.
+     */
+    skip?: number
+    distinct?: AlumnoScalarFieldEnum | AlumnoScalarFieldEnum[]
+  }
+
+  /**
+   * Alumno create
+   */
+  export type AlumnoCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Alumno
+     */
+    select?: AlumnoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Alumno
+     */
+    omit?: AlumnoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AlumnoInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Alumno.
+     */
+    data: XOR<AlumnoCreateInput, AlumnoUncheckedCreateInput>
+  }
+
+  /**
+   * Alumno createMany
+   */
+  export type AlumnoCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Alumnos.
+     */
+    data: AlumnoCreateManyInput | AlumnoCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Alumno createManyAndReturn
+   */
+  export type AlumnoCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Alumno
+     */
+    select?: AlumnoSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Alumno
+     */
+    omit?: AlumnoOmit<ExtArgs> | null
+    /**
+     * The data used to create many Alumnos.
+     */
+    data: AlumnoCreateManyInput | AlumnoCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Alumno update
+   */
+  export type AlumnoUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Alumno
+     */
+    select?: AlumnoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Alumno
+     */
+    omit?: AlumnoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AlumnoInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Alumno.
+     */
+    data: XOR<AlumnoUpdateInput, AlumnoUncheckedUpdateInput>
+    /**
+     * Choose, which Alumno to update.
+     */
+    where: AlumnoWhereUniqueInput
+  }
+
+  /**
+   * Alumno updateMany
+   */
+  export type AlumnoUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Alumnos.
+     */
+    data: XOR<AlumnoUpdateManyMutationInput, AlumnoUncheckedUpdateManyInput>
+    /**
+     * Filter which Alumnos to update
+     */
+    where?: AlumnoWhereInput
+    /**
+     * Limit how many Alumnos to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Alumno updateManyAndReturn
+   */
+  export type AlumnoUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Alumno
+     */
+    select?: AlumnoSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Alumno
+     */
+    omit?: AlumnoOmit<ExtArgs> | null
+    /**
+     * The data used to update Alumnos.
+     */
+    data: XOR<AlumnoUpdateManyMutationInput, AlumnoUncheckedUpdateManyInput>
+    /**
+     * Filter which Alumnos to update
+     */
+    where?: AlumnoWhereInput
+    /**
+     * Limit how many Alumnos to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Alumno upsert
+   */
+  export type AlumnoUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Alumno
+     */
+    select?: AlumnoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Alumno
+     */
+    omit?: AlumnoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AlumnoInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Alumno to update in case it exists.
+     */
+    where: AlumnoWhereUniqueInput
+    /**
+     * In case the Alumno found by the `where` argument doesn't exist, create a new Alumno with this data.
+     */
+    create: XOR<AlumnoCreateInput, AlumnoUncheckedCreateInput>
+    /**
+     * In case the Alumno was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AlumnoUpdateInput, AlumnoUncheckedUpdateInput>
+  }
+
+  /**
+   * Alumno delete
+   */
+  export type AlumnoDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Alumno
+     */
+    select?: AlumnoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Alumno
+     */
+    omit?: AlumnoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AlumnoInclude<ExtArgs> | null
+    /**
+     * Filter which Alumno to delete.
+     */
+    where: AlumnoWhereUniqueInput
+  }
+
+  /**
+   * Alumno deleteMany
+   */
+  export type AlumnoDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Alumnos to delete
+     */
+    where?: AlumnoWhereInput
+    /**
+     * Limit how many Alumnos to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Alumno.seguimientos
+   */
+  export type Alumno$seguimientosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Seguimiento
+     */
+    select?: SeguimientoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Seguimiento
+     */
+    omit?: SeguimientoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SeguimientoInclude<ExtArgs> | null
+    where?: SeguimientoWhereInput
+    orderBy?: SeguimientoOrderByWithRelationInput | SeguimientoOrderByWithRelationInput[]
+    cursor?: SeguimientoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SeguimientoScalarFieldEnum | SeguimientoScalarFieldEnum[]
+  }
+
+  /**
+   * Alumno without action
+   */
+  export type AlumnoDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Alumno
+     */
+    select?: AlumnoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Alumno
+     */
+    omit?: AlumnoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AlumnoInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Seguimiento
+   */
+
+  export type AggregateSeguimiento = {
+    _count: SeguimientoCountAggregateOutputType | null
+    _avg: SeguimientoAvgAggregateOutputType | null
+    _sum: SeguimientoSumAggregateOutputType | null
+    _min: SeguimientoMinAggregateOutputType | null
+    _max: SeguimientoMaxAggregateOutputType | null
+  }
+
+  export type SeguimientoAvgAggregateOutputType = {
+    id: number | null
+    alumnoId: number | null
+  }
+
+  export type SeguimientoSumAggregateOutputType = {
+    id: number | null
+    alumnoId: number | null
+  }
+
+  export type SeguimientoMinAggregateOutputType = {
+    id: number | null
+    fechaSesion: Date | null
+    escuelita: $Enums.Escuelita | null
+    alumnoId: number | null
+    tema: string | null
+    calificacion: $Enums.Calificacion | null
+    dificultad: string | null
+    observacion: string | null
+    createdAt: Date | null
+  }
+
+  export type SeguimientoMaxAggregateOutputType = {
+    id: number | null
+    fechaSesion: Date | null
+    escuelita: $Enums.Escuelita | null
+    alumnoId: number | null
+    tema: string | null
+    calificacion: $Enums.Calificacion | null
+    dificultad: string | null
+    observacion: string | null
+    createdAt: Date | null
+  }
+
+  export type SeguimientoCountAggregateOutputType = {
+    id: number
+    fechaSesion: number
+    escuelita: number
+    alumnoId: number
+    tema: number
+    calificacion: number
+    dificultad: number
+    observacion: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type SeguimientoAvgAggregateInputType = {
+    id?: true
+    alumnoId?: true
+  }
+
+  export type SeguimientoSumAggregateInputType = {
+    id?: true
+    alumnoId?: true
+  }
+
+  export type SeguimientoMinAggregateInputType = {
+    id?: true
+    fechaSesion?: true
+    escuelita?: true
+    alumnoId?: true
+    tema?: true
+    calificacion?: true
+    dificultad?: true
+    observacion?: true
+    createdAt?: true
+  }
+
+  export type SeguimientoMaxAggregateInputType = {
+    id?: true
+    fechaSesion?: true
+    escuelita?: true
+    alumnoId?: true
+    tema?: true
+    calificacion?: true
+    dificultad?: true
+    observacion?: true
+    createdAt?: true
+  }
+
+  export type SeguimientoCountAggregateInputType = {
+    id?: true
+    fechaSesion?: true
+    escuelita?: true
+    alumnoId?: true
+    tema?: true
+    calificacion?: true
+    dificultad?: true
+    observacion?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type SeguimientoAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Seguimiento to aggregate.
+     */
+    where?: SeguimientoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Seguimientos to fetch.
+     */
+    orderBy?: SeguimientoOrderByWithRelationInput | SeguimientoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SeguimientoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Seguimientos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Seguimientos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Seguimientos
+    **/
+    _count?: true | SeguimientoCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: SeguimientoAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: SeguimientoSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SeguimientoMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SeguimientoMaxAggregateInputType
+  }
+
+  export type GetSeguimientoAggregateType<T extends SeguimientoAggregateArgs> = {
+        [P in keyof T & keyof AggregateSeguimiento]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSeguimiento[P]>
+      : GetScalarType<T[P], AggregateSeguimiento[P]>
+  }
+
+
+
+
+  export type SeguimientoGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SeguimientoWhereInput
+    orderBy?: SeguimientoOrderByWithAggregationInput | SeguimientoOrderByWithAggregationInput[]
+    by: SeguimientoScalarFieldEnum[] | SeguimientoScalarFieldEnum
+    having?: SeguimientoScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SeguimientoCountAggregateInputType | true
+    _avg?: SeguimientoAvgAggregateInputType
+    _sum?: SeguimientoSumAggregateInputType
+    _min?: SeguimientoMinAggregateInputType
+    _max?: SeguimientoMaxAggregateInputType
+  }
+
+  export type SeguimientoGroupByOutputType = {
+    id: number
+    fechaSesion: Date
+    escuelita: $Enums.Escuelita
+    alumnoId: number
+    tema: string
+    calificacion: $Enums.Calificacion
+    dificultad: string
+    observacion: string
+    createdAt: Date
+    _count: SeguimientoCountAggregateOutputType | null
+    _avg: SeguimientoAvgAggregateOutputType | null
+    _sum: SeguimientoSumAggregateOutputType | null
+    _min: SeguimientoMinAggregateOutputType | null
+    _max: SeguimientoMaxAggregateOutputType | null
+  }
+
+  type GetSeguimientoGroupByPayload<T extends SeguimientoGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SeguimientoGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SeguimientoGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SeguimientoGroupByOutputType[P]>
+            : GetScalarType<T[P], SeguimientoGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SeguimientoSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    fechaSesion?: boolean
+    escuelita?: boolean
+    alumnoId?: boolean
+    tema?: boolean
+    calificacion?: boolean
+    dificultad?: boolean
+    observacion?: boolean
+    createdAt?: boolean
+    alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["seguimiento"]>
+
+  export type SeguimientoSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    fechaSesion?: boolean
+    escuelita?: boolean
+    alumnoId?: boolean
+    tema?: boolean
+    calificacion?: boolean
+    dificultad?: boolean
+    observacion?: boolean
+    createdAt?: boolean
+    alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["seguimiento"]>
+
+  export type SeguimientoSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    fechaSesion?: boolean
+    escuelita?: boolean
+    alumnoId?: boolean
+    tema?: boolean
+    calificacion?: boolean
+    dificultad?: boolean
+    observacion?: boolean
+    createdAt?: boolean
+    alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["seguimiento"]>
+
+  export type SeguimientoSelectScalar = {
+    id?: boolean
+    fechaSesion?: boolean
+    escuelita?: boolean
+    alumnoId?: boolean
+    tema?: boolean
+    calificacion?: boolean
+    dificultad?: boolean
+    observacion?: boolean
+    createdAt?: boolean
+  }
+
+  export type SeguimientoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "fechaSesion" | "escuelita" | "alumnoId" | "tema" | "calificacion" | "dificultad" | "observacion" | "createdAt", ExtArgs["result"]["seguimiento"]>
+  export type SeguimientoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+  }
+  export type SeguimientoIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+  }
+  export type SeguimientoIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+  }
+
+  export type $SeguimientoPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Seguimiento"
+    objects: {
+      alumno: Prisma.$AlumnoPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      fechaSesion: Date
+      escuelita: $Enums.Escuelita
+      alumnoId: number
+      tema: string
+      calificacion: $Enums.Calificacion
+      dificultad: string
+      observacion: string
+      createdAt: Date
+    }, ExtArgs["result"]["seguimiento"]>
+    composites: {}
+  }
+
+  type SeguimientoGetPayload<S extends boolean | null | undefined | SeguimientoDefaultArgs> = $Result.GetResult<Prisma.$SeguimientoPayload, S>
+
+  type SeguimientoCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<SeguimientoFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: SeguimientoCountAggregateInputType | true
+    }
+
+  export interface SeguimientoDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Seguimiento'], meta: { name: 'Seguimiento' } }
+    /**
+     * Find zero or one Seguimiento that matches the filter.
+     * @param {SeguimientoFindUniqueArgs} args - Arguments to find a Seguimiento
+     * @example
+     * // Get one Seguimiento
+     * const seguimiento = await prisma.seguimiento.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SeguimientoFindUniqueArgs>(args: SelectSubset<T, SeguimientoFindUniqueArgs<ExtArgs>>): Prisma__SeguimientoClient<$Result.GetResult<Prisma.$SeguimientoPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Seguimiento that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {SeguimientoFindUniqueOrThrowArgs} args - Arguments to find a Seguimiento
+     * @example
+     * // Get one Seguimiento
+     * const seguimiento = await prisma.seguimiento.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SeguimientoFindUniqueOrThrowArgs>(args: SelectSubset<T, SeguimientoFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SeguimientoClient<$Result.GetResult<Prisma.$SeguimientoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Seguimiento that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SeguimientoFindFirstArgs} args - Arguments to find a Seguimiento
+     * @example
+     * // Get one Seguimiento
+     * const seguimiento = await prisma.seguimiento.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SeguimientoFindFirstArgs>(args?: SelectSubset<T, SeguimientoFindFirstArgs<ExtArgs>>): Prisma__SeguimientoClient<$Result.GetResult<Prisma.$SeguimientoPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Seguimiento that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SeguimientoFindFirstOrThrowArgs} args - Arguments to find a Seguimiento
+     * @example
+     * // Get one Seguimiento
+     * const seguimiento = await prisma.seguimiento.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SeguimientoFindFirstOrThrowArgs>(args?: SelectSubset<T, SeguimientoFindFirstOrThrowArgs<ExtArgs>>): Prisma__SeguimientoClient<$Result.GetResult<Prisma.$SeguimientoPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Seguimientos that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SeguimientoFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Seguimientos
+     * const seguimientos = await prisma.seguimiento.findMany()
+     * 
+     * // Get first 10 Seguimientos
+     * const seguimientos = await prisma.seguimiento.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const seguimientoWithIdOnly = await prisma.seguimiento.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SeguimientoFindManyArgs>(args?: SelectSubset<T, SeguimientoFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SeguimientoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Seguimiento.
+     * @param {SeguimientoCreateArgs} args - Arguments to create a Seguimiento.
+     * @example
+     * // Create one Seguimiento
+     * const Seguimiento = await prisma.seguimiento.create({
+     *   data: {
+     *     // ... data to create a Seguimiento
+     *   }
+     * })
+     * 
+     */
+    create<T extends SeguimientoCreateArgs>(args: SelectSubset<T, SeguimientoCreateArgs<ExtArgs>>): Prisma__SeguimientoClient<$Result.GetResult<Prisma.$SeguimientoPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Seguimientos.
+     * @param {SeguimientoCreateManyArgs} args - Arguments to create many Seguimientos.
+     * @example
+     * // Create many Seguimientos
+     * const seguimiento = await prisma.seguimiento.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SeguimientoCreateManyArgs>(args?: SelectSubset<T, SeguimientoCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Seguimientos and returns the data saved in the database.
+     * @param {SeguimientoCreateManyAndReturnArgs} args - Arguments to create many Seguimientos.
+     * @example
+     * // Create many Seguimientos
+     * const seguimiento = await prisma.seguimiento.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Seguimientos and only return the `id`
+     * const seguimientoWithIdOnly = await prisma.seguimiento.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SeguimientoCreateManyAndReturnArgs>(args?: SelectSubset<T, SeguimientoCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SeguimientoPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Seguimiento.
+     * @param {SeguimientoDeleteArgs} args - Arguments to delete one Seguimiento.
+     * @example
+     * // Delete one Seguimiento
+     * const Seguimiento = await prisma.seguimiento.delete({
+     *   where: {
+     *     // ... filter to delete one Seguimiento
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SeguimientoDeleteArgs>(args: SelectSubset<T, SeguimientoDeleteArgs<ExtArgs>>): Prisma__SeguimientoClient<$Result.GetResult<Prisma.$SeguimientoPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Seguimiento.
+     * @param {SeguimientoUpdateArgs} args - Arguments to update one Seguimiento.
+     * @example
+     * // Update one Seguimiento
+     * const seguimiento = await prisma.seguimiento.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SeguimientoUpdateArgs>(args: SelectSubset<T, SeguimientoUpdateArgs<ExtArgs>>): Prisma__SeguimientoClient<$Result.GetResult<Prisma.$SeguimientoPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Seguimientos.
+     * @param {SeguimientoDeleteManyArgs} args - Arguments to filter Seguimientos to delete.
+     * @example
+     * // Delete a few Seguimientos
+     * const { count } = await prisma.seguimiento.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SeguimientoDeleteManyArgs>(args?: SelectSubset<T, SeguimientoDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Seguimientos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SeguimientoUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Seguimientos
+     * const seguimiento = await prisma.seguimiento.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SeguimientoUpdateManyArgs>(args: SelectSubset<T, SeguimientoUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Seguimientos and returns the data updated in the database.
+     * @param {SeguimientoUpdateManyAndReturnArgs} args - Arguments to update many Seguimientos.
+     * @example
+     * // Update many Seguimientos
+     * const seguimiento = await prisma.seguimiento.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Seguimientos and only return the `id`
+     * const seguimientoWithIdOnly = await prisma.seguimiento.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends SeguimientoUpdateManyAndReturnArgs>(args: SelectSubset<T, SeguimientoUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SeguimientoPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Seguimiento.
+     * @param {SeguimientoUpsertArgs} args - Arguments to update or create a Seguimiento.
+     * @example
+     * // Update or create a Seguimiento
+     * const seguimiento = await prisma.seguimiento.upsert({
+     *   create: {
+     *     // ... data to create a Seguimiento
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Seguimiento we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SeguimientoUpsertArgs>(args: SelectSubset<T, SeguimientoUpsertArgs<ExtArgs>>): Prisma__SeguimientoClient<$Result.GetResult<Prisma.$SeguimientoPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Seguimientos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SeguimientoCountArgs} args - Arguments to filter Seguimientos to count.
+     * @example
+     * // Count the number of Seguimientos
+     * const count = await prisma.seguimiento.count({
+     *   where: {
+     *     // ... the filter for the Seguimientos we want to count
+     *   }
+     * })
+    **/
+    count<T extends SeguimientoCountArgs>(
+      args?: Subset<T, SeguimientoCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SeguimientoCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Seguimiento.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SeguimientoAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SeguimientoAggregateArgs>(args: Subset<T, SeguimientoAggregateArgs>): Prisma.PrismaPromise<GetSeguimientoAggregateType<T>>
+
+    /**
+     * Group by Seguimiento.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SeguimientoGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SeguimientoGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SeguimientoGroupByArgs['orderBy'] }
+        : { orderBy?: SeguimientoGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SeguimientoGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSeguimientoGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Seguimiento model
+   */
+  readonly fields: SeguimientoFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Seguimiento.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SeguimientoClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    alumno<T extends AlumnoDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AlumnoDefaultArgs<ExtArgs>>): Prisma__AlumnoClient<$Result.GetResult<Prisma.$AlumnoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Seguimiento model
+   */
+  interface SeguimientoFieldRefs {
+    readonly id: FieldRef<"Seguimiento", 'Int'>
+    readonly fechaSesion: FieldRef<"Seguimiento", 'DateTime'>
+    readonly escuelita: FieldRef<"Seguimiento", 'Escuelita'>
+    readonly alumnoId: FieldRef<"Seguimiento", 'Int'>
+    readonly tema: FieldRef<"Seguimiento", 'String'>
+    readonly calificacion: FieldRef<"Seguimiento", 'Calificacion'>
+    readonly dificultad: FieldRef<"Seguimiento", 'String'>
+    readonly observacion: FieldRef<"Seguimiento", 'String'>
+    readonly createdAt: FieldRef<"Seguimiento", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Seguimiento findUnique
+   */
+  export type SeguimientoFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Seguimiento
+     */
+    select?: SeguimientoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Seguimiento
+     */
+    omit?: SeguimientoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SeguimientoInclude<ExtArgs> | null
+    /**
+     * Filter, which Seguimiento to fetch.
+     */
+    where: SeguimientoWhereUniqueInput
+  }
+
+  /**
+   * Seguimiento findUniqueOrThrow
+   */
+  export type SeguimientoFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Seguimiento
+     */
+    select?: SeguimientoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Seguimiento
+     */
+    omit?: SeguimientoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SeguimientoInclude<ExtArgs> | null
+    /**
+     * Filter, which Seguimiento to fetch.
+     */
+    where: SeguimientoWhereUniqueInput
+  }
+
+  /**
+   * Seguimiento findFirst
+   */
+  export type SeguimientoFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Seguimiento
+     */
+    select?: SeguimientoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Seguimiento
+     */
+    omit?: SeguimientoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SeguimientoInclude<ExtArgs> | null
+    /**
+     * Filter, which Seguimiento to fetch.
+     */
+    where?: SeguimientoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Seguimientos to fetch.
+     */
+    orderBy?: SeguimientoOrderByWithRelationInput | SeguimientoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Seguimientos.
+     */
+    cursor?: SeguimientoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Seguimientos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Seguimientos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Seguimientos.
+     */
+    distinct?: SeguimientoScalarFieldEnum | SeguimientoScalarFieldEnum[]
+  }
+
+  /**
+   * Seguimiento findFirstOrThrow
+   */
+  export type SeguimientoFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Seguimiento
+     */
+    select?: SeguimientoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Seguimiento
+     */
+    omit?: SeguimientoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SeguimientoInclude<ExtArgs> | null
+    /**
+     * Filter, which Seguimiento to fetch.
+     */
+    where?: SeguimientoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Seguimientos to fetch.
+     */
+    orderBy?: SeguimientoOrderByWithRelationInput | SeguimientoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Seguimientos.
+     */
+    cursor?: SeguimientoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Seguimientos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Seguimientos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Seguimientos.
+     */
+    distinct?: SeguimientoScalarFieldEnum | SeguimientoScalarFieldEnum[]
+  }
+
+  /**
+   * Seguimiento findMany
+   */
+  export type SeguimientoFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Seguimiento
+     */
+    select?: SeguimientoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Seguimiento
+     */
+    omit?: SeguimientoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SeguimientoInclude<ExtArgs> | null
+    /**
+     * Filter, which Seguimientos to fetch.
+     */
+    where?: SeguimientoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Seguimientos to fetch.
+     */
+    orderBy?: SeguimientoOrderByWithRelationInput | SeguimientoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Seguimientos.
+     */
+    cursor?: SeguimientoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Seguimientos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Seguimientos.
+     */
+    skip?: number
+    distinct?: SeguimientoScalarFieldEnum | SeguimientoScalarFieldEnum[]
+  }
+
+  /**
+   * Seguimiento create
+   */
+  export type SeguimientoCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Seguimiento
+     */
+    select?: SeguimientoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Seguimiento
+     */
+    omit?: SeguimientoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SeguimientoInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Seguimiento.
+     */
+    data: XOR<SeguimientoCreateInput, SeguimientoUncheckedCreateInput>
+  }
+
+  /**
+   * Seguimiento createMany
+   */
+  export type SeguimientoCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Seguimientos.
+     */
+    data: SeguimientoCreateManyInput | SeguimientoCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Seguimiento createManyAndReturn
+   */
+  export type SeguimientoCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Seguimiento
+     */
+    select?: SeguimientoSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Seguimiento
+     */
+    omit?: SeguimientoOmit<ExtArgs> | null
+    /**
+     * The data used to create many Seguimientos.
+     */
+    data: SeguimientoCreateManyInput | SeguimientoCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SeguimientoIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Seguimiento update
+   */
+  export type SeguimientoUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Seguimiento
+     */
+    select?: SeguimientoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Seguimiento
+     */
+    omit?: SeguimientoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SeguimientoInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Seguimiento.
+     */
+    data: XOR<SeguimientoUpdateInput, SeguimientoUncheckedUpdateInput>
+    /**
+     * Choose, which Seguimiento to update.
+     */
+    where: SeguimientoWhereUniqueInput
+  }
+
+  /**
+   * Seguimiento updateMany
+   */
+  export type SeguimientoUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Seguimientos.
+     */
+    data: XOR<SeguimientoUpdateManyMutationInput, SeguimientoUncheckedUpdateManyInput>
+    /**
+     * Filter which Seguimientos to update
+     */
+    where?: SeguimientoWhereInput
+    /**
+     * Limit how many Seguimientos to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Seguimiento updateManyAndReturn
+   */
+  export type SeguimientoUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Seguimiento
+     */
+    select?: SeguimientoSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Seguimiento
+     */
+    omit?: SeguimientoOmit<ExtArgs> | null
+    /**
+     * The data used to update Seguimientos.
+     */
+    data: XOR<SeguimientoUpdateManyMutationInput, SeguimientoUncheckedUpdateManyInput>
+    /**
+     * Filter which Seguimientos to update
+     */
+    where?: SeguimientoWhereInput
+    /**
+     * Limit how many Seguimientos to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SeguimientoIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Seguimiento upsert
+   */
+  export type SeguimientoUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Seguimiento
+     */
+    select?: SeguimientoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Seguimiento
+     */
+    omit?: SeguimientoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SeguimientoInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Seguimiento to update in case it exists.
+     */
+    where: SeguimientoWhereUniqueInput
+    /**
+     * In case the Seguimiento found by the `where` argument doesn't exist, create a new Seguimiento with this data.
+     */
+    create: XOR<SeguimientoCreateInput, SeguimientoUncheckedCreateInput>
+    /**
+     * In case the Seguimiento was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SeguimientoUpdateInput, SeguimientoUncheckedUpdateInput>
+  }
+
+  /**
+   * Seguimiento delete
+   */
+  export type SeguimientoDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Seguimiento
+     */
+    select?: SeguimientoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Seguimiento
+     */
+    omit?: SeguimientoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SeguimientoInclude<ExtArgs> | null
+    /**
+     * Filter which Seguimiento to delete.
+     */
+    where: SeguimientoWhereUniqueInput
+  }
+
+  /**
+   * Seguimiento deleteMany
+   */
+  export type SeguimientoDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Seguimientos to delete
+     */
+    where?: SeguimientoWhereInput
+    /**
+     * Limit how many Seguimientos to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Seguimiento without action
+   */
+  export type SeguimientoDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Seguimiento
+     */
+    select?: SeguimientoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Seguimiento
+     */
+    omit?: SeguimientoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SeguimientoInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model VolunteerRegistration
    */
 
@@ -4653,6 +7239,38 @@ export namespace Prisma {
   export type VolunteerScalarFieldEnum = (typeof VolunteerScalarFieldEnum)[keyof typeof VolunteerScalarFieldEnum]
 
 
+  export const AlumnoScalarFieldEnum: {
+    id: 'id',
+    apellidos: 'apellidos',
+    nombre: 'nombre',
+    fechaNacimiento: 'fechaNacimiento',
+    sexo: 'sexo',
+    dni: 'dni',
+    colegio: 'colegio',
+    nivel: 'nivel',
+    fechaMatricula: 'fechaMatricula',
+    escuelita: 'escuelita',
+    createdAt: 'createdAt'
+  };
+
+  export type AlumnoScalarFieldEnum = (typeof AlumnoScalarFieldEnum)[keyof typeof AlumnoScalarFieldEnum]
+
+
+  export const SeguimientoScalarFieldEnum: {
+    id: 'id',
+    fechaSesion: 'fechaSesion',
+    escuelita: 'escuelita',
+    alumnoId: 'alumnoId',
+    tema: 'tema',
+    calificacion: 'calificacion',
+    dificultad: 'dificultad',
+    observacion: 'observacion',
+    createdAt: 'createdAt'
+  };
+
+  export type SeguimientoScalarFieldEnum = (typeof SeguimientoScalarFieldEnum)[keyof typeof SeguimientoScalarFieldEnum]
+
+
   export const VolunteerRegistrationScalarFieldEnum: {
     id: 'id',
     volunteerId: 'volunteerId',
@@ -4753,6 +7371,48 @@ export namespace Prisma {
    * Reference to a field of type 'Boolean'
    */
   export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+  /**
+   * Reference to a field of type 'Sexo'
+   */
+  export type EnumSexoFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Sexo'>
+    
+
+
+  /**
+   * Reference to a field of type 'Sexo[]'
+   */
+  export type ListEnumSexoFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Sexo[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Escuelita'
+   */
+  export type EnumEscuelitaFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Escuelita'>
+    
+
+
+  /**
+   * Reference to a field of type 'Escuelita[]'
+   */
+  export type ListEnumEscuelitaFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Escuelita[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Calificacion'
+   */
+  export type EnumCalificacionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Calificacion'>
+    
+
+
+  /**
+   * Reference to a field of type 'Calificacion[]'
+   */
+  export type ListEnumCalificacionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Calificacion[]'>
     
 
 
@@ -4954,6 +7614,170 @@ export namespace Prisma {
     isAdmin?: BoolWithAggregatesFilter<"Volunteer"> | boolean
     isLeader?: BoolWithAggregatesFilter<"Volunteer"> | boolean
     isActive?: BoolWithAggregatesFilter<"Volunteer"> | boolean
+  }
+
+  export type AlumnoWhereInput = {
+    AND?: AlumnoWhereInput | AlumnoWhereInput[]
+    OR?: AlumnoWhereInput[]
+    NOT?: AlumnoWhereInput | AlumnoWhereInput[]
+    id?: IntFilter<"Alumno"> | number
+    apellidos?: StringFilter<"Alumno"> | string
+    nombre?: StringFilter<"Alumno"> | string
+    fechaNacimiento?: DateTimeFilter<"Alumno"> | Date | string
+    sexo?: EnumSexoFilter<"Alumno"> | $Enums.Sexo
+    dni?: IntFilter<"Alumno"> | number
+    colegio?: StringFilter<"Alumno"> | string
+    nivel?: StringFilter<"Alumno"> | string
+    fechaMatricula?: DateTimeFilter<"Alumno"> | Date | string
+    escuelita?: EnumEscuelitaFilter<"Alumno"> | $Enums.Escuelita
+    createdAt?: DateTimeFilter<"Alumno"> | Date | string
+    seguimientos?: SeguimientoListRelationFilter
+  }
+
+  export type AlumnoOrderByWithRelationInput = {
+    id?: SortOrder
+    apellidos?: SortOrder
+    nombre?: SortOrder
+    fechaNacimiento?: SortOrder
+    sexo?: SortOrder
+    dni?: SortOrder
+    colegio?: SortOrder
+    nivel?: SortOrder
+    fechaMatricula?: SortOrder
+    escuelita?: SortOrder
+    createdAt?: SortOrder
+    seguimientos?: SeguimientoOrderByRelationAggregateInput
+  }
+
+  export type AlumnoWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    dni?: number
+    AND?: AlumnoWhereInput | AlumnoWhereInput[]
+    OR?: AlumnoWhereInput[]
+    NOT?: AlumnoWhereInput | AlumnoWhereInput[]
+    apellidos?: StringFilter<"Alumno"> | string
+    nombre?: StringFilter<"Alumno"> | string
+    fechaNacimiento?: DateTimeFilter<"Alumno"> | Date | string
+    sexo?: EnumSexoFilter<"Alumno"> | $Enums.Sexo
+    colegio?: StringFilter<"Alumno"> | string
+    nivel?: StringFilter<"Alumno"> | string
+    fechaMatricula?: DateTimeFilter<"Alumno"> | Date | string
+    escuelita?: EnumEscuelitaFilter<"Alumno"> | $Enums.Escuelita
+    createdAt?: DateTimeFilter<"Alumno"> | Date | string
+    seguimientos?: SeguimientoListRelationFilter
+  }, "id" | "dni">
+
+  export type AlumnoOrderByWithAggregationInput = {
+    id?: SortOrder
+    apellidos?: SortOrder
+    nombre?: SortOrder
+    fechaNacimiento?: SortOrder
+    sexo?: SortOrder
+    dni?: SortOrder
+    colegio?: SortOrder
+    nivel?: SortOrder
+    fechaMatricula?: SortOrder
+    escuelita?: SortOrder
+    createdAt?: SortOrder
+    _count?: AlumnoCountOrderByAggregateInput
+    _avg?: AlumnoAvgOrderByAggregateInput
+    _max?: AlumnoMaxOrderByAggregateInput
+    _min?: AlumnoMinOrderByAggregateInput
+    _sum?: AlumnoSumOrderByAggregateInput
+  }
+
+  export type AlumnoScalarWhereWithAggregatesInput = {
+    AND?: AlumnoScalarWhereWithAggregatesInput | AlumnoScalarWhereWithAggregatesInput[]
+    OR?: AlumnoScalarWhereWithAggregatesInput[]
+    NOT?: AlumnoScalarWhereWithAggregatesInput | AlumnoScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"Alumno"> | number
+    apellidos?: StringWithAggregatesFilter<"Alumno"> | string
+    nombre?: StringWithAggregatesFilter<"Alumno"> | string
+    fechaNacimiento?: DateTimeWithAggregatesFilter<"Alumno"> | Date | string
+    sexo?: EnumSexoWithAggregatesFilter<"Alumno"> | $Enums.Sexo
+    dni?: IntWithAggregatesFilter<"Alumno"> | number
+    colegio?: StringWithAggregatesFilter<"Alumno"> | string
+    nivel?: StringWithAggregatesFilter<"Alumno"> | string
+    fechaMatricula?: DateTimeWithAggregatesFilter<"Alumno"> | Date | string
+    escuelita?: EnumEscuelitaWithAggregatesFilter<"Alumno"> | $Enums.Escuelita
+    createdAt?: DateTimeWithAggregatesFilter<"Alumno"> | Date | string
+  }
+
+  export type SeguimientoWhereInput = {
+    AND?: SeguimientoWhereInput | SeguimientoWhereInput[]
+    OR?: SeguimientoWhereInput[]
+    NOT?: SeguimientoWhereInput | SeguimientoWhereInput[]
+    id?: IntFilter<"Seguimiento"> | number
+    fechaSesion?: DateTimeFilter<"Seguimiento"> | Date | string
+    escuelita?: EnumEscuelitaFilter<"Seguimiento"> | $Enums.Escuelita
+    alumnoId?: IntFilter<"Seguimiento"> | number
+    tema?: StringFilter<"Seguimiento"> | string
+    calificacion?: EnumCalificacionFilter<"Seguimiento"> | $Enums.Calificacion
+    dificultad?: StringFilter<"Seguimiento"> | string
+    observacion?: StringFilter<"Seguimiento"> | string
+    createdAt?: DateTimeFilter<"Seguimiento"> | Date | string
+    alumno?: XOR<AlumnoScalarRelationFilter, AlumnoWhereInput>
+  }
+
+  export type SeguimientoOrderByWithRelationInput = {
+    id?: SortOrder
+    fechaSesion?: SortOrder
+    escuelita?: SortOrder
+    alumnoId?: SortOrder
+    tema?: SortOrder
+    calificacion?: SortOrder
+    dificultad?: SortOrder
+    observacion?: SortOrder
+    createdAt?: SortOrder
+    alumno?: AlumnoOrderByWithRelationInput
+  }
+
+  export type SeguimientoWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: SeguimientoWhereInput | SeguimientoWhereInput[]
+    OR?: SeguimientoWhereInput[]
+    NOT?: SeguimientoWhereInput | SeguimientoWhereInput[]
+    fechaSesion?: DateTimeFilter<"Seguimiento"> | Date | string
+    escuelita?: EnumEscuelitaFilter<"Seguimiento"> | $Enums.Escuelita
+    alumnoId?: IntFilter<"Seguimiento"> | number
+    tema?: StringFilter<"Seguimiento"> | string
+    calificacion?: EnumCalificacionFilter<"Seguimiento"> | $Enums.Calificacion
+    dificultad?: StringFilter<"Seguimiento"> | string
+    observacion?: StringFilter<"Seguimiento"> | string
+    createdAt?: DateTimeFilter<"Seguimiento"> | Date | string
+    alumno?: XOR<AlumnoScalarRelationFilter, AlumnoWhereInput>
+  }, "id">
+
+  export type SeguimientoOrderByWithAggregationInput = {
+    id?: SortOrder
+    fechaSesion?: SortOrder
+    escuelita?: SortOrder
+    alumnoId?: SortOrder
+    tema?: SortOrder
+    calificacion?: SortOrder
+    dificultad?: SortOrder
+    observacion?: SortOrder
+    createdAt?: SortOrder
+    _count?: SeguimientoCountOrderByAggregateInput
+    _avg?: SeguimientoAvgOrderByAggregateInput
+    _max?: SeguimientoMaxOrderByAggregateInput
+    _min?: SeguimientoMinOrderByAggregateInput
+    _sum?: SeguimientoSumOrderByAggregateInput
+  }
+
+  export type SeguimientoScalarWhereWithAggregatesInput = {
+    AND?: SeguimientoScalarWhereWithAggregatesInput | SeguimientoScalarWhereWithAggregatesInput[]
+    OR?: SeguimientoScalarWhereWithAggregatesInput[]
+    NOT?: SeguimientoScalarWhereWithAggregatesInput | SeguimientoScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"Seguimiento"> | number
+    fechaSesion?: DateTimeWithAggregatesFilter<"Seguimiento"> | Date | string
+    escuelita?: EnumEscuelitaWithAggregatesFilter<"Seguimiento"> | $Enums.Escuelita
+    alumnoId?: IntWithAggregatesFilter<"Seguimiento"> | number
+    tema?: StringWithAggregatesFilter<"Seguimiento"> | string
+    calificacion?: EnumCalificacionWithAggregatesFilter<"Seguimiento"> | $Enums.Calificacion
+    dificultad?: StringWithAggregatesFilter<"Seguimiento"> | string
+    observacion?: StringWithAggregatesFilter<"Seguimiento"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Seguimiento"> | Date | string
   }
 
   export type VolunteerRegistrationWhereInput = {
@@ -5206,6 +8030,185 @@ export namespace Prisma {
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
     isLeader?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type AlumnoCreateInput = {
+    apellidos: string
+    nombre: string
+    fechaNacimiento: Date | string
+    sexo: $Enums.Sexo
+    dni: number
+    colegio: string
+    nivel: string
+    fechaMatricula?: Date | string
+    escuelita: $Enums.Escuelita
+    createdAt?: Date | string
+    seguimientos?: SeguimientoCreateNestedManyWithoutAlumnoInput
+  }
+
+  export type AlumnoUncheckedCreateInput = {
+    id?: number
+    apellidos: string
+    nombre: string
+    fechaNacimiento: Date | string
+    sexo: $Enums.Sexo
+    dni: number
+    colegio: string
+    nivel: string
+    fechaMatricula?: Date | string
+    escuelita: $Enums.Escuelita
+    createdAt?: Date | string
+    seguimientos?: SeguimientoUncheckedCreateNestedManyWithoutAlumnoInput
+  }
+
+  export type AlumnoUpdateInput = {
+    apellidos?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    fechaNacimiento?: DateTimeFieldUpdateOperationsInput | Date | string
+    sexo?: EnumSexoFieldUpdateOperationsInput | $Enums.Sexo
+    dni?: IntFieldUpdateOperationsInput | number
+    colegio?: StringFieldUpdateOperationsInput | string
+    nivel?: StringFieldUpdateOperationsInput | string
+    fechaMatricula?: DateTimeFieldUpdateOperationsInput | Date | string
+    escuelita?: EnumEscuelitaFieldUpdateOperationsInput | $Enums.Escuelita
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    seguimientos?: SeguimientoUpdateManyWithoutAlumnoNestedInput
+  }
+
+  export type AlumnoUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    apellidos?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    fechaNacimiento?: DateTimeFieldUpdateOperationsInput | Date | string
+    sexo?: EnumSexoFieldUpdateOperationsInput | $Enums.Sexo
+    dni?: IntFieldUpdateOperationsInput | number
+    colegio?: StringFieldUpdateOperationsInput | string
+    nivel?: StringFieldUpdateOperationsInput | string
+    fechaMatricula?: DateTimeFieldUpdateOperationsInput | Date | string
+    escuelita?: EnumEscuelitaFieldUpdateOperationsInput | $Enums.Escuelita
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    seguimientos?: SeguimientoUncheckedUpdateManyWithoutAlumnoNestedInput
+  }
+
+  export type AlumnoCreateManyInput = {
+    id?: number
+    apellidos: string
+    nombre: string
+    fechaNacimiento: Date | string
+    sexo: $Enums.Sexo
+    dni: number
+    colegio: string
+    nivel: string
+    fechaMatricula?: Date | string
+    escuelita: $Enums.Escuelita
+    createdAt?: Date | string
+  }
+
+  export type AlumnoUpdateManyMutationInput = {
+    apellidos?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    fechaNacimiento?: DateTimeFieldUpdateOperationsInput | Date | string
+    sexo?: EnumSexoFieldUpdateOperationsInput | $Enums.Sexo
+    dni?: IntFieldUpdateOperationsInput | number
+    colegio?: StringFieldUpdateOperationsInput | string
+    nivel?: StringFieldUpdateOperationsInput | string
+    fechaMatricula?: DateTimeFieldUpdateOperationsInput | Date | string
+    escuelita?: EnumEscuelitaFieldUpdateOperationsInput | $Enums.Escuelita
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AlumnoUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    apellidos?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    fechaNacimiento?: DateTimeFieldUpdateOperationsInput | Date | string
+    sexo?: EnumSexoFieldUpdateOperationsInput | $Enums.Sexo
+    dni?: IntFieldUpdateOperationsInput | number
+    colegio?: StringFieldUpdateOperationsInput | string
+    nivel?: StringFieldUpdateOperationsInput | string
+    fechaMatricula?: DateTimeFieldUpdateOperationsInput | Date | string
+    escuelita?: EnumEscuelitaFieldUpdateOperationsInput | $Enums.Escuelita
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SeguimientoCreateInput = {
+    fechaSesion: Date | string
+    escuelita: $Enums.Escuelita
+    tema: string
+    calificacion: $Enums.Calificacion
+    dificultad: string
+    observacion: string
+    createdAt?: Date | string
+    alumno: AlumnoCreateNestedOneWithoutSeguimientosInput
+  }
+
+  export type SeguimientoUncheckedCreateInput = {
+    id?: number
+    fechaSesion: Date | string
+    escuelita: $Enums.Escuelita
+    alumnoId: number
+    tema: string
+    calificacion: $Enums.Calificacion
+    dificultad: string
+    observacion: string
+    createdAt?: Date | string
+  }
+
+  export type SeguimientoUpdateInput = {
+    fechaSesion?: DateTimeFieldUpdateOperationsInput | Date | string
+    escuelita?: EnumEscuelitaFieldUpdateOperationsInput | $Enums.Escuelita
+    tema?: StringFieldUpdateOperationsInput | string
+    calificacion?: EnumCalificacionFieldUpdateOperationsInput | $Enums.Calificacion
+    dificultad?: StringFieldUpdateOperationsInput | string
+    observacion?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    alumno?: AlumnoUpdateOneRequiredWithoutSeguimientosNestedInput
+  }
+
+  export type SeguimientoUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    fechaSesion?: DateTimeFieldUpdateOperationsInput | Date | string
+    escuelita?: EnumEscuelitaFieldUpdateOperationsInput | $Enums.Escuelita
+    alumnoId?: IntFieldUpdateOperationsInput | number
+    tema?: StringFieldUpdateOperationsInput | string
+    calificacion?: EnumCalificacionFieldUpdateOperationsInput | $Enums.Calificacion
+    dificultad?: StringFieldUpdateOperationsInput | string
+    observacion?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SeguimientoCreateManyInput = {
+    id?: number
+    fechaSesion: Date | string
+    escuelita: $Enums.Escuelita
+    alumnoId: number
+    tema: string
+    calificacion: $Enums.Calificacion
+    dificultad: string
+    observacion: string
+    createdAt?: Date | string
+  }
+
+  export type SeguimientoUpdateManyMutationInput = {
+    fechaSesion?: DateTimeFieldUpdateOperationsInput | Date | string
+    escuelita?: EnumEscuelitaFieldUpdateOperationsInput | $Enums.Escuelita
+    tema?: StringFieldUpdateOperationsInput | string
+    calificacion?: EnumCalificacionFieldUpdateOperationsInput | $Enums.Calificacion
+    dificultad?: StringFieldUpdateOperationsInput | string
+    observacion?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SeguimientoUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    fechaSesion?: DateTimeFieldUpdateOperationsInput | Date | string
+    escuelita?: EnumEscuelitaFieldUpdateOperationsInput | $Enums.Escuelita
+    alumnoId?: IntFieldUpdateOperationsInput | number
+    tema?: StringFieldUpdateOperationsInput | string
+    calificacion?: EnumCalificacionFieldUpdateOperationsInput | $Enums.Calificacion
+    dificultad?: StringFieldUpdateOperationsInput | string
+    observacion?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type VolunteerRegistrationCreateInput = {
@@ -5521,6 +8524,170 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
+  export type EnumSexoFilter<$PrismaModel = never> = {
+    equals?: $Enums.Sexo | EnumSexoFieldRefInput<$PrismaModel>
+    in?: $Enums.Sexo[] | ListEnumSexoFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Sexo[] | ListEnumSexoFieldRefInput<$PrismaModel>
+    not?: NestedEnumSexoFilter<$PrismaModel> | $Enums.Sexo
+  }
+
+  export type EnumEscuelitaFilter<$PrismaModel = never> = {
+    equals?: $Enums.Escuelita | EnumEscuelitaFieldRefInput<$PrismaModel>
+    in?: $Enums.Escuelita[] | ListEnumEscuelitaFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Escuelita[] | ListEnumEscuelitaFieldRefInput<$PrismaModel>
+    not?: NestedEnumEscuelitaFilter<$PrismaModel> | $Enums.Escuelita
+  }
+
+  export type SeguimientoListRelationFilter = {
+    every?: SeguimientoWhereInput
+    some?: SeguimientoWhereInput
+    none?: SeguimientoWhereInput
+  }
+
+  export type SeguimientoOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type AlumnoCountOrderByAggregateInput = {
+    id?: SortOrder
+    apellidos?: SortOrder
+    nombre?: SortOrder
+    fechaNacimiento?: SortOrder
+    sexo?: SortOrder
+    dni?: SortOrder
+    colegio?: SortOrder
+    nivel?: SortOrder
+    fechaMatricula?: SortOrder
+    escuelita?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type AlumnoAvgOrderByAggregateInput = {
+    id?: SortOrder
+    dni?: SortOrder
+  }
+
+  export type AlumnoMaxOrderByAggregateInput = {
+    id?: SortOrder
+    apellidos?: SortOrder
+    nombre?: SortOrder
+    fechaNacimiento?: SortOrder
+    sexo?: SortOrder
+    dni?: SortOrder
+    colegio?: SortOrder
+    nivel?: SortOrder
+    fechaMatricula?: SortOrder
+    escuelita?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type AlumnoMinOrderByAggregateInput = {
+    id?: SortOrder
+    apellidos?: SortOrder
+    nombre?: SortOrder
+    fechaNacimiento?: SortOrder
+    sexo?: SortOrder
+    dni?: SortOrder
+    colegio?: SortOrder
+    nivel?: SortOrder
+    fechaMatricula?: SortOrder
+    escuelita?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type AlumnoSumOrderByAggregateInput = {
+    id?: SortOrder
+    dni?: SortOrder
+  }
+
+  export type EnumSexoWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Sexo | EnumSexoFieldRefInput<$PrismaModel>
+    in?: $Enums.Sexo[] | ListEnumSexoFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Sexo[] | ListEnumSexoFieldRefInput<$PrismaModel>
+    not?: NestedEnumSexoWithAggregatesFilter<$PrismaModel> | $Enums.Sexo
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumSexoFilter<$PrismaModel>
+    _max?: NestedEnumSexoFilter<$PrismaModel>
+  }
+
+  export type EnumEscuelitaWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Escuelita | EnumEscuelitaFieldRefInput<$PrismaModel>
+    in?: $Enums.Escuelita[] | ListEnumEscuelitaFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Escuelita[] | ListEnumEscuelitaFieldRefInput<$PrismaModel>
+    not?: NestedEnumEscuelitaWithAggregatesFilter<$PrismaModel> | $Enums.Escuelita
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumEscuelitaFilter<$PrismaModel>
+    _max?: NestedEnumEscuelitaFilter<$PrismaModel>
+  }
+
+  export type EnumCalificacionFilter<$PrismaModel = never> = {
+    equals?: $Enums.Calificacion | EnumCalificacionFieldRefInput<$PrismaModel>
+    in?: $Enums.Calificacion[] | ListEnumCalificacionFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Calificacion[] | ListEnumCalificacionFieldRefInput<$PrismaModel>
+    not?: NestedEnumCalificacionFilter<$PrismaModel> | $Enums.Calificacion
+  }
+
+  export type AlumnoScalarRelationFilter = {
+    is?: AlumnoWhereInput
+    isNot?: AlumnoWhereInput
+  }
+
+  export type SeguimientoCountOrderByAggregateInput = {
+    id?: SortOrder
+    fechaSesion?: SortOrder
+    escuelita?: SortOrder
+    alumnoId?: SortOrder
+    tema?: SortOrder
+    calificacion?: SortOrder
+    dificultad?: SortOrder
+    observacion?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type SeguimientoAvgOrderByAggregateInput = {
+    id?: SortOrder
+    alumnoId?: SortOrder
+  }
+
+  export type SeguimientoMaxOrderByAggregateInput = {
+    id?: SortOrder
+    fechaSesion?: SortOrder
+    escuelita?: SortOrder
+    alumnoId?: SortOrder
+    tema?: SortOrder
+    calificacion?: SortOrder
+    dificultad?: SortOrder
+    observacion?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type SeguimientoMinOrderByAggregateInput = {
+    id?: SortOrder
+    fechaSesion?: SortOrder
+    escuelita?: SortOrder
+    alumnoId?: SortOrder
+    tema?: SortOrder
+    calificacion?: SortOrder
+    dificultad?: SortOrder
+    observacion?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type SeguimientoSumOrderByAggregateInput = {
+    id?: SortOrder
+    alumnoId?: SortOrder
+  }
+
+  export type EnumCalificacionWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Calificacion | EnumCalificacionFieldRefInput<$PrismaModel>
+    in?: $Enums.Calificacion[] | ListEnumCalificacionFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Calificacion[] | ListEnumCalificacionFieldRefInput<$PrismaModel>
+    not?: NestedEnumCalificacionWithAggregatesFilter<$PrismaModel> | $Enums.Calificacion
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumCalificacionFilter<$PrismaModel>
+    _max?: NestedEnumCalificacionFilter<$PrismaModel>
+  }
+
   export type EnumRegistrationStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.RegistrationStatus | EnumRegistrationStatusFieldRefInput<$PrismaModel>
     in?: $Enums.RegistrationStatus[] | ListEnumRegistrationStatusFieldRefInput<$PrismaModel>
@@ -5699,6 +8866,74 @@ export namespace Prisma {
     update?: VolunteerRegistrationUpdateWithWhereUniqueWithoutVolunteerInput | VolunteerRegistrationUpdateWithWhereUniqueWithoutVolunteerInput[]
     updateMany?: VolunteerRegistrationUpdateManyWithWhereWithoutVolunteerInput | VolunteerRegistrationUpdateManyWithWhereWithoutVolunteerInput[]
     deleteMany?: VolunteerRegistrationScalarWhereInput | VolunteerRegistrationScalarWhereInput[]
+  }
+
+  export type SeguimientoCreateNestedManyWithoutAlumnoInput = {
+    create?: XOR<SeguimientoCreateWithoutAlumnoInput, SeguimientoUncheckedCreateWithoutAlumnoInput> | SeguimientoCreateWithoutAlumnoInput[] | SeguimientoUncheckedCreateWithoutAlumnoInput[]
+    connectOrCreate?: SeguimientoCreateOrConnectWithoutAlumnoInput | SeguimientoCreateOrConnectWithoutAlumnoInput[]
+    createMany?: SeguimientoCreateManyAlumnoInputEnvelope
+    connect?: SeguimientoWhereUniqueInput | SeguimientoWhereUniqueInput[]
+  }
+
+  export type SeguimientoUncheckedCreateNestedManyWithoutAlumnoInput = {
+    create?: XOR<SeguimientoCreateWithoutAlumnoInput, SeguimientoUncheckedCreateWithoutAlumnoInput> | SeguimientoCreateWithoutAlumnoInput[] | SeguimientoUncheckedCreateWithoutAlumnoInput[]
+    connectOrCreate?: SeguimientoCreateOrConnectWithoutAlumnoInput | SeguimientoCreateOrConnectWithoutAlumnoInput[]
+    createMany?: SeguimientoCreateManyAlumnoInputEnvelope
+    connect?: SeguimientoWhereUniqueInput | SeguimientoWhereUniqueInput[]
+  }
+
+  export type EnumSexoFieldUpdateOperationsInput = {
+    set?: $Enums.Sexo
+  }
+
+  export type EnumEscuelitaFieldUpdateOperationsInput = {
+    set?: $Enums.Escuelita
+  }
+
+  export type SeguimientoUpdateManyWithoutAlumnoNestedInput = {
+    create?: XOR<SeguimientoCreateWithoutAlumnoInput, SeguimientoUncheckedCreateWithoutAlumnoInput> | SeguimientoCreateWithoutAlumnoInput[] | SeguimientoUncheckedCreateWithoutAlumnoInput[]
+    connectOrCreate?: SeguimientoCreateOrConnectWithoutAlumnoInput | SeguimientoCreateOrConnectWithoutAlumnoInput[]
+    upsert?: SeguimientoUpsertWithWhereUniqueWithoutAlumnoInput | SeguimientoUpsertWithWhereUniqueWithoutAlumnoInput[]
+    createMany?: SeguimientoCreateManyAlumnoInputEnvelope
+    set?: SeguimientoWhereUniqueInput | SeguimientoWhereUniqueInput[]
+    disconnect?: SeguimientoWhereUniqueInput | SeguimientoWhereUniqueInput[]
+    delete?: SeguimientoWhereUniqueInput | SeguimientoWhereUniqueInput[]
+    connect?: SeguimientoWhereUniqueInput | SeguimientoWhereUniqueInput[]
+    update?: SeguimientoUpdateWithWhereUniqueWithoutAlumnoInput | SeguimientoUpdateWithWhereUniqueWithoutAlumnoInput[]
+    updateMany?: SeguimientoUpdateManyWithWhereWithoutAlumnoInput | SeguimientoUpdateManyWithWhereWithoutAlumnoInput[]
+    deleteMany?: SeguimientoScalarWhereInput | SeguimientoScalarWhereInput[]
+  }
+
+  export type SeguimientoUncheckedUpdateManyWithoutAlumnoNestedInput = {
+    create?: XOR<SeguimientoCreateWithoutAlumnoInput, SeguimientoUncheckedCreateWithoutAlumnoInput> | SeguimientoCreateWithoutAlumnoInput[] | SeguimientoUncheckedCreateWithoutAlumnoInput[]
+    connectOrCreate?: SeguimientoCreateOrConnectWithoutAlumnoInput | SeguimientoCreateOrConnectWithoutAlumnoInput[]
+    upsert?: SeguimientoUpsertWithWhereUniqueWithoutAlumnoInput | SeguimientoUpsertWithWhereUniqueWithoutAlumnoInput[]
+    createMany?: SeguimientoCreateManyAlumnoInputEnvelope
+    set?: SeguimientoWhereUniqueInput | SeguimientoWhereUniqueInput[]
+    disconnect?: SeguimientoWhereUniqueInput | SeguimientoWhereUniqueInput[]
+    delete?: SeguimientoWhereUniqueInput | SeguimientoWhereUniqueInput[]
+    connect?: SeguimientoWhereUniqueInput | SeguimientoWhereUniqueInput[]
+    update?: SeguimientoUpdateWithWhereUniqueWithoutAlumnoInput | SeguimientoUpdateWithWhereUniqueWithoutAlumnoInput[]
+    updateMany?: SeguimientoUpdateManyWithWhereWithoutAlumnoInput | SeguimientoUpdateManyWithWhereWithoutAlumnoInput[]
+    deleteMany?: SeguimientoScalarWhereInput | SeguimientoScalarWhereInput[]
+  }
+
+  export type AlumnoCreateNestedOneWithoutSeguimientosInput = {
+    create?: XOR<AlumnoCreateWithoutSeguimientosInput, AlumnoUncheckedCreateWithoutSeguimientosInput>
+    connectOrCreate?: AlumnoCreateOrConnectWithoutSeguimientosInput
+    connect?: AlumnoWhereUniqueInput
+  }
+
+  export type EnumCalificacionFieldUpdateOperationsInput = {
+    set?: $Enums.Calificacion
+  }
+
+  export type AlumnoUpdateOneRequiredWithoutSeguimientosNestedInput = {
+    create?: XOR<AlumnoCreateWithoutSeguimientosInput, AlumnoUncheckedCreateWithoutSeguimientosInput>
+    connectOrCreate?: AlumnoCreateOrConnectWithoutSeguimientosInput
+    upsert?: AlumnoUpsertWithoutSeguimientosInput
+    connect?: AlumnoWhereUniqueInput
+    update?: XOR<XOR<AlumnoUpdateToOneWithWhereWithoutSeguimientosInput, AlumnoUpdateWithoutSeguimientosInput>, AlumnoUncheckedUpdateWithoutSeguimientosInput>
   }
 
   export type VolunteerCreateNestedOneWithoutRegistrationsInput = {
@@ -5899,6 +9134,57 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
+  export type NestedEnumSexoFilter<$PrismaModel = never> = {
+    equals?: $Enums.Sexo | EnumSexoFieldRefInput<$PrismaModel>
+    in?: $Enums.Sexo[] | ListEnumSexoFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Sexo[] | ListEnumSexoFieldRefInput<$PrismaModel>
+    not?: NestedEnumSexoFilter<$PrismaModel> | $Enums.Sexo
+  }
+
+  export type NestedEnumEscuelitaFilter<$PrismaModel = never> = {
+    equals?: $Enums.Escuelita | EnumEscuelitaFieldRefInput<$PrismaModel>
+    in?: $Enums.Escuelita[] | ListEnumEscuelitaFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Escuelita[] | ListEnumEscuelitaFieldRefInput<$PrismaModel>
+    not?: NestedEnumEscuelitaFilter<$PrismaModel> | $Enums.Escuelita
+  }
+
+  export type NestedEnumSexoWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Sexo | EnumSexoFieldRefInput<$PrismaModel>
+    in?: $Enums.Sexo[] | ListEnumSexoFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Sexo[] | ListEnumSexoFieldRefInput<$PrismaModel>
+    not?: NestedEnumSexoWithAggregatesFilter<$PrismaModel> | $Enums.Sexo
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumSexoFilter<$PrismaModel>
+    _max?: NestedEnumSexoFilter<$PrismaModel>
+  }
+
+  export type NestedEnumEscuelitaWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Escuelita | EnumEscuelitaFieldRefInput<$PrismaModel>
+    in?: $Enums.Escuelita[] | ListEnumEscuelitaFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Escuelita[] | ListEnumEscuelitaFieldRefInput<$PrismaModel>
+    not?: NestedEnumEscuelitaWithAggregatesFilter<$PrismaModel> | $Enums.Escuelita
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumEscuelitaFilter<$PrismaModel>
+    _max?: NestedEnumEscuelitaFilter<$PrismaModel>
+  }
+
+  export type NestedEnumCalificacionFilter<$PrismaModel = never> = {
+    equals?: $Enums.Calificacion | EnumCalificacionFieldRefInput<$PrismaModel>
+    in?: $Enums.Calificacion[] | ListEnumCalificacionFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Calificacion[] | ListEnumCalificacionFieldRefInput<$PrismaModel>
+    not?: NestedEnumCalificacionFilter<$PrismaModel> | $Enums.Calificacion
+  }
+
+  export type NestedEnumCalificacionWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Calificacion | EnumCalificacionFieldRefInput<$PrismaModel>
+    in?: $Enums.Calificacion[] | ListEnumCalificacionFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Calificacion[] | ListEnumCalificacionFieldRefInput<$PrismaModel>
+    not?: NestedEnumCalificacionWithAggregatesFilter<$PrismaModel> | $Enums.Calificacion
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumCalificacionFilter<$PrismaModel>
+    _max?: NestedEnumCalificacionFilter<$PrismaModel>
+  }
+
   export type NestedEnumRegistrationStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.RegistrationStatus | EnumRegistrationStatusFieldRefInput<$PrismaModel>
     in?: $Enums.RegistrationStatus[] | ListEnumRegistrationStatusFieldRefInput<$PrismaModel>
@@ -6003,6 +9289,138 @@ export namespace Prisma {
   export type VolunteerRegistrationUpdateManyWithWhereWithoutVolunteerInput = {
     where: VolunteerRegistrationScalarWhereInput
     data: XOR<VolunteerRegistrationUpdateManyMutationInput, VolunteerRegistrationUncheckedUpdateManyWithoutVolunteerInput>
+  }
+
+  export type SeguimientoCreateWithoutAlumnoInput = {
+    fechaSesion: Date | string
+    escuelita: $Enums.Escuelita
+    tema: string
+    calificacion: $Enums.Calificacion
+    dificultad: string
+    observacion: string
+    createdAt?: Date | string
+  }
+
+  export type SeguimientoUncheckedCreateWithoutAlumnoInput = {
+    id?: number
+    fechaSesion: Date | string
+    escuelita: $Enums.Escuelita
+    tema: string
+    calificacion: $Enums.Calificacion
+    dificultad: string
+    observacion: string
+    createdAt?: Date | string
+  }
+
+  export type SeguimientoCreateOrConnectWithoutAlumnoInput = {
+    where: SeguimientoWhereUniqueInput
+    create: XOR<SeguimientoCreateWithoutAlumnoInput, SeguimientoUncheckedCreateWithoutAlumnoInput>
+  }
+
+  export type SeguimientoCreateManyAlumnoInputEnvelope = {
+    data: SeguimientoCreateManyAlumnoInput | SeguimientoCreateManyAlumnoInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type SeguimientoUpsertWithWhereUniqueWithoutAlumnoInput = {
+    where: SeguimientoWhereUniqueInput
+    update: XOR<SeguimientoUpdateWithoutAlumnoInput, SeguimientoUncheckedUpdateWithoutAlumnoInput>
+    create: XOR<SeguimientoCreateWithoutAlumnoInput, SeguimientoUncheckedCreateWithoutAlumnoInput>
+  }
+
+  export type SeguimientoUpdateWithWhereUniqueWithoutAlumnoInput = {
+    where: SeguimientoWhereUniqueInput
+    data: XOR<SeguimientoUpdateWithoutAlumnoInput, SeguimientoUncheckedUpdateWithoutAlumnoInput>
+  }
+
+  export type SeguimientoUpdateManyWithWhereWithoutAlumnoInput = {
+    where: SeguimientoScalarWhereInput
+    data: XOR<SeguimientoUpdateManyMutationInput, SeguimientoUncheckedUpdateManyWithoutAlumnoInput>
+  }
+
+  export type SeguimientoScalarWhereInput = {
+    AND?: SeguimientoScalarWhereInput | SeguimientoScalarWhereInput[]
+    OR?: SeguimientoScalarWhereInput[]
+    NOT?: SeguimientoScalarWhereInput | SeguimientoScalarWhereInput[]
+    id?: IntFilter<"Seguimiento"> | number
+    fechaSesion?: DateTimeFilter<"Seguimiento"> | Date | string
+    escuelita?: EnumEscuelitaFilter<"Seguimiento"> | $Enums.Escuelita
+    alumnoId?: IntFilter<"Seguimiento"> | number
+    tema?: StringFilter<"Seguimiento"> | string
+    calificacion?: EnumCalificacionFilter<"Seguimiento"> | $Enums.Calificacion
+    dificultad?: StringFilter<"Seguimiento"> | string
+    observacion?: StringFilter<"Seguimiento"> | string
+    createdAt?: DateTimeFilter<"Seguimiento"> | Date | string
+  }
+
+  export type AlumnoCreateWithoutSeguimientosInput = {
+    apellidos: string
+    nombre: string
+    fechaNacimiento: Date | string
+    sexo: $Enums.Sexo
+    dni: number
+    colegio: string
+    nivel: string
+    fechaMatricula?: Date | string
+    escuelita: $Enums.Escuelita
+    createdAt?: Date | string
+  }
+
+  export type AlumnoUncheckedCreateWithoutSeguimientosInput = {
+    id?: number
+    apellidos: string
+    nombre: string
+    fechaNacimiento: Date | string
+    sexo: $Enums.Sexo
+    dni: number
+    colegio: string
+    nivel: string
+    fechaMatricula?: Date | string
+    escuelita: $Enums.Escuelita
+    createdAt?: Date | string
+  }
+
+  export type AlumnoCreateOrConnectWithoutSeguimientosInput = {
+    where: AlumnoWhereUniqueInput
+    create: XOR<AlumnoCreateWithoutSeguimientosInput, AlumnoUncheckedCreateWithoutSeguimientosInput>
+  }
+
+  export type AlumnoUpsertWithoutSeguimientosInput = {
+    update: XOR<AlumnoUpdateWithoutSeguimientosInput, AlumnoUncheckedUpdateWithoutSeguimientosInput>
+    create: XOR<AlumnoCreateWithoutSeguimientosInput, AlumnoUncheckedCreateWithoutSeguimientosInput>
+    where?: AlumnoWhereInput
+  }
+
+  export type AlumnoUpdateToOneWithWhereWithoutSeguimientosInput = {
+    where?: AlumnoWhereInput
+    data: XOR<AlumnoUpdateWithoutSeguimientosInput, AlumnoUncheckedUpdateWithoutSeguimientosInput>
+  }
+
+  export type AlumnoUpdateWithoutSeguimientosInput = {
+    apellidos?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    fechaNacimiento?: DateTimeFieldUpdateOperationsInput | Date | string
+    sexo?: EnumSexoFieldUpdateOperationsInput | $Enums.Sexo
+    dni?: IntFieldUpdateOperationsInput | number
+    colegio?: StringFieldUpdateOperationsInput | string
+    nivel?: StringFieldUpdateOperationsInput | string
+    fechaMatricula?: DateTimeFieldUpdateOperationsInput | Date | string
+    escuelita?: EnumEscuelitaFieldUpdateOperationsInput | $Enums.Escuelita
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AlumnoUncheckedUpdateWithoutSeguimientosInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    apellidos?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    fechaNacimiento?: DateTimeFieldUpdateOperationsInput | Date | string
+    sexo?: EnumSexoFieldUpdateOperationsInput | $Enums.Sexo
+    dni?: IntFieldUpdateOperationsInput | number
+    colegio?: StringFieldUpdateOperationsInput | string
+    nivel?: StringFieldUpdateOperationsInput | string
+    fechaMatricula?: DateTimeFieldUpdateOperationsInput | Date | string
+    escuelita?: EnumEscuelitaFieldUpdateOperationsInput | $Enums.Escuelita
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type VolunteerCreateWithoutRegistrationsInput = {
@@ -6192,6 +9610,49 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     sessionId?: IntFieldUpdateOperationsInput | number
     status?: EnumRegistrationStatusFieldUpdateOperationsInput | $Enums.RegistrationStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SeguimientoCreateManyAlumnoInput = {
+    id?: number
+    fechaSesion: Date | string
+    escuelita: $Enums.Escuelita
+    tema: string
+    calificacion: $Enums.Calificacion
+    dificultad: string
+    observacion: string
+    createdAt?: Date | string
+  }
+
+  export type SeguimientoUpdateWithoutAlumnoInput = {
+    fechaSesion?: DateTimeFieldUpdateOperationsInput | Date | string
+    escuelita?: EnumEscuelitaFieldUpdateOperationsInput | $Enums.Escuelita
+    tema?: StringFieldUpdateOperationsInput | string
+    calificacion?: EnumCalificacionFieldUpdateOperationsInput | $Enums.Calificacion
+    dificultad?: StringFieldUpdateOperationsInput | string
+    observacion?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SeguimientoUncheckedUpdateWithoutAlumnoInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    fechaSesion?: DateTimeFieldUpdateOperationsInput | Date | string
+    escuelita?: EnumEscuelitaFieldUpdateOperationsInput | $Enums.Escuelita
+    tema?: StringFieldUpdateOperationsInput | string
+    calificacion?: EnumCalificacionFieldUpdateOperationsInput | $Enums.Calificacion
+    dificultad?: StringFieldUpdateOperationsInput | string
+    observacion?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SeguimientoUncheckedUpdateManyWithoutAlumnoInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    fechaSesion?: DateTimeFieldUpdateOperationsInput | Date | string
+    escuelita?: EnumEscuelitaFieldUpdateOperationsInput | $Enums.Escuelita
+    tema?: StringFieldUpdateOperationsInput | string
+    calificacion?: EnumCalificacionFieldUpdateOperationsInput | $Enums.Calificacion
+    dificultad?: StringFieldUpdateOperationsInput | string
+    observacion?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

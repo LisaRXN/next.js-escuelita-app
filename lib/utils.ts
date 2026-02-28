@@ -3,6 +3,7 @@ export function buildQueryParams(filters: {
   search?: string;
   withCounts?: boolean;
   sortBy: string;
+  page?: number;
 }) {
   const params = new URLSearchParams();
 
@@ -20,6 +21,10 @@ export function buildQueryParams(filters: {
 
   if (filters.sortBy) {
     params.set("sortBy", filters.sortBy);
+  }
+
+  if (filters.page && filters.page > 1) {
+    params.set("page", filters.page.toString());
   }
 
   return params.toString();

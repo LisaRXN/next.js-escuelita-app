@@ -147,6 +147,32 @@ exports.Prisma.VolunteerScalarFieldEnum = {
   isActive: 'isActive'
 };
 
+exports.Prisma.AlumnoScalarFieldEnum = {
+  id: 'id',
+  apellidos: 'apellidos',
+  nombre: 'nombre',
+  fechaNacimiento: 'fechaNacimiento',
+  sexo: 'sexo',
+  dni: 'dni',
+  colegio: 'colegio',
+  nivel: 'nivel',
+  fechaMatricula: 'fechaMatricula',
+  escuelita: 'escuelita',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.SeguimientoScalarFieldEnum = {
+  id: 'id',
+  fechaSesion: 'fechaSesion',
+  escuelita: 'escuelita',
+  alumnoId: 'alumnoId',
+  tema: 'tema',
+  calificacion: 'calificacion',
+  dificultad: 'dificultad',
+  observacion: 'observacion',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.VolunteerRegistrationScalarFieldEnum = {
   id: 'id',
   volunteerId: 'volunteerId',
@@ -174,6 +200,24 @@ exports.SessionTypes = exports.$Enums.SessionTypes = {
   OTHER: 'OTHER'
 };
 
+exports.Sexo = exports.$Enums.Sexo = {
+  M: 'M',
+  F: 'F'
+};
+
+exports.Escuelita = exports.$Enums.Escuelita = {
+  Peruanidad: 'Peruanidad',
+  Valle_Ecologico: 'Valle_Ecologico'
+};
+
+exports.Calificacion = exports.$Enums.Calificacion = {
+  Excelente: 'Excelente',
+  Bueno: 'Bueno',
+  Regular: 'Regular',
+  Con_dificultad: 'Con_dificultad',
+  Con_mucha_dificultad: 'Con_mucha_dificultad'
+};
+
 exports.RegistrationStatus = exports.$Enums.RegistrationStatus = {
   PENDING: 'PENDING',
   CONFIRMED: 'CONFIRMED',
@@ -184,6 +228,8 @@ exports.RegistrationStatus = exports.$Enums.RegistrationStatus = {
 exports.Prisma.ModelName = {
   VolunteerSession: 'VolunteerSession',
   Volunteer: 'Volunteer',
+  Alumno: 'Alumno',
+  Seguimiento: 'Seguimiento',
   VolunteerRegistration: 'VolunteerRegistration'
 };
 
