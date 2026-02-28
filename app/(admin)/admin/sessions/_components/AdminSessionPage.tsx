@@ -31,9 +31,9 @@ const AdminSessionPage = ({ sessionId }: AdminSessionPageProps) => {
 
   return (
     data && (
-      <div className="min-h-screen w-full pt-5 flex flex-col lg:flex-row items-start justify-center gap-5 lg:gap-10 p-2 md:p-10 ">
-        <div className="order-2 lg:order-1 flex flex-col items-start justify-center gap-5 w-full lg:w-auto">
-          <div className="gap-5 flex flex-col bg-white rounded-2xl p-3 md:p-5 w-full lg:w-auto  min-h-[250px] lg:min-w-[550px]">
+      <div className="min-h-screen w-full pt-5 flex flex-col lg:flex-row items-start justify-center gap-5 lg:gap-8 p-2 md:p-8 max-w-6xl mx-auto">
+        <div className="order-2 lg:order-1 flex flex-col items-start justify-center gap-5 w-full lg:w-[380px] lg:shrink-0">
+          <div className="gap-5 flex flex-col bg-white rounded-2xl p-3 md:p-5 w-full min-h-[250px]">
             <CardTitle
               title="Detailles del evento"
               subtitle="Modifica o inscribete a la sesión"

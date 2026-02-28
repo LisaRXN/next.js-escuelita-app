@@ -60,134 +60,89 @@ const AdminSessionDescription = ({
   });
 
   return (
-    <>
-      {/* Card */}
-      <div className="w-full max-w-[500px] mx-auto text-inter">
-        <div className="relative w-full h-[180px] md:h-[250px] rounded-md overflow-hidden mb-2">
-          <Image
-            src={session.image}
-            alt="Tutorias"
-            fill
-            className="object-cover h-full w-full object-top"
-          />
-        </div>
-
-        {/* Titre & description */}
-        <div className="p-2 md:p-8 w-full h-auto flex flex-col gap-4 md:gap-6 text-myzinc">
-          <h1 className="text-2xl font-bold text-center">{session.title}</h1>
-          <div className="flex flex-col justify-start items-start gap-5">
-            <div className="flex items-start justify-center gap-3">
-              <i className="fa-solid fa-location-dot text-myorange"></i>
-              <p className="font-light text-start font-inter text-myzinc text-[14px]">
-                {session.location}
-              </p>
-            </div>
-            <div className="flex items-center justify-start gap-3">
-              <i className="fa-solid fa-calendar-days text-myzinc"></i>
-              <p className="font-light text-start font-inter text-myzinc text-[14px]">
-                {formattedDate} {formattedTime}
-              </p>
-            </div>
-            <div className="flex items-center justify-start gap-3">
-              <i className="fa-solid fa-user-group text-myzinc"></i>
-              <p className="font-light text-start font-inter text-myzinc text-[14px]">
-                Capacidad : {session.capacity} voluntario.a.s
-              </p>
-            </div>
-            <div className="flex items-center justify-start gap-3">
-              <i className="fa-solid fa-thumbs-up text-myzinc"></i>
-              <p className="font-light text-start font-inter text-myzinc text-[14px]">
-                Inscritos : {session.volunteers.length} / {session.capacity}
-              </p>
-            </div>
-            {session.description && (
-              <div className="flex items-start justify-start gap-3">
-                <i className="fa-solid  fa-circle-info text-myzinc text-lg"></i>
-                <p className="font-light text-start font-inter text-myzinc text-[14px]">
-                  {session.description}
-                </p>
-              </div>
-            )}
-
-            <div className="flex flex-col items-start justify-center gap-3 w-full">
-              {/* If Non Registered */}
-              {!isUserRegistered && isVolunteerActive && !isSessionPassed && (
-                <div className="flex w-full items-center justify-center">
-                  <SignUpToSessionButton
-                    fullWidth={true}
-                    sessionId={session.id}
-                  />
-                </div>
-              )}
-              {/* If Registered */}
-              {isUserRegistered && (
-                <div className="w-full flex items-center justify-center">
-                  <p className="text-mygreen text-center">
-                    <span className="mr-2">
-                      <i className="fa-solid fa-circle-check"></i>
-                    </span>
-                    Ya te has inscrito en esta sesión!
-                  </p>
-                </div>
-              )}
-              {/* Désinscription */}
-              {isUserRegistered && !isSessionPassed && (
-                <div className="w-full flex items-center justify-center">
-                  <UnregisterButton fullWidth={true} sessionId={session.id} />
-                </div>
-              )}
-              {/* Modifier */}
-              {!isSessionPassed && (
-                <div className="w-full flex items-center justify-center">
-                  <button
-                    onClick={() =>
-                      router.push(`/admin/sessions/update-session/${sessionId}`)
-                    }
-                    className="w-full px-5 py-2 bg-mygray text-white font-semibold rounded-md"
-                  >
-                    Modificar el evento
-                  </button>
-                </div>
-              )}
-
-              {/* Supprimer */}
-              {!isSessionPassed && (
-                <div className="w-full flex items-center justify-center">
-                  <DeleteSessionButton
-                    sessionId={sessionId}
-                    handleCloseModal={handleCloseModal}
-                  />
-                </div>
-              )}
-
-              {!isVolunteerActive && (
-                <div className="w-full flex items-center justify-center">
-                  <p className="text-myred text-center">
-                    <span className="mr-2">
-                      <i className="fa-solid fa-lock"></i>
-                    </span>{" "}
-                    Para inscribirse en esta sesión es necesario ser voluntario
-                    en activo
-                  </p>
-                </div>
-              )}
-
-              {isSessionPassed && (
-                <div className="w-full flex items-center justify-center">
-                  <p className="text-myred text-center">
-                    <span className="mr-2">
-                      <i className="fa-solid fa-lock"></i>
-                    </span>{" "}
-                    Esta sesión ya ha pasado. Ya no es posible inscribirse ni
-                    realizar modificaciones.
-                  </p>
-                </div>
-              )}
-            </div>
+    <div className="w-full flex flex-col gap-4 text-myzinc">
+      {/* Image */}
+      <div className="relative w-full h-[180px] rounded-xl overflow-hidden">
+        <Image
+          src={session.image}
+          alt={session.title}
+          fill
+          className="object-cover object-top"
+        />
+        {isSessionPassed && (
+          <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+            <span className="px-3 py-1.5 bg-white/20 backdrop-blur-sm text-white text-sm font-semibold rounded-full border border-white/30">
+              Sesión finalizada
+            </span>
           </div>
-        </div>
+        )}
       </div>
-    </>
+
+      {/* Title */}
+      <h1 className="text-xl font-bold font-montserrat">{session.title}</h1>
+
+      {/* Info items */}
+      <div className="flex flex-col gap-2.5">
+        {[
+          { icon: "fa-location-dot", color: "text-myorange", text: session.location },
+          { icon: "fa-calendar-days", color: "text-myzinc", text: `${formattedDate} · ${formattedTime}` },
+          { icon: "fa-user-group", color: "text-myzinc", text: `Capacidad: ${session.capacity} voluntario.a.s` },
+          { icon: "fa-circle-check", color: session.volunteers.length >= session.capacity ? "text-myred" : "text-mygreen",
+            text: `Inscritos: ${session.volunteers.length} / ${session.capacity}` },
+        ].map(({ icon, color, text }) => (
+          <div key={icon} className="flex items-start gap-3">
+            <i className={`fa-solid ${icon} ${color} w-4 text-center mt-0.5 shrink-0`}></i>
+            <p className="text-sm text-myzinc">{text}</p>
+          </div>
+        ))}
+        {session.description && (
+          <div className="flex items-start gap-3">
+            <i className="fa-solid fa-circle-info text-mygray w-4 text-center mt-0.5 shrink-0"></i>
+            <p className="text-sm text-mygray">{session.description}</p>
+          </div>
+        )}
+      </div>
+
+      {/* Status badge */}
+      {isUserRegistered && (
+        <div className="flex items-center gap-2 px-3 py-2 bg-mygreen/10 text-mygreen rounded-lg text-sm font-medium">
+          <i className="fa-solid fa-circle-check"></i>
+          Ya estás inscrito en esta sesión
+        </div>
+      )}
+      {!isVolunteerActive && !isSessionPassed && (
+        <div className="flex items-center gap-2 px-3 py-2 bg-myred/10 text-myred rounded-lg text-sm font-medium">
+          <i className="fa-solid fa-lock"></i>
+          Necesitas ser voluntario activo para inscribirte
+        </div>
+      )}
+      {isSessionPassed && (
+        <div className="flex items-center gap-2 px-3 py-2 bg-zinc-100 text-mygray rounded-lg text-sm font-medium">
+          <i className="fa-solid fa-clock-rotate-left"></i>
+          Esta sesión ya ha pasado
+        </div>
+      )}
+
+      {/* Actions */}
+      {!isSessionPassed && (
+        <div className="flex flex-col gap-2 pt-1 border-t border-zinc-100">
+          {!isUserRegistered && isVolunteerActive && (
+            <SignUpToSessionButton fullWidth={true} sessionId={session.id} />
+          )}
+          {isUserRegistered && (
+            <UnregisterButton fullWidth={true} sessionId={session.id} />
+          )}
+          <button
+            onClick={() => router.push(`/admin/sessions/update-session/${sessionId}`)}
+            className="w-full px-4 py-2 border border-zinc-200 text-myzinc text-sm font-medium rounded-lg hover:bg-zinc-50 transition flex items-center justify-center gap-2"
+          >
+            <i className="fa-solid fa-pen text-xs"></i>
+            Modificar el evento
+          </button>
+          <DeleteSessionButton sessionId={sessionId} handleCloseModal={handleCloseModal} />
+        </div>
+      )}
+    </div>
   );
 };
 
