@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { Calificacion, Escuelita, Prisma } from "@/generated/prisma";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import { auth } from "@clerk/nextjs/server";
 
 const PAGE_SIZE = 20;
 
@@ -68,4 +69,33 @@ export async function GET(req: NextRequest) {
   const totalPages = Math.ceil(total / PAGE_SIZE);
 
   return Response.json({ data: seguimientos, total, totalPages, page, statsByCalificacion });
+}
+
+export async function POST(req: NextRequest) {
+  const { userId } = await auth();
+  if (!userId) {
+    return new NextResponse('Unauthorized', { status: 401 });
+  }
+
+  const body = await req.json();
+  const { fechaSesion, escuelita, alumnoId, tema, calificacion, dificultad, observacion } = body;
+
+  try {
+    const seguimiento = await prisma.seguimiento.create({
+      data: {
+        fechaSesion: new Date(fechaSesion),
+        escuelita: escuelita as Escuelita,
+        alumnoId: Number(alumnoId),
+        tema,
+        calificacion: calificacion as Calificacion,
+        dificultad,
+        observacion,
+      },
+    });
+
+    return NextResponse.json(seguimiento, { status: 201 });
+  } catch (error) {
+    console.error('Error creating seguimiento:', error);
+    return new NextResponse('Error creating seguimiento', { status: 500 });
+  }
 }

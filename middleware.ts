@@ -22,10 +22,14 @@ export default clerkMiddleware(async (auth, req) => {
   }
 
   // Rediriger vers /sign-in si l'utilisateur n'est pas connecté et la route est privée
-  if (!userId ) {
+  if (!userId) {
+    // Pour les routes API (appelées depuis le mobile), retourner un 401 JSON
+    if (pathname.startsWith("/api/")) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
     console.log("Redirecting to sign-in");
     const signInUrl = new URL("/sign-in", req.url);
-    signInUrl.searchParams.set("redirect_url", req.url); // Pour revenir après connexion
+    signInUrl.searchParams.set("redirect_url", req.url);
     return NextResponse.redirect(signInUrl);
   }
 

@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { auth } from '@clerk/nextjs/server';
+import { isAdmin } from '@/lib/is-admin';
 
 export interface VolunteerSession {
   id: number;
@@ -27,4 +29,37 @@ export async function GET() {
   }));
 
   return NextResponse.json(serializedSessions);
+}
+
+export async function POST(req: Request) {
+  const { userId } = await auth();
+  if (!userId || !(await isAdmin(userId))) {
+    return new NextResponse('Unauthorized', { status: 401 });
+  }
+
+  const body = await req.json();
+  const { title, date, description, location, type, image, capacity } = body;
+
+  try {
+    const session = await prisma.volunteerSession.create({
+      data: {
+        title,
+        date: new Date(date),
+        description,
+        location,
+        type,
+        image,
+        capacity: Number(capacity),
+      },
+    });
+
+    return NextResponse.json({
+      ...session,
+      date: session.date.toISOString(),
+      createdAt: session.createdAt.toISOString(),
+    }, { status: 201 });
+  } catch (error) {
+    console.error('Error creating session:', error);
+    return new NextResponse('Error creating session', { status: 500 });
+  }
 }
