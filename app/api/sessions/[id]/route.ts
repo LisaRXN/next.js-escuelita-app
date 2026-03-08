@@ -2,6 +2,7 @@ import { auth } from "@clerk/nextjs/server";
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import { getVolunteerSessionStatus } from "@/services/volunteerService";
+import { isAdmin } from "@/lib/is-admin";
 
 interface Params {
   params: Promise<{ id: string }>
@@ -80,5 +81,65 @@ export async function GET(req: Request, { params }: Params) {
       { error: "Failed to get the session" },
       { status: 500 }
     );
+  }
+}
+
+export async function PATCH(req: Request, { params }: Params) {
+  const { userId } = await auth();
+  if (!userId || !(await isAdmin(userId))) {
+    return new NextResponse('Unauthorized', { status: 401 });
+  }
+
+  const paramsUrl = await params;
+  const sessionId = parseInt(paramsUrl.id, 10);
+  if (isNaN(sessionId)) {
+    return NextResponse.json({ error: 'Invalid session ID' }, { status: 400 });
+  }
+
+  const body = await req.json();
+  const updateData: Record<string, unknown> = {};
+  if (body.title !== undefined) updateData.title = body.title;
+  if (body.description !== undefined) updateData.description = body.description;
+  if (body.location !== undefined) updateData.location = body.location;
+  if (body.capacity !== undefined) updateData.capacity = Number(body.capacity);
+  if (body.image !== undefined) updateData.image = body.image;
+  if (body.type !== undefined) updateData.type = body.type;
+  if (body.date !== undefined) updateData.date = new Date(body.date);
+
+  try {
+    const session = await prisma.volunteerSession.update({
+      where: { id: sessionId },
+      data: updateData,
+    });
+
+    return NextResponse.json({
+      ...session,
+      date: session.date.toISOString(),
+      createdAt: session.createdAt.toISOString(),
+    });
+  } catch (error) {
+    console.error('Error updating session:', error);
+    return new NextResponse('Error updating session', { status: 500 });
+  }
+}
+
+export async function DELETE(_req: Request, { params }: Params) {
+  const { userId } = await auth();
+  if (!userId || !(await isAdmin(userId))) {
+    return new NextResponse('Unauthorized', { status: 401 });
+  }
+
+  const paramsUrl = await params;
+  const sessionId = parseInt(paramsUrl.id, 10);
+  if (isNaN(sessionId)) {
+    return NextResponse.json({ error: 'Invalid session ID' }, { status: 400 });
+  }
+
+  try {
+    await prisma.volunteerSession.delete({ where: { id: sessionId } });
+    return new NextResponse(null, { status: 204 });
+  } catch (error) {
+    console.error('Error deleting session:', error);
+    return new NextResponse('Error deleting session', { status: 500 });
   }
 }

@@ -1,6 +1,9 @@
 import { prisma } from "@/lib/prisma";
-import { Escuelita, Prisma } from "@/generated/prisma";
+import { Escuelita, Prisma, Sexo } from "@/generated/prisma";
 import { NextRequest } from "next/server";
+import { auth } from "@clerk/nextjs/server";
+import { isAdmin } from "@/lib/is-admin";
+import { NextResponse } from "next/server";
 
 const PAGE_SIZE = 20;
 
@@ -44,4 +47,38 @@ export async function GET(req: NextRequest) {
   const totalPages = Math.ceil(total / PAGE_SIZE);
 
   return Response.json({ data: alumnos, total, totalPages, page });
+}
+
+export async function POST(req: NextRequest) {
+  const { userId } = await auth();
+  if (!userId || !(await isAdmin(userId))) {
+    return new NextResponse('Unauthorized', { status: 401 });
+  }
+
+  const body = await req.json();
+  const { apellidos, nombre, fechaNacimiento, sexo, dni, colegio, nivel, fechaMatricula, escuelita } = body;
+
+  try {
+    const alumno = await prisma.alumno.create({
+      data: {
+        apellidos,
+        nombre,
+        fechaNacimiento: new Date(fechaNacimiento),
+        sexo: sexo as Sexo,
+        dni: Number(dni),
+        colegio,
+        nivel,
+        fechaMatricula: new Date(fechaMatricula ?? new Date()),
+        escuelita: escuelita as Escuelita,
+      },
+    });
+
+    return NextResponse.json(alumno, { status: 201 });
+  } catch (error: unknown) {
+    if (typeof error === 'object' && error !== null && 'code' in error && (error as { code: string }).code === 'P2002') {
+      return new NextResponse('Ya existe un alumno con este DNI', { status: 409 });
+    }
+    console.error('Error creating alumno:', error);
+    return new NextResponse('Error creating alumno', { status: 500 });
+  }
 }
