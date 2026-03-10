@@ -6,10 +6,13 @@ import { isAdmin } from '@/lib/is-admin';
 export interface VolunteerSession {
   id: number;
   title: string;
-  date: string; // ISO string
+  date: string;
   description: string | null;
+  location: string;
   capacity: number;
-  createdAt: string; // ISO string
+  image: string;
+  type: string;
+  createdAt: string;
 }
 
 export async function GET() {
@@ -25,6 +28,8 @@ export async function GET() {
     description: s.description,
     location: s.location,
     capacity: s.capacity,
+    image: s.image,
+    type: s.type,
     createdAt: s.createdAt.toISOString(),
   }));
 
