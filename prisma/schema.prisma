@@ -86,9 +86,10 @@ model Alumno {
   colegio         String
   nivel           String
   fechaMatricula  DateTime       @default(now())
-  escuelita       Escuelita
-  createdAt       DateTime       @default(now())
-  seguimientos    Seguimiento[]
+  escuelita             Escuelita
+  necesidadesEspeciales String?
+  createdAt             DateTime       @default(now())
+  seguimientos          Seguimiento[]
 }
 
 model Seguimiento {
