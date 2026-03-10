@@ -48,6 +48,7 @@ const AlumnoModal = ({ alumno, dialogRef, onClose, onDelete }: AlumnoModalProps)
     nivel: alumno.nivel,
     fechaMatricula: new Date(alumno.fechaMatricula).toISOString().split("T")[0],
     escuelita: alumno.escuelita as "Peruanidad" | "Valle_Ecologico",
+    necesidadesEspeciales: alumno.necesidadesEspeciales ?? "",
   });
 
   const handleChange = (field: string, value: string) => {
@@ -265,6 +266,19 @@ const AlumnoModal = ({ alumno, dialogRef, onClose, onDelete }: AlumnoModalProps)
               className="w-full border rounded p-2 bg-zinc-50 text-sm"
             />
             <FormErrors id="fechaMatricula" errors={fieldErrors} />
+          </div>
+
+          {/* Necesidades especiales */}
+          <div>
+            <label className="block font-medium mb-1 text-sm">Necesidades especiales</label>
+            <textarea
+              value={formData.necesidadesEspeciales}
+              onChange={(e) => handleChange("necesidadesEspeciales", e.target.value)}
+              placeholder="Indicar si el alumno tiene necesidades especiales..."
+              rows={3}
+              className="w-full border rounded p-2 bg-zinc-50 text-sm resize-none"
+            />
+            <FormErrors id="necesidadesEspeciales" errors={fieldErrors} />
           </div>
 
           {/* Actions */}

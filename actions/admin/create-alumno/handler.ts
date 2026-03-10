@@ -14,7 +14,7 @@ export const handler = async (data: InputType): Promise<ReturnType> => {
   const isUserAdmin = await isAdmin(userId);
   if (!isUserAdmin) return { error: "Unauthorized" };
 
-  const { apellidos, nombre, fechaNacimiento, sexo, dni, colegio, nivel, fechaMatricula, escuelita } = data;
+  const { apellidos, nombre, fechaNacimiento, sexo, dni, colegio, nivel, fechaMatricula, escuelita, necesidadesEspeciales } = data;
 
   try {
     const alumno = await prisma.alumno.create({
@@ -28,6 +28,7 @@ export const handler = async (data: InputType): Promise<ReturnType> => {
         nivel,
         fechaMatricula: new Date(fechaMatricula),
         escuelita: escuelita as Escuelita,
+        necesidadesEspeciales,
       },
     });
 

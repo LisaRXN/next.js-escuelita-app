@@ -22,6 +22,7 @@ export default function CreateAlumnoPage() {
     nivel: "",
     fechaMatricula: today,
     escuelita: "",
+    necesidadesEspeciales: "",
   });
 
   const { execute, fieldErrors, isLoading } = useAction(createAlumno, {
@@ -198,6 +199,19 @@ export default function CreateAlumnoPage() {
             className="w-full border rounded p-2 bg-zinc-50"
           />
           <FormErrors id="fechaMatricula" errors={fieldErrors} />
+        </div>
+
+        {/* Necesidades especiales */}
+        <div>
+          <label className="block font-medium mb-2">Necesidades especiales</label>
+          <textarea
+            value={formData.necesidadesEspeciales}
+            onChange={(e) => handleChange("necesidadesEspeciales", e.target.value)}
+            placeholder="Indicar si el alumno tiene necesidades especiales..."
+            rows={3}
+            className="w-full border rounded p-2 bg-zinc-50 resize-none"
+          />
+          <FormErrors id="necesidadesEspeciales" errors={fieldErrors} />
         </div>
 
         <button

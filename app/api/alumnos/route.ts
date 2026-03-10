@@ -56,7 +56,7 @@ export async function POST(req: NextRequest) {
   }
 
   const body = await req.json();
-  const { apellidos, nombre, fechaNacimiento, sexo, dni, colegio, nivel, fechaMatricula, escuelita } = body;
+  const { apellidos, nombre, fechaNacimiento, sexo, dni, colegio, nivel, fechaMatricula, escuelita, necesidadesEspeciales } = body;
 
   try {
     const alumno = await prisma.alumno.create({
@@ -70,6 +70,7 @@ export async function POST(req: NextRequest) {
         nivel,
         fechaMatricula: new Date(fechaMatricula ?? new Date()),
         escuelita: escuelita as Escuelita,
+        necesidadesEspeciales,
       },
     });
 

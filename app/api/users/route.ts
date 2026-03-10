@@ -12,11 +12,12 @@ export async function GET(req: NextRequest) {
 
   // Filtres
   const withCounts = searchParams.get("withCounts") === "true";
+  const all = searchParams.get("all") === "true";
   const isActiveParam = searchParams.get("isActive");
   const search = searchParams.get("search");
   const sortBy = searchParams.get("sortBy");
   const page = Math.max(1, parseInt(searchParams.get("page") ?? "1", 10));
-  const skip = (page - 1) * PAGE_SIZE;
+  const skip = all ? 0 : (page - 1) * PAGE_SIZE;
 
   const where: Prisma.VolunteerWhereInput = {};
   const orderBy: Prisma.VolunteerOrderByWithRelationInput = {};
@@ -50,7 +51,7 @@ export async function GET(req: NextRequest) {
       where,
       orderBy,
       skip,
-      take: PAGE_SIZE,
+      ...(all ? {} : { take: PAGE_SIZE }),
     }),
     prisma.volunteer.count({ where }),
   ]);

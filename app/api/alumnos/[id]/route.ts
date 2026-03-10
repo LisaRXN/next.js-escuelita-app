@@ -30,7 +30,7 @@ export async function PATCH(req: NextRequest, { params }: Params) {
 
   const { id } = await params;
   const body = await req.json();
-  const { apellidos, nombre, fechaNacimiento, sexo, dni, colegio, nivel, fechaMatricula, escuelita } = body;
+  const { apellidos, nombre, fechaNacimiento, sexo, dni, colegio, nivel, fechaMatricula, escuelita, necesidadesEspeciales } = body;
 
   const updateData: Record<string, unknown> = {};
   if (apellidos !== undefined) updateData.apellidos = apellidos;
@@ -42,6 +42,7 @@ export async function PATCH(req: NextRequest, { params }: Params) {
   if (nivel !== undefined) updateData.nivel = nivel;
   if (fechaMatricula !== undefined) updateData.fechaMatricula = new Date(fechaMatricula);
   if (escuelita !== undefined) updateData.escuelita = escuelita as Escuelita;
+  if (necesidadesEspeciales !== undefined) updateData.necesidadesEspeciales = necesidadesEspeciales;
 
   try {
     const alumno = await prisma.alumno.update({ where: { id: parseInt(id) }, data: updateData });

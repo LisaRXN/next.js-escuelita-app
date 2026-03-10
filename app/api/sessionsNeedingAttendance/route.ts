@@ -9,15 +9,12 @@ export async function GET() {
     return new NextResponse('Unauthorized', { status: 401 });
   }
 
-  const now = new Date();
-
   const sessions = await prisma.volunteerSession.findMany({
     where: {
-      date: { lt: now },
-      registrations: { some: {} },
+      volunteers: { some: {} },
     },
     include: {
-      registrations: {
+      volunteers: {
         select: { status: true },
       },
     },
@@ -31,7 +28,7 @@ export async function GET() {
     date: s.date.toISOString(),
     type: s.type,
     location: s.location,
-    pendingCount: s.registrations.filter((r) => r.status === 'PENDING').length,
+    pendingCount: s.volunteers.filter((r) => r.status === 'PENDING').length,
   }));
 
   return NextResponse.json(result);

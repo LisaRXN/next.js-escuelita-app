@@ -11,4 +11,5 @@ export const UpdateAlumnoSchema = z.object({
   nivel: z.string().min(1),
   fechaMatricula: z.string().refine((d) => !isNaN(Date.parse(d)), { message: "Fecha inválida" }),
   escuelita: z.enum(["Peruanidad", "Valle_Ecologico"]),
+  necesidadesEspeciales: z.string().optional(),
 });

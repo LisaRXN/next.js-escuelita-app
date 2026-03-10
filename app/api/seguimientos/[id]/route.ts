@@ -2,7 +2,6 @@ import { prisma } from "@/lib/prisma";
 import { Calificacion, Escuelita } from "@/generated/prisma";
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
-import { isAdmin } from "@/lib/is-admin";
 
 type Params = { params: Promise<{ id: string }> };
 
@@ -22,7 +21,7 @@ export async function GET(_req: NextRequest, { params }: Params) {
 
 export async function PATCH(req: NextRequest, { params }: Params) {
   const { userId } = await auth();
-  if (!userId || !(await isAdmin(userId))) {
+  if (!userId) {
     return new NextResponse("Unauthorized", { status: 401 });
   }
 
@@ -53,7 +52,7 @@ export async function PATCH(req: NextRequest, { params }: Params) {
 
 export async function DELETE(_req: NextRequest, { params }: Params) {
   const { userId } = await auth();
-  if (!userId || !(await isAdmin(userId))) {
+  if (!userId) {
     return new NextResponse("Unauthorized", { status: 401 });
   }
 

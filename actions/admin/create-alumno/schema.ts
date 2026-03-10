@@ -10,4 +10,5 @@ export const CreateAlumnoSchema = z.object({
   nivel: z.string({ required_error: "El nivel es obligatorio" }).min(1),
   fechaMatricula: z.string().refine((d) => !isNaN(Date.parse(d)), { message: "Fecha inválida" }),
   escuelita: z.enum(["Peruanidad", "Valle_Ecologico"], { required_error: "La escuelita es obligatoria" }),
+  necesidadesEspeciales: z.string().optional(),
 });
