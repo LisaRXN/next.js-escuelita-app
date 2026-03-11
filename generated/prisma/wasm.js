@@ -158,6 +158,7 @@ exports.Prisma.AlumnoScalarFieldEnum = {
   nivel: 'nivel',
   fechaMatricula: 'fechaMatricula',
   escuelita: 'escuelita',
+  necesidadesEspeciales: 'necesidadesEspeciales',
   createdAt: 'createdAt'
 };
 

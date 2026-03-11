@@ -6,7 +6,10 @@ export interface VolunteerSession {
   title: string;
   date: string; // ISO string
   description: string | null;
+  location: string | null;
+  image: string | null;
   capacity: number;
+  type: string | null;
   createdAt: string; // ISO string
 }
 
@@ -34,6 +37,7 @@ export async function GET() {
     location: s.location,
     image: s.image,
     capacity: s.capacity,
+    type: s.type,
     createdAt: s.createdAt.toISOString(),
   }));
 

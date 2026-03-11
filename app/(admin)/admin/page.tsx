@@ -228,7 +228,7 @@ const AdminPage = () => {
                   subtitle="Apúntate como líder y acompaña el grupo"
                   link="/admin/agenda"
                 />
-                <div className="p-2 lg:p-5 bg-zinc-50 rounded-xl">
+                <div className="bg-zinc-50 rounded-xl overflow-hidden">
                   {sessions && <Calendar sessions={nextSessions} isReduce={true} />}
                 </div>
               </div>

@@ -18,11 +18,13 @@ const NIVELES = [
   "Primaria 3°",
   "Primaria 4°",
   "Primaria 5°",
+  "Primaria 6°",
   "Secundaria 1°",
   "Secundaria 2°",
   "Secundaria 3°",
   "Secundaria 4°",
   "Secundaria 5°",
+  "Secundaria 6°",
 ];
 
 const AlumnosFilterBar = ({

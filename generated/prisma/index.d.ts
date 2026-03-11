@@ -3783,6 +3783,7 @@ export namespace Prisma {
     nivel: string | null
     fechaMatricula: Date | null
     escuelita: $Enums.Escuelita | null
+    necesidadesEspeciales: string | null
     createdAt: Date | null
   }
 
@@ -3797,6 +3798,7 @@ export namespace Prisma {
     nivel: string | null
     fechaMatricula: Date | null
     escuelita: $Enums.Escuelita | null
+    necesidadesEspeciales: string | null
     createdAt: Date | null
   }
 
@@ -3811,6 +3813,7 @@ export namespace Prisma {
     nivel: number
     fechaMatricula: number
     escuelita: number
+    necesidadesEspeciales: number
     createdAt: number
     _all: number
   }
@@ -3837,6 +3840,7 @@ export namespace Prisma {
     nivel?: true
     fechaMatricula?: true
     escuelita?: true
+    necesidadesEspeciales?: true
     createdAt?: true
   }
 
@@ -3851,6 +3855,7 @@ export namespace Prisma {
     nivel?: true
     fechaMatricula?: true
     escuelita?: true
+    necesidadesEspeciales?: true
     createdAt?: true
   }
 
@@ -3865,6 +3870,7 @@ export namespace Prisma {
     nivel?: true
     fechaMatricula?: true
     escuelita?: true
+    necesidadesEspeciales?: true
     createdAt?: true
     _all?: true
   }
@@ -3966,6 +3972,7 @@ export namespace Prisma {
     nivel: string
     fechaMatricula: Date
     escuelita: $Enums.Escuelita
+    necesidadesEspeciales: string | null
     createdAt: Date
     _count: AlumnoCountAggregateOutputType | null
     _avg: AlumnoAvgAggregateOutputType | null
@@ -3999,6 +4006,7 @@ export namespace Prisma {
     nivel?: boolean
     fechaMatricula?: boolean
     escuelita?: boolean
+    necesidadesEspeciales?: boolean
     createdAt?: boolean
     seguimientos?: boolean | Alumno$seguimientosArgs<ExtArgs>
     _count?: boolean | AlumnoCountOutputTypeDefaultArgs<ExtArgs>
@@ -4015,6 +4023,7 @@ export namespace Prisma {
     nivel?: boolean
     fechaMatricula?: boolean
     escuelita?: boolean
+    necesidadesEspeciales?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["alumno"]>
 
@@ -4029,6 +4038,7 @@ export namespace Prisma {
     nivel?: boolean
     fechaMatricula?: boolean
     escuelita?: boolean
+    necesidadesEspeciales?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["alumno"]>
 
@@ -4043,10 +4053,11 @@ export namespace Prisma {
     nivel?: boolean
     fechaMatricula?: boolean
     escuelita?: boolean
+    necesidadesEspeciales?: boolean
     createdAt?: boolean
   }
 
-  export type AlumnoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "apellidos" | "nombre" | "fechaNacimiento" | "sexo" | "dni" | "colegio" | "nivel" | "fechaMatricula" | "escuelita" | "createdAt", ExtArgs["result"]["alumno"]>
+  export type AlumnoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "apellidos" | "nombre" | "fechaNacimiento" | "sexo" | "dni" | "colegio" | "nivel" | "fechaMatricula" | "escuelita" | "necesidadesEspeciales" | "createdAt", ExtArgs["result"]["alumno"]>
   export type AlumnoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     seguimientos?: boolean | Alumno$seguimientosArgs<ExtArgs>
     _count?: boolean | AlumnoCountOutputTypeDefaultArgs<ExtArgs>
@@ -4070,6 +4081,7 @@ export namespace Prisma {
       nivel: string
       fechaMatricula: Date
       escuelita: $Enums.Escuelita
+      necesidadesEspeciales: string | null
       createdAt: Date
     }, ExtArgs["result"]["alumno"]>
     composites: {}
@@ -4505,6 +4517,7 @@ export namespace Prisma {
     readonly nivel: FieldRef<"Alumno", 'String'>
     readonly fechaMatricula: FieldRef<"Alumno", 'DateTime'>
     readonly escuelita: FieldRef<"Alumno", 'Escuelita'>
+    readonly necesidadesEspeciales: FieldRef<"Alumno", 'String'>
     readonly createdAt: FieldRef<"Alumno", 'DateTime'>
   }
     
@@ -7250,6 +7263,7 @@ export namespace Prisma {
     nivel: 'nivel',
     fechaMatricula: 'fechaMatricula',
     escuelita: 'escuelita',
+    necesidadesEspeciales: 'necesidadesEspeciales',
     createdAt: 'createdAt'
   };
 
@@ -7630,6 +7644,7 @@ export namespace Prisma {
     nivel?: StringFilter<"Alumno"> | string
     fechaMatricula?: DateTimeFilter<"Alumno"> | Date | string
     escuelita?: EnumEscuelitaFilter<"Alumno"> | $Enums.Escuelita
+    necesidadesEspeciales?: StringNullableFilter<"Alumno"> | string | null
     createdAt?: DateTimeFilter<"Alumno"> | Date | string
     seguimientos?: SeguimientoListRelationFilter
   }
@@ -7645,6 +7660,7 @@ export namespace Prisma {
     nivel?: SortOrder
     fechaMatricula?: SortOrder
     escuelita?: SortOrder
+    necesidadesEspeciales?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     seguimientos?: SeguimientoOrderByRelationAggregateInput
   }
@@ -7663,6 +7679,7 @@ export namespace Prisma {
     nivel?: StringFilter<"Alumno"> | string
     fechaMatricula?: DateTimeFilter<"Alumno"> | Date | string
     escuelita?: EnumEscuelitaFilter<"Alumno"> | $Enums.Escuelita
+    necesidadesEspeciales?: StringNullableFilter<"Alumno"> | string | null
     createdAt?: DateTimeFilter<"Alumno"> | Date | string
     seguimientos?: SeguimientoListRelationFilter
   }, "id" | "dni">
@@ -7678,6 +7695,7 @@ export namespace Prisma {
     nivel?: SortOrder
     fechaMatricula?: SortOrder
     escuelita?: SortOrder
+    necesidadesEspeciales?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     _count?: AlumnoCountOrderByAggregateInput
     _avg?: AlumnoAvgOrderByAggregateInput
@@ -7700,6 +7718,7 @@ export namespace Prisma {
     nivel?: StringWithAggregatesFilter<"Alumno"> | string
     fechaMatricula?: DateTimeWithAggregatesFilter<"Alumno"> | Date | string
     escuelita?: EnumEscuelitaWithAggregatesFilter<"Alumno"> | $Enums.Escuelita
+    necesidadesEspeciales?: StringNullableWithAggregatesFilter<"Alumno"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Alumno"> | Date | string
   }
 
@@ -8042,6 +8061,7 @@ export namespace Prisma {
     nivel: string
     fechaMatricula?: Date | string
     escuelita: $Enums.Escuelita
+    necesidadesEspeciales?: string | null
     createdAt?: Date | string
     seguimientos?: SeguimientoCreateNestedManyWithoutAlumnoInput
   }
@@ -8057,6 +8077,7 @@ export namespace Prisma {
     nivel: string
     fechaMatricula?: Date | string
     escuelita: $Enums.Escuelita
+    necesidadesEspeciales?: string | null
     createdAt?: Date | string
     seguimientos?: SeguimientoUncheckedCreateNestedManyWithoutAlumnoInput
   }
@@ -8071,6 +8092,7 @@ export namespace Prisma {
     nivel?: StringFieldUpdateOperationsInput | string
     fechaMatricula?: DateTimeFieldUpdateOperationsInput | Date | string
     escuelita?: EnumEscuelitaFieldUpdateOperationsInput | $Enums.Escuelita
+    necesidadesEspeciales?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     seguimientos?: SeguimientoUpdateManyWithoutAlumnoNestedInput
   }
@@ -8086,6 +8108,7 @@ export namespace Prisma {
     nivel?: StringFieldUpdateOperationsInput | string
     fechaMatricula?: DateTimeFieldUpdateOperationsInput | Date | string
     escuelita?: EnumEscuelitaFieldUpdateOperationsInput | $Enums.Escuelita
+    necesidadesEspeciales?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     seguimientos?: SeguimientoUncheckedUpdateManyWithoutAlumnoNestedInput
   }
@@ -8101,6 +8124,7 @@ export namespace Prisma {
     nivel: string
     fechaMatricula?: Date | string
     escuelita: $Enums.Escuelita
+    necesidadesEspeciales?: string | null
     createdAt?: Date | string
   }
 
@@ -8114,6 +8138,7 @@ export namespace Prisma {
     nivel?: StringFieldUpdateOperationsInput | string
     fechaMatricula?: DateTimeFieldUpdateOperationsInput | Date | string
     escuelita?: EnumEscuelitaFieldUpdateOperationsInput | $Enums.Escuelita
+    necesidadesEspeciales?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -8128,6 +8153,7 @@ export namespace Prisma {
     nivel?: StringFieldUpdateOperationsInput | string
     fechaMatricula?: DateTimeFieldUpdateOperationsInput | Date | string
     escuelita?: EnumEscuelitaFieldUpdateOperationsInput | $Enums.Escuelita
+    necesidadesEspeciales?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -8559,6 +8585,7 @@ export namespace Prisma {
     nivel?: SortOrder
     fechaMatricula?: SortOrder
     escuelita?: SortOrder
+    necesidadesEspeciales?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -8578,6 +8605,7 @@ export namespace Prisma {
     nivel?: SortOrder
     fechaMatricula?: SortOrder
     escuelita?: SortOrder
+    necesidadesEspeciales?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -8592,6 +8620,7 @@ export namespace Prisma {
     nivel?: SortOrder
     fechaMatricula?: SortOrder
     escuelita?: SortOrder
+    necesidadesEspeciales?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -9363,6 +9392,7 @@ export namespace Prisma {
     nivel: string
     fechaMatricula?: Date | string
     escuelita: $Enums.Escuelita
+    necesidadesEspeciales?: string | null
     createdAt?: Date | string
   }
 
@@ -9377,6 +9407,7 @@ export namespace Prisma {
     nivel: string
     fechaMatricula?: Date | string
     escuelita: $Enums.Escuelita
+    necesidadesEspeciales?: string | null
     createdAt?: Date | string
   }
 
@@ -9406,6 +9437,7 @@ export namespace Prisma {
     nivel?: StringFieldUpdateOperationsInput | string
     fechaMatricula?: DateTimeFieldUpdateOperationsInput | Date | string
     escuelita?: EnumEscuelitaFieldUpdateOperationsInput | $Enums.Escuelita
+    necesidadesEspeciales?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -9420,6 +9452,7 @@ export namespace Prisma {
     nivel?: StringFieldUpdateOperationsInput | string
     fechaMatricula?: DateTimeFieldUpdateOperationsInput | Date | string
     escuelita?: EnumEscuelitaFieldUpdateOperationsInput | $Enums.Escuelita
+    necesidadesEspeciales?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

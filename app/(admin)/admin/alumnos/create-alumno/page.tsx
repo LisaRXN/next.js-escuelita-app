@@ -161,6 +161,7 @@ export default function CreateAlumnoPage() {
                 <option value="Primaria 3°">Primaria 3°</option>
                 <option value="Primaria 4°">Primaria 4°</option>
                 <option value="Primaria 5°">Primaria 5°</option>
+                <option value="Primaria 6°">Primaria 6°</option>
               </optgroup>
               <optgroup label="Secundaria">
                 <option value="Secundaria 1°">Secundaria 1°</option>
@@ -168,6 +169,7 @@ export default function CreateAlumnoPage() {
                 <option value="Secundaria 3°">Secundaria 3°</option>
                 <option value="Secundaria 4°">Secundaria 4°</option>
                 <option value="Secundaria 5°">Secundaria 5°</option>
+                <option value="Secundaria 6°">Secundaria 6°</option>
               </optgroup>
             </select>
             <FormErrors id="nivel" errors={fieldErrors} />
