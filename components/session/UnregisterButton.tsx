@@ -27,9 +27,9 @@ const UnregisterButton = ({
         toast.success("Tu inscripción esta cancelada!");
         queryClient.invalidateQueries({ queryKey: ["user"] });
         queryClient.invalidateQueries({ queryKey: ["sessionById"] });
-        queryClient.invalidateQueries({ queryKey: ["sessionById"] });
         queryClient.invalidateQueries({ queryKey: ["sessionsWithLiders"] });
         queryClient.invalidateQueries({ queryKey: ["sessions"] });
+        queryClient.invalidateQueries({ queryKey: ["coordinator-agenda"] });
       },
       onError: (error) => {
         toast.error(error);
@@ -46,9 +46,9 @@ const UnregisterButton = ({
       <button
         onClick={handleUnregister}
         disabled={isLoading || !isAdmin}
-        className={`${fullWidth ? "w-full" : ""} bg-myred cursor-pointer text-white ${
-          isReduce ? "px-2 md:px-4 py-1.5" : "px-4 py-2"
-        } rounded hover:bg-myred/80 transition disabled:opacity-50`}
+        className={`${fullWidth ? "w-full" : ""} border border-myred text-myred bg-transparent cursor-pointer font-semibold ${
+          isReduce ? "px-2 md:px-3 py-1 text-xs rounded-xl" : "px-4 py-2.5 rounded-2xl"
+        } hover:bg-myred/5 transition disabled:opacity-50 flex items-center justify-center gap-2`}
       >
         {isLoading
           ? "Cancelación..."

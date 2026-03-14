@@ -41,7 +41,7 @@ const UnregisterVolunteer = ({
     <button
       onClick={handleUnregister}
       disabled={isLoading}
-      className="rounded px-2 py-1.5 text-white  bg-myred hover:bg-myred/80 transition disabled:opacity-50"
+      className="border border-myred text-myred bg-transparent px-2.5 py-1 text-xs font-semibold rounded-xl hover:bg-myred/5 transition disabled:opacity-50"
     >
       {isLoading
         ? "Cancelación"

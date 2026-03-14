@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { RegistrationStatus } from "@/generated/prisma";
+import { RegistrationStatus, SessionTypes } from "@/generated/prisma";
 import { NextRequest } from "next/server";
 
 
@@ -49,6 +49,9 @@ export async function GET(req: NextRequest, { params }: Params) {
     where: {
       volunteerId: user.id,
       status: RegistrationStatus.CONFIRMED,
+      session: {
+        type: SessionTypes.TUTORING,
+      },
     },
   });
 

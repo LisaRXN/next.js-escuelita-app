@@ -41,10 +41,11 @@ const DeleteSessionButton = ({ sessionId, handleCloseModal, redirection=false }:
     <>
       <button
         onClick={() => dialogRef.current?.showModal()}
-        className="bg-black w-full text-white py-2 rounded hover:bg-black/80 disabled:opacity-50"
+        className="w-full py-2.5 rounded-2xl border border-zinc-200 text-mygray text-sm font-medium hover:bg-zinc-50 hover:border-myred/30 hover:text-myred transition disabled:opacity-50 flex items-center justify-center gap-2"
         disabled={isLoading}
       >
-        Suprimir evento
+        <i className="fa-solid fa-trash-can text-xs" />
+        Eliminar sesión
       </button>
 
       <dialog ref={dialogRef} className="modal h-full">

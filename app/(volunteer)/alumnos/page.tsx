@@ -1,157 +1,324 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { fetcher } from "@/lib/fetcher";
-import { useRouter } from "next/navigation";
 import { Alumno } from "@/generated/prisma";
 
-const NIVELES = [
-  "Nido",
-  "Primaria 1°", "Primaria 2°", "Primaria 3°", "Primaria 4°", "Primaria 5°", "Primaria 6°",
-  "Secundaria 1°", "Secundaria 2°", "Secundaria 3°", "Secundaria 4°", "Secundaria 5°", "Secundaria 6°",
-];
+// ── Config ────────────────────────────────────────────────────────────────────
 
-export default function AlumnosVolunteerPage() {
-  const router = useRouter();
-  const [search, setSearch] = useState("");
-  const [nivel, setNivel] = useState("");
-  const [escuelita, setEscuelita] = useState("");
-  const [page, setPage] = useState(1);
+type Escuelita = "Peruanidad" | "Valle_Ecologico";
 
-  useEffect(() => { setPage(1); }, [search, nivel, escuelita]);
+const ESCUELITA_CONFIG: Record<Escuelita, {
+  color: string;
+  light: string;
+  icon: string;
+  label: string;
+  description: string;
+}> = {
+  Peruanidad: {
+    color: "#FA9F07",
+    light: "#FFF8E7",
+    icon: "fa-flag",
+    label: "Peruanidad",
+    description: "Historia, cultura y tradiciones peruanas",
+  },
+  Valle_Ecologico: {
+    color: "#2B797C",
+    light: "#E6F4F4",
+    icon: "fa-leaf",
+    label: "Valle Ecológico",
+    description: "Medio ambiente y educación ecológica",
+  },
+};
 
-  const params = new URLSearchParams();
-  if (search) params.set("search", search);
-  if (nivel) params.set("nivel", nivel);
-  if (escuelita) params.set("escuelita", escuelita);
-  params.set("page", String(page));
+// ── Escuelita home card ───────────────────────────────────────────────────────
 
-  const { data, isLoading } = useQuery({
-    queryKey: ["alumnos-v", search, nivel, escuelita, page],
-    queryFn: () => fetcher(`/api/alumnos?${params.toString()}`),
-  });
-
-  const alumnos: Alumno[] = data?.data ?? [];
-  const total: number = data?.total ?? 0;
-  const totalPages: number = data?.totalPages ?? 1;
+function EscuelitaCard({
+  escuelita,
+  count,
+  onSelect,
+}: {
+  escuelita: Escuelita;
+  count: number;
+  onSelect: () => void;
+}) {
+  const cfg = ESCUELITA_CONFIG[escuelita];
 
   return (
-    <main className="px-2 md:px-8 pt-10 flex flex-col gap-6 items-center min-h-screen m-auto w-full">
-      <div className="w-full flex items-center justify-between">
-        <h1 className="text-[30px] md:text-[40px] font-bold font-montserrat text-white">
-          Los alumnos <span className="md:text-[30px] ml-3">🧒👧🏽</span>
-        </h1>
+    <button
+      onClick={onSelect}
+      className="relative text-left rounded-3xl p-6 overflow-hidden hover:-translate-y-0.5 transition-transform duration-150 w-full"
+      style={{ backgroundColor: cfg.color }}
+    >
+      {/* Cercles déco */}
+      <div className="absolute -top-8 -right-8 w-36 h-36 rounded-full" style={{ backgroundColor: "rgba(255,255,255,0.12)" }} />
+      <div className="absolute -bottom-5 right-10 w-20 h-20 rounded-full" style={{ backgroundColor: "rgba(255,255,255,0.08)" }} />
+
+      {/* Icône */}
+      <div className="relative w-12 h-12 rounded-2xl flex items-center justify-center mb-4" style={{ backgroundColor: "rgba(255,255,255,0.2)" }}>
+        <i className={`fa-solid ${cfg.icon} text-white text-xl`} />
       </div>
 
-      {/* Filtros */}
-      <div className="w-full flex flex-col lg:flex-row gap-3">
-        <div className="flex items-center h-[50px] flex-1 bg-zinc-50 rounded-full justify-between p-2 text-sm">
+      {/* Texte */}
+      <p className="relative text-white text-2xl font-extrabold mb-1">{cfg.label}</p>
+      <p className="relative text-white/75 text-sm mb-5">{cfg.description}</p>
+
+      {/* Footer */}
+      <div className="relative flex items-center justify-between">
+        <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-xl" style={{ backgroundColor: "rgba(255,255,255,0.2)" }}>
+          <i className="fa-solid fa-users text-white text-sm" />
+          <span className="text-white font-bold text-sm">{count} alumno{count !== 1 ? "s" : ""}</span>
+        </div>
+        <div className="w-9 h-9 rounded-full flex items-center justify-center" style={{ backgroundColor: "rgba(255,255,255,0.2)" }}>
+          <i className="fa-solid fa-arrow-right text-white text-sm" />
+        </div>
+      </div>
+    </button>
+  );
+}
+
+// ── EscuelitaListView ─────────────────────────────────────────────────────────
+
+function EscuelitaListView({
+  escuelita,
+  onBack,
+}: {
+  escuelita: Escuelita;
+  onBack: () => void;
+}) {
+  const cfg = ESCUELITA_CONFIG[escuelita];
+  const [search, setSearch] = useState("");
+  const [filterSexo, setFilterSexo] = useState<"" | "M" | "F">("");
+  const [filterNivel, setFilterNivel] = useState("");
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["alumnos-list", escuelita],
+    queryFn: () => fetcher(`/api/alumnos?escuelita=${escuelita}&all=true`),
+  });
+
+  const allAlumnos: Alumno[] = data?.data ?? [];
+
+  const availableNiveles = useMemo(() => {
+    const set = new Set(allAlumnos.map((a) => a.nivel).filter(Boolean));
+    return Array.from(set).sort();
+  }, [allAlumnos]);
+
+  const filtered = useMemo(() => {
+    return allAlumnos.filter((a) => {
+      if (filterSexo && a.sexo !== filterSexo) return false;
+      if (filterNivel && a.nivel !== filterNivel) return false;
+      if (search) {
+        const q = search.toLowerCase();
+        if (
+          !a.nombre.toLowerCase().includes(q) &&
+          !a.apellidos.toLowerCase().includes(q)
+        ) return false;
+      }
+      return true;
+    });
+  }, [allAlumnos, filterSexo, filterNivel, search]);
+
+  return (
+    <div className="min-h-screen bg-zinc-50">
+      {/* Header coloré */}
+      <div className="px-4 md:px-8 pt-8 pb-6" style={{ backgroundColor: cfg.color }}>
+        <button onClick={onBack} className="flex items-center gap-2 text-white/80 hover:text-white transition mb-4 text-sm font-medium">
+          <i className="fa-solid fa-arrow-left" />
+          Atrás
+        </button>
+        <p className="text-white/75 text-xs font-medium uppercase tracking-wide">Escuelita</p>
+        <h1 className="text-white text-2xl font-extrabold mt-0.5">{cfg.label}</h1>
+        <p className="text-white/70 text-sm mt-1">{data?.total ?? 0} alumno{(data?.total ?? 0) !== 1 ? "s" : ""}</p>
+      </div>
+
+      {/* Search */}
+      <div className="px-4 md:px-8 py-4 bg-white border-b border-zinc-100">
+        <div className="flex items-center h-[44px] bg-zinc-50 rounded-full border border-zinc-200 px-4 gap-2 max-w-lg">
+          <i className="fa-solid fa-magnifying-glass text-zinc-400 text-sm" />
           <input
-            className="appearance-none bg-zinc-50 p-3 rounded-full w-full border-none focus:outline-none"
-            placeholder="Buscar por nombre, apellidos o colegio..."
-            type="text"
+            className="flex-1 bg-transparent text-sm text-myzinc placeholder:text-zinc-400 focus:outline-none"
+            placeholder="Buscar por nombre o apellido..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
-          <button className="min-w-[40px] min-h-[40px] rounded-full bg-myorange">
-            <i className="fa-solid fa-magnifying-glass text-white"></i>
-          </button>
-        </div>
-        <div className="flex-1 lg:flex-none min-h-[50px] text-white border border-white hover:border-zinc-100 transition rounded-xl flex items-center justify-center gap-2 px-5">
-          <i className="fa-solid fa-graduation-cap text-white"></i>
-          <select value={nivel} onChange={(e) => setNivel(e.target.value)} className="custom-select">
-            <option value="">Todos los niveles</option>
-            {NIVELES.map((n) => <option key={n} value={n}>{n}</option>)}
-          </select>
-        </div>
-        <div className="flex-1 lg:flex-none min-h-[50px] text-white border border-white hover:border-zinc-100 transition rounded-xl flex items-center justify-center gap-2 px-5">
-          <i className="fa-solid fa-school text-white"></i>
-          <select value={escuelita} onChange={(e) => setEscuelita(e.target.value)} className="custom-select">
-            <option value="">Todas las escuelitas</option>
-            <option value="Peruanidad">Peruanidad</option>
-            <option value="Valle_Ecologico">Valle Ecológico</option>
-          </select>
+          {search && (
+            <button onClick={() => setSearch("")} className="text-zinc-400 hover:text-zinc-600">
+              <i className="fa-solid fa-xmark text-xs" />
+            </button>
+          )}
         </div>
       </div>
 
-      {isLoading ? (
-        <div className="text-center p-20 flex flex-col items-center gap-4 text-mylightgray">
-          <span className="loading loading-spinner loading-xl"></span>
-          <p>Cargando...</p>
+      {/* Filtros */}
+      <div className="px-4 md:px-8 pt-3 pb-1 flex flex-col gap-2">
+        {/* Sexo pills */}
+        <div className="flex flex-wrap gap-2">
+          {([
+            { value: "" as const, label: "Todos" },
+            { value: "M" as const, label: "Niños" },
+            { value: "F" as const, label: "Niñas" },
+          ]).map(({ value, label }) => {
+            const active = filterSexo === value;
+            return (
+              <button
+                key={value || "all-sexo"}
+                onClick={() => setFilterSexo(value)}
+                className="px-3.5 py-1.5 rounded-full text-sm font-semibold border transition"
+                style={{
+                  backgroundColor: active ? cfg.color : "white",
+                  borderColor: active ? cfg.color : "#E5E7EB",
+                  color: active ? "white" : "#485668",
+                }}
+              >
+                {label}
+              </button>
+            );
+          })}
         </div>
-      ) : alumnos.length === 0 ? (
-        <p className="text-white text-lg py-10">No se encontraron alumnos.</p>
-      ) : (
-        <div className="w-full flex flex-col gap-4">
-          <p className="text-white/70 text-sm">{total} alumno{total !== 1 ? "s" : ""}</p>
 
-          {/* Tabla desktop */}
-          <div className="hidden md:block w-full bg-white rounded-xl overflow-hidden border border-zinc-200">
-            <table className="w-full text-sm text-myzinc">
-              <thead className="bg-zinc-100 text-xs uppercase font-semibold text-zinc-500">
-                <tr>
-                  <th className="px-4 py-3 text-left">Nombre</th>
-                  <th className="px-4 py-3 text-left">Apellidos</th>
-                  <th className="px-4 py-3 text-left">Colegio</th>
-                  <th className="px-4 py-3 text-left">Nivel</th>
-                  <th className="px-4 py-3 text-left">Escuelita</th>
-                </tr>
-              </thead>
-              <tbody>
-                {alumnos.map((alumno, i) => (
-                  <tr
-                    key={alumno.id}
-                    onClick={() => router.push(`/alumnos/${alumno.id}`)}
-                    className={`cursor-pointer hover:bg-zinc-100 transition ${i % 2 === 0 ? "bg-white" : "bg-zinc-50"}`}
-                  >
-                    <td className="px-4 py-3 font-medium">{alumno.nombre}</td>
-                    <td className="px-4 py-3">{alumno.apellidos}</td>
-                    <td className="px-4 py-3">{alumno.colegio}</td>
-                    <td className="px-4 py-3">
-                      <span className="px-2 py-1 bg-zinc-100 rounded-full text-xs font-medium">{alumno.nivel}</span>
-                    </td>
-                    <td className="px-4 py-3">
-                      <span className={`px-2 py-1 rounded-full text-xs font-medium text-white ${alumno.escuelita === "Peruanidad" ? "bg-myteal" : "bg-mygreen"}`}>
-                        {alumno.escuelita === "Valle_Ecologico" ? "Valle Ecológico" : alumno.escuelita}
-                      </span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+        {/* Nivel pills — uniquement si plusieurs */}
+        {availableNiveles.length > 1 && (
+          <div className="flex flex-wrap gap-2">
+            {[{ value: "", label: "Todos los niveles" }, ...availableNiveles.map((n) => ({ value: n, label: n }))].map(({ value, label }) => {
+              const active = filterNivel === value;
+              return (
+                <button
+                  key={value || "all-nivel"}
+                  onClick={() => setFilterNivel(value)}
+                  className="px-3.5 py-1.5 rounded-full text-sm font-semibold border transition"
+                  style={{
+                    backgroundColor: active ? cfg.color : "white",
+                    borderColor: active ? cfg.color : "#E5E7EB",
+                    color: active ? "white" : "#485668",
+                  }}
+                >
+                  {label}
+                </button>
+              );
+            })}
           </div>
+        )}
 
-          {/* Cards mobile */}
-          <div className="md:hidden flex flex-col gap-3 w-full">
-            {alumnos.map((alumno) => (
+        {/* Résumé + clear */}
+        {(filterSexo || filterNivel) && (
+          <div className="flex items-center gap-2">
+            <span className="text-zinc-400 text-xs">{filtered.length} alumno{filtered.length !== 1 ? "s" : ""}</span>
+            <button
+              onClick={() => { setFilterSexo(""); setFilterNivel(""); }}
+              className="flex items-center gap-1.5 text-xs text-zinc-400 hover:text-zinc-600 bg-zinc-100 rounded-lg px-2 py-1 transition"
+            >
+              <i className="fa-solid fa-xmark text-[10px]" />
+              Limpiar filtros
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* Liste */}
+      <div className="px-4 md:px-8 py-4">
+        {isLoading ? (
+          <div className="flex flex-col items-center gap-4 py-20 text-zinc-400">
+            <span className="loading loading-spinner loading-xl" />
+            <p>Cargando...</p>
+          </div>
+        ) : filtered.length === 0 ? (
+          <div className="text-center py-16 text-zinc-400">
+            <i className="fa-solid fa-user-slash text-3xl mb-3 block" />
+            <p className="text-sm">No se encontraron alumnos</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+            {filtered.map((alumno) => (
               <div
                 key={alumno.id}
-                onClick={() => router.push(`/alumnos/${alumno.id}`)}
-                className="bg-white rounded-xl p-4 flex flex-col gap-2 text-myzinc text-sm cursor-pointer hover:bg-zinc-50 transition"
+                className="bg-white rounded-2xl p-4 flex items-center gap-3 border border-zinc-100 shadow-sm"
               >
-                <div className="flex items-center justify-between">
-                  <p className="font-bold text-base">{alumno.nombre} {alumno.apellidos}</p>
-                  <span className={`px-2 py-1 rounded-full text-xs font-medium text-white ${alumno.escuelita === "Peruanidad" ? "bg-myteal" : "bg-mygreen"}`}>
-                    {alumno.escuelita === "Valle_Ecologico" ? "Valle Ecológico" : alumno.escuelita}
-                  </span>
+                {/* Avatar */}
+                <div
+                  className="w-11 h-11 rounded-full flex items-center justify-center flex-shrink-0 text-sm font-extrabold"
+                  style={{ backgroundColor: cfg.light, color: cfg.color }}
+                >
+                  {alumno.nombre[0]}{alumno.apellidos[0]}
                 </div>
-                <p>{alumno.colegio}</p>
-                <span className="px-2 py-1 bg-zinc-100 rounded-full text-xs font-medium self-start">{alumno.nivel}</span>
+
+                {/* Info */}
+                <div className="flex-1 min-w-0">
+                  <p className="text-myzinc font-bold text-sm truncate">
+                    {alumno.apellidos}, {alumno.nombre}
+                  </p>
+                  <div className="flex flex-wrap gap-1.5 mt-1.5">
+                    <span className="text-[11px] font-semibold px-2 py-0.5 rounded-md bg-zinc-100 text-zinc-500">
+                      {new Date(alumno.fechaNacimiento).toLocaleDateString("es-PE")}
+                    </span>
+                    <span
+                      className="text-[11px] font-semibold px-2 py-0.5 rounded-md"
+                      style={{ backgroundColor: cfg.light, color: cfg.color }}
+                    >
+                      {alumno.nivel}
+                    </span>
+                  </div>
+                </div>
               </div>
             ))}
           </div>
+        )}
+      </div>
+    </div>
+  );
+}
 
-          {/* Pagination */}
-          {totalPages > 1 && (
-            <div className="flex items-center justify-center gap-2 pb-10">
-              <button onClick={() => setPage((p) => Math.max(1, p - 1))} disabled={page === 1} className="px-3 py-1.5 rounded bg-white text-myzinc text-sm disabled:opacity-40">← Anterior</button>
-              <span className="text-white text-sm">{page} / {totalPages}</span>
-              <button onClick={() => setPage((p) => Math.min(totalPages, p + 1))} disabled={page === totalPages} className="px-3 py-1.5 rounded bg-white text-myzinc text-sm disabled:opacity-40">Siguiente →</button>
-            </div>
-          )}
-        </div>
-      )}
+// ── Page principale ───────────────────────────────────────────────────────────
+
+export default function AlumnosVolunteerPage() {
+  const [selectedEscuelita, setSelectedEscuelita] = useState<Escuelita | null>(null);
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["alumnos-home"],
+    queryFn: () => fetcher("/api/alumnos?all=true"),
+  });
+
+  if (selectedEscuelita) {
+    return (
+      <EscuelitaListView
+        escuelita={selectedEscuelita}
+        onBack={() => setSelectedEscuelita(null)}
+      />
+    );
+  }
+
+  const allAlumnos: Alumno[] = data?.data ?? [];
+  const countFor = (e: Escuelita) => allAlumnos.filter((a) => a.escuelita === e).length;
+
+  return (
+    <main className="min-h-screen w-full bg-zinc-50">
+      {/* Header */}
+      <div className="bg-[#193252] px-4 md:px-8 pt-8 pb-6">
+        <h1 className="text-white text-2xl font-extrabold">Alumnos</h1>
+        <p className="text-white/60 text-sm mt-1">
+          {data?.total ?? 0} alumno{(data?.total ?? 0) !== 1 ? "s" : ""} en total
+        </p>
+      </div>
+
+      <div className="px-4 md:px-8 py-6">
+        {isLoading ? (
+          <div className="flex flex-col items-center gap-4 py-20 text-zinc-400">
+            <span className="loading loading-spinner loading-xl" />
+            <p>Cargando...</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl">
+            {(["Peruanidad", "Valle_Ecologico"] as Escuelita[]).map((e) => (
+              <EscuelitaCard
+                key={e}
+                escuelita={e}
+                count={countFor(e)}
+                onSelect={() => setSelectedEscuelita(e)}
+              />
+            ))}
+          </div>
+        )}
+      </div>
     </main>
   );
 }

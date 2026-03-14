@@ -8,10 +8,10 @@ import { usePathname } from "next/navigation";
 
 const navItems = [
   { href: "/admin", label: "Dashboard", icon: "fa-house", exact: true },
+  { href: "/admin/agenda", label: "Agenda", icon: "fa-calendar-days" },
   { href: "/admin/alumnos", label: "Los alumnos", icon: "fa-users" },
   { href: "/admin/seguimientos", label: "Seguimientos", icon: "fa-clipboard-list" },
   { href: "/admin/users", label: "Los voluntarios", icon: "fa-people-group" },
-  { href: "/admin/agenda", label: "Agenda", icon: "fa-calendar-days" },
   { href: "/admin/profil", label: "Mi perfil", icon: "fa-circle-user" },
 ];
 

@@ -1,245 +1,345 @@
 "use client";
 
-import { fetchLastVolunteers } from "@/services/volunteerService";
-import SessionCard from "@/components/session/SessionCard";
 import Link from "next/link";
-import CardTitle from "./_components/CardTitle";
+import Image from "next/image";
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { fetcher } from "@/lib/fetcher";
-import { VolunteerSession } from "@/generated/prisma";
-import Calendar from "@/components/session/Calendar";
-import { useRef } from "react";
-import { SessionWithLiders } from "@/type";
+import { useUser } from "@clerk/nextjs";
 
-const AdminPage = () => {
-  const carouselRef = useRef<HTMLDivElement>(null);
+const SESSION_TYPE_LABELS: Record<string, string> = {
+  TUTORING: "Tutoría",
+  OTHER: "Otro",
+};
 
-  const { data: nextSessions, isLoading: loadingNextSessions } = useQuery({
-    queryKey: ["nextSessions"],
-    queryFn: () => fetcher(`/api/nextSessions`),
-    staleTime: 0,
-  });
+/* ── Types ── */
+interface NextSession {
+  id: number;
+  title: string;
+  date: string;
+  location: string | null;
+  image: string | null;
+  capacity: number;
+  type: string | null;
+}
 
-  const { data: sessions, isLoading: loadingSessions } = useQuery<SessionWithLiders[]>({
-    queryKey: ["LastSessionsWithLiders"],
-    queryFn: () => fetcher("/api/lastSessionsWithLiders"),
-    staleTime: 0,
-  });
+interface PendingSession {
+  id: number;
+  title: string;
+  date: string;
+  type: string;
+  location: string;
+  pendingCount: number;
+}
 
-  const { data: volunteers, isLoading: loadingVolunteers } = useQuery({
-    queryKey: ["volunteers"],
-    queryFn: fetchLastVolunteers,
-    staleTime: 0,
-  });
+interface VolunteerData {
+  id: number;
+  firstName: string;
+  lastName: string;
+  tutoringCount: number;
+  registrations: { id: number }[];
+}
 
-
-  const prevSlide = () => {
-    const carousel = carouselRef.current;
-    if (carousel) {
-      carousel.scrollBy({ left: -carousel.clientWidth, behavior: "smooth" });
-    }
-  };
-  const nextSlide = () => {
-    const carousel = carouselRef.current;
-    if (carousel) {
-      carousel.scrollBy({ left: carousel.clientWidth, behavior: "smooth" });
-    }
-  };
+/* ── SessionCard — même design que le mobile ── */
+function SessionCard({ session }: { session: NextSession }) {
+  const date = new Date(session.date);
+  const dayNum = date.toLocaleDateString("es-PE", { day: "numeric" });
+  const month = date.toLocaleDateString("es-PE", { month: "short" });
+  const weekday = date.toLocaleDateString("es-PE", { weekday: "long" });
+  const timeStr = date.toLocaleTimeString("es-PE", { hour: "2-digit", minute: "2-digit" });
+  const isTutoring = session.type === "TUTORING";
+  const bgColor = isTutoring ? "#2B797C" : "#193252";
+  const badgeBg = isTutoring ? "#65C5A9" : "#FA9F07";
 
   return (
-    <div className="p-2 md:p-10 text-start flex flex-col items-start m-auto min-h-screen bg-my teal pb-20">
-      <div className="flex flex-col gap-2 md:flex-row items-center p-4 text-[30px] text-center md:text-start md:text-[40px] font-semibold font-montserrat max-w-[600px] text-white">
-        <span>¡Coordinamos juntos!</span>
-        <span className="md:text-[30px] ml-3">✨</span>
-      </div>
-      <p className="px-4 mb-5 text-lg text-white">
-        Accede a tu espacio para gestionar sesiones, inscripciones... y
-        multiplicar tu impacto.
-      </p>
-
-      {loadingSessions || loadingNextSessions || loadingVolunteers ? (
-        <div className="text-center flex flex-col items-center justify-center gap-2 m-auto text-mylightgray">
-          <span className="loading loading-spinner loading-xl"></span>
-          <p>Cargando...</p>
+    <Link
+      href={`/admin/sessions/${session.id}`}
+      className="shrink-0 w-[272px] rounded-2xl overflow-hidden border border-gray-100 hover:-translate-y-1 transition-transform duration-150 block bg-white shadow-sm"
+    >
+      {/* Header coloré */}
+      <div
+        className="relative h-[152px] flex flex-col justify-between p-4"
+        style={{ backgroundColor: bgColor }}
+      >
+        {session.image && session.image !== "default" && (
+          <>
+            <Image
+              src={session.image}
+              alt={session.title}
+              fill
+              className="object-cover"
+            />
+            <div className="absolute inset-0" style={{ backgroundColor: "rgba(0,0,0,0.38)" }} />
+          </>
+        )}
+        <div className="relative flex items-start justify-between">
+          <span
+            className="text-white text-[11px] font-bold px-2.5 py-1 rounded-lg"
+            style={{ backgroundColor: badgeBg }}
+          >
+            {SESSION_TYPE_LABELS[session.type ?? ""] ?? session.type ?? "Otro"}
+          </span>
+          <span className="text-white text-[11px] font-semibold px-2 py-1 rounded-lg bg-white/15">
+            {session.capacity} cupos
+          </span>
         </div>
-      ) : (
-        <div className="flex mt-5 lg:mt-8 flex-col gap-8 lg:gap-14 items-start justify-center w-full max-w-screen-2xl m-auto">
-          {/* Carousel */}
-          {nextSessions?.length > 0 ? (
-            <div className="relative flex items-stretch m-auto w-full h-auto xl:w-auto  md:max-w-md lg:max-w-[1000px]">
-              <div
-                ref={carouselRef}
-                className="carousel rounded-box self-center w-full max-w-screen-lg"
-              >
-                {nextSessions?.map((session: VolunteerSession) => (
-                  <div key={session.id} className="carousel-item px-4">
-                    <SessionCard
-                      isAdmin={true}
-                      key={session.id}
-                      title={session.title}
-                      location={session.location}
-                      image={session.image}
-                      date={session.date}
-                      sessionId={session.id}
-                      shadow={true}
-                    />
-                  </div>
-                ))}
-                <div className="absolute left-0 right-0 md:-left-5 md:-right-7 top-1/2 flex -translate-y-1/2 transform justify-between">
-                  <button
-                    onClick={prevSlide}
-                    className="btn btn-circle w-[40px] h-[40px] md:!w-[60px] md:!h-[60px] backdrop-blur-lg bg-white/50 border-none shadow-none text-xl text-white"
-                  >
-                    <i className="fa-solid fa-arrow-left"></i>{" "}
-                  </button>
-                  <button
-                    onClick={nextSlide}
-                    className="btn btn-circle w-[40px] h-[40px] md:!w-[60px] md:!h-[60px] backdrop-blur-lg  bg-white/50 border-none shadow-none text-xl text-white"
-                  >
-                    <i className="fa-solid fa-arrow-right"></i>{" "}
-                  </button>
-                </div>
-              </div>
-            </div>
-          ) : (
-            <p className="text-center text-lg text-white w-full">
-              No hay eventos próximos programados.
-            </p>
-          )}
+        <p className="relative text-white font-extrabold text-[17px] leading-snug line-clamp-2">
+          {session.title}
+        </p>
+      </div>
 
-          {/* Deux colonnes */}
-          <div className="flex flex-col lg:flex-row items-start justify-center gap-8 w-full">
-          <div className="flex-1 flex flex-col items-start justify-center gap-8 w-full ">
-
-            {/* Colonne gauche : Sessions */}
-            <div className="flex-1 gap-5 flex flex-col bg-white rounded-2xl p-3 lg:p-5 w-full max-h-[400px] lg:max-h-[725px]">
-              <CardTitle
-                title="¡Sigue a tus voluntarios! 💖"
-                subtitle="Marca la asistencia de tus voluntarios en cada sesión"
-                link="/admin/sessions/get-sessions"
-              />
-              <div className="border border-zinc-300 rounded-lg w-full overflow-y-auto">
-                <table className="min-w-full divide-y divide-zinc-200 rounded-lg overflow-hidden">
-                  <thead className="bg-mygreen/40 text-mygray">
-                    <tr>
-                      <th className="px-2 lg:px-6 py-3 text-left text-xs font-bold uppercase tracking-wider">
-                        <span className="flex items-center gap-2">
-                          <i className="fa-solid fa-shapes"></i> Sesión
-                        </span>
-                      </th>
-                      <th className="px-2 lg:px-6 py-3 text-left text-xs font-bold uppercase tracking-wider">
-                        <span className="flex items-center gap-2">
-                          <i className="fa-solid fa-calendar"></i> Fecha
-                        </span>
-                      </th>
-                      <th className="px-2 lg:px-6 py-3 text-left text-xs font-bold uppercase tracking-wider">
-                        <span className="flex items-center gap-2">
-                          <i className="fa-solid fa-users"></i> Asistencia
-                        </span>
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="bg-white divide-y divide-zinc-200">
-                    {sessions?.map((session: SessionWithLiders) => (
-                      <tr key={session.id} className="hover:bg-zinc-50">
-                        <td className="px-2 lg:px-6 py-4 whitespace-nowrap">
-                          {session.type === "TUTORING"
-                            ? "Tutorias"
-                            : session.title.length > 15
-                            ? session.title.slice(0, 15) + "..."
-                            : session.title}
-                        </td>
-                        <td className="px-2 lg:px-6 py-4 whitespace-nowrap">
-                          {new Intl.DateTimeFormat("es-ES", {
-                            day: "numeric",
-                            month: "numeric",
-                          }).format(new Date(session.date))}
-                        </td>
-                        <td className="px-2 lg:px-6 py-4 whitespace-nowrap">
-                          <Link
-                            href={`/admin/sessions/${session.id}`}
-                            className="inline-flex items-center justify-center text-myorange font-medium transition-colors duration-200 underline hover:text-orange-500"
-                          >
-                            Completar
-                          </Link>
-                          <i className="fa-solid fa-chevron-right text-[12px] text-myorange ml-1"></i>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-                      {/* Voluntarios */}
-                      <div className="gap-5 flex flex-col bg-white rounded-2xl p-3 lg:p-5 w-full h-auto">
-                <CardTitle
-                  title="Administra la información 👥"
-                  subtitle="Edita y utiliza los datos de los voluntarios"
-                  link="/admin/users"
-                />
-                <div className="border border-zinc-300 rounded-lg w-full overflow-x-auto">
-                  <table className="min-w-full divide-y divide-zinc-200 rounded-lg overflow-hidden">
-                    <thead className="bg-myorange/40 text-mygray">
-                      <tr>
-                        <th className="px-2 lg:px-6 py-3 text-left text-xs font-bold uppercase tracking-wider">
-                          <div className="flex items-center gap-2">
-                            <i className="fa-solid fa-user"></i> Nombre
-                          </div>
-                        </th>
-                        <th className="px-2 lg:px-6 py-3 text-left text-xs font-bold uppercase tracking-wider">
-                          <div className="flex items-center gap-2">
-                            <i className="fa-solid fa-phone"></i> Número
-                          </div>
-                        </th>
-                        <th className="px-2 lg:px-6 py-3 text-left text-xs font-bold uppercase tracking-wider">
-                          <div className="flex items-center gap-2">
-                            <i className="fa-solid fa-envelope"></i> Email
-                          </div>
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody className="bg-white divide-y divide-zinc-200">
-                      {volunteers?.map((volunteer) => (
-                        <tr key={volunteer.id} className="hover:bg-zinc-50">
-                          <td className="px-2 lg:px-6 py-4 whitespace-nowrap">
-                            {volunteer.firstName}
-                          </td>
-                          <td className="px-2 lg:px-6 py-4 whitespace-nowrap">
-                            {volunteer.phone}
-                          </td>
-                          <td className="px-2 lg:px-6 py-4 whitespace-nowrap">
-                            {volunteer.email.slice(0, 10) + "..."}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-
-            </div>
-
-            {/* Colonne droite */}
-            <div className="flex-1 flex flex-col items-start justify-center gap-8 w-full ">
-              {/* Calendrier */}
-              <div className="gap-5 flex flex-col bg-white rounded-2xl p-3 lg:p-5 w-full h-auto">
-                <CardTitle
-                  title="¡Lidera una sesión! 🙌"
-                  subtitle="Apúntate como líder y acompaña el grupo"
-                  link="/admin/agenda"
-                />
-                <div className="bg-zinc-50 rounded-xl overflow-hidden">
-                  {sessions && <Calendar sessions={nextSessions} isReduce={true} />}
-                </div>
-              </div>
-    
-            </div>
+      {/* Bas de card */}
+      <div className="flex items-center gap-3 px-4 py-3 bg-white">
+        <div className="flex flex-col items-center min-w-[36px]">
+          <span className="text-myteal text-[22px] font-black leading-none">{dayNum}</span>
+          <span className="text-mygrey text-[10px] uppercase font-semibold">{month}</span>
+        </div>
+        <div className="w-px h-9 bg-mylightgray" />
+        <div className="flex-1 flex flex-col gap-1 min-w-0">
+          <div className="flex items-center gap-1.5">
+            <i className="fa-regular fa-clock text-mygrey text-[11px]" />
+            <span className="text-mygrey text-[12px] truncate">{weekday} · {timeStr}</span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <i className="fa-solid fa-location-dot text-mygrey text-[11px]" />
+            <span className="text-mygray text-[12px] font-medium truncate">{session.location ?? "—"}</span>
           </div>
         </div>
+        <i className="fa-solid fa-chevron-right text-gray-200 text-sm shrink-0" />
+      </div>
+    </Link>
+  );
+}
+
+/* ── AttendanceCard avec sélecteur de mois ── */
+function AttendanceCard({ sessions }: { sessions: PendingSession[] }) {
+  const [offset, setOffset] = useState(0); // 0 = mois courant, -1 = précédent…
+
+  const now = new Date();
+  const targetDate = new Date(now.getFullYear(), now.getMonth() + offset, 1);
+  const monthLabel = targetDate.toLocaleDateString("es-PE", { month: "long", year: "numeric" });
+
+  const filtered = sessions.filter((s) => {
+    const d = new Date(s.date);
+    return d.getMonth() === targetDate.getMonth() && d.getFullYear() === targetDate.getFullYear();
+  });
+
+  const pendingCount = filtered.filter((s) => s.pendingCount > 0).length;
+
+  return (
+    <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
+      {/* Header navigation mois */}
+      <div className=" flex items-center px-4 py-3 border-b border-myteal/10">
+        <button
+          onClick={() => setOffset((o) => o - 1)}
+          className="p-1 hover:bg-myteal/20 rounded-lg transition-colors"
+        >
+          <i className="fa-solid fa-chevron-left text-myteal text-xs" />
+        </button>
+        <p className="flex-1 text-center text-sm font-semibold capitalize">
+          {monthLabel}
+        </p>
+        <button
+          onClick={() => setOffset((o) => o + 1)}
+          disabled={offset >= 0}
+          className="p-1 hover:bg-myteal/20 rounded-lg transition-colors disabled:opacity-30"
+        >
+          <i className="fa-solid fa-chevron-right text-myteal text-xs" />
+        </button>
+      </div>
+
+      {/* Badge résumé */}
+      {filtered.length > 0 && (
+        <div className="flex items-center gap-2 px-4 py-2.5 border-b border-gray-50">
+          <p className="flex-1 text-xs text-gray-400">Asistencia pendiente</p>
+          {pendingCount > 0 ? (
+            <span className="bg-amber-100 text-amber-700 text-[10px] font-bold px-2 py-0.5 rounded-lg">
+              {pendingCount} por completar
+            </span>
+          ) : (
+            <span className="flex items-center gap-1 text-green-600 text-[10px] font-bold">
+              <i className="fa-solid fa-circle-check text-xs" /> Completo
+            </span>
+          )}
+        </div>
+      )}
+
+      {/* Liste sessions du mois */}
+      {filtered.length === 0 ? (
+        <div className="py-5 text-center">
+          <p className="text-gray-300 text-xs">Sin sesiones este mes</p>
+        </div>
+      ) : (
+        filtered.map((s, i) => {
+          const done = s.pendingCount === 0;
+          const d = new Date(s.date);
+          const dayNum = d.toLocaleDateString("es-PE", { day: "numeric" });
+          const month = d.toLocaleDateString("es-PE", { month: "short" });
+          const weekday = d.toLocaleDateString("es-PE", { weekday: "short" });
+          return (
+            <Link
+              key={s.id}
+              href={`/admin/sessions/${s.id}`}
+              className={`flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors ${i > 0 ? "border-t border-gray-50" : ""}`}
+            >
+              {/* Bloc date */}
+              <div className="flex flex-col items-center w-9 shrink-0">
+                <span
+                  className="text-lg font-black leading-none"
+                  style={{ color: done ? "#22C55E" : "#FA9F07" }}
+                >
+                  {dayNum}
+                </span>
+                <span className="text-[10px] text-gray-400 uppercase font-semibold">{month}</span>
+              </div>
+
+              <div className="w-px h-8 bg-gray-100 shrink-0" />
+
+              {/* Titre + weekday */}
+              <div className="flex-1 min-w-0">
+                <p className="text-sm text-myzinc font-semibold truncate">{s.title}</p>
+                <p className="text-xs text-gray-400 capitalize">{weekday}</p>
+              </div>
+
+              {!done && (
+                <span className="bg-myorange/10 text-myorange text-xs font-bold px-2 py-0.5 rounded-lg shrink-0">
+                  {s.pendingCount}p
+                </span>
+              )}
+              <i className="fa-solid fa-chevron-right text-gray-200 text-xs shrink-0" />
+            </Link>
+          );
+        })
       )}
     </div>
   );
 }
 
+/* ── Page ── */
+export default function AdminPage() {
+  const { user } = useUser();
 
-export default AdminPage;
+  const { data: volunteer } = useQuery<VolunteerData>({
+    queryKey: ["myVolunteer", user?.id],
+    queryFn: () => fetcher(`/api/user/${user!.id}`),
+    enabled: !!user?.id,
+  });
+
+  const { data: nextSessions, isLoading: loadingNext } = useQuery<NextSession[]>({
+    queryKey: ["nextSessions"],
+    queryFn: () => fetcher("/api/nextSessions"),
+    staleTime: 0,
+  });
+
+  const { data: allPendingSessions } = useQuery<PendingSession[]>({
+    queryKey: ["sessionsNeedingAttendance"],
+    queryFn: () => fetcher("/api/sessionsNeedingAttendance"),
+    staleTime: 0,
+  });
+
+  return (
+    <div className="min-h-screen bg-mylightgray pb-10">
+
+      {/* ── Header bg-myteal comme l'index mobile ── */}
+      <div className="bg-myteal px-6 pt-8 pb-8 md:pt-10 md:pb-10">
+        <p className="text-white text-sm font-medium opacity-80">¡Bienvenido/a!</p>
+        <h1 className="text-white text-2xl font-bold mt-1">
+          {volunteer?.firstName ?? user?.firstName} {volunteer?.lastName ?? user?.lastName}
+        </h1>
+        {/* Stats chips */}
+        <div className="flex flex-wrap gap-3 mt-3">
+          <div className="bg-white/20 rounded-xl px-4 py-2">
+            <p className="text-white text-xs opacity-80">Tutorías</p>
+            <p className="text-white font-bold text-lg">{volunteer?.tutoringCount ?? 0}</p>
+          </div>
+          <div className="bg-white/20 rounded-xl px-4 py-2">
+            <p className="text-white text-xs opacity-80">Inscripciones</p>
+            <p className="text-white font-bold text-lg">{volunteer?.registrations?.length ?? 0}</p>
+          </div>
+          <div className="bg-white/20 rounded-xl px-4 py-2">
+            <p className="text-white text-xs opacity-80">Rol</p>
+            <p className="text-white font-bold text-base">Admin</p>
+          </div>
+        </div>
+      </div>
+
+      {/* ── 1. Sesiones disponibles ── */}
+      <div className="mt-6">
+        <div className="flex items-center justify-between px-4 md:px-8 mb-3">
+          <div>
+            <p className="text-myzinc font-bold text-lg">Sesiones disponibles</p>
+            <p className="text-gray-400 text-xs mt-0.5">Próximas sesiones</p>
+          </div>
+          {(nextSessions ?? []).length > 0 && (
+            <Link href="/admin/agenda" className="text-myteal text-sm font-medium hover:underline">
+              {nextSessions!.length} sesión{nextSessions!.length > 1 ? "es" : ""}
+            </Link>
+          )}
+        </div>
+
+        {loadingNext ? (
+          <div className="px-4 md:px-8 py-4">
+            <span className="loading loading-spinner loading-md text-myteal" />
+          </div>
+        ) : (nextSessions ?? []).length === 0 ? (
+          <div className="mx-4 md:mx-8 bg-white rounded-2xl p-8 text-center border border-gray-100">
+            <i className="fa-solid fa-calendar-xmark text-gray-200 text-3xl mb-3 block" />
+            <p className="text-gray-400 text-sm">No hay sesiones próximas</p>
+          </div>
+        ) : (
+          <div
+            className="flex gap-4 overflow-x-auto px-4 md:px-8 pb-2"
+            style={{ scrollbarWidth: "none" }}
+          >
+            {nextSessions!.map((s) => (
+              <SessionCard key={s.id} session={s} />
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* ── 2. Marca la asistencia ── */}
+      {(allPendingSessions ?? []).length > 0 && (
+        <div className="mx-4 md:mx-8 mt-6">
+          <div className="flex items-center gap-2 mb-3">
+            <div className="w-7 h-7 rounded-lg bg-myteal/20 flex items-center justify-center">
+              <i className="fa-solid fa-calendar-check text-myteal text-xs" />
+            </div>
+            <p className="text-myzinc font-bold text-lg">Marca la asistencia</p>
+          </div>
+          <AttendanceCard sessions={allPendingSessions!} />
+        </div>
+      )}
+
+      {/* ── 3. Acciones rápidas ── */}
+      <div className="mx-4 md:mx-8 mt-6">
+        <p className="text-myzinc font-bold text-lg mb-3">Acciones rápidas</p>
+        <div className="flex gap-3">
+          <Link
+            href="/admin/sessions/create-session"
+            className="flex-1 bg-myteal rounded-2xl p-4 flex flex-col items-center gap-1.5 hover:bg-myteal/90 transition-colors"
+          >
+            <i className="fa-solid fa-circle-plus text-white text-2xl" />
+            <span className="text-white font-semibold text-xs text-center">Nueva sesión</span>
+          </Link>
+          <Link
+            href="/admin/users"
+            className="flex-1 bg-myzinc rounded-2xl p-4 flex flex-col items-center gap-1.5 hover:bg-myzinc/90 transition-colors"
+          >
+            <i className="fa-solid fa-people-group text-white text-2xl" />
+            <span className="text-white font-semibold text-xs text-center">Voluntarios</span>
+          </Link>
+          <Link
+            href="/admin/agenda"
+            className="flex-1 rounded-2xl p-4 flex flex-col items-center gap-1.5 hover:opacity-90 transition-opacity"
+            style={{ backgroundColor: "#FA9F07" }}
+          >
+            <i className="fa-solid fa-calendar-days text-white text-2xl" />
+            <span className="text-white font-semibold text-xs text-center">Agenda</span>
+          </Link>
+        </div>
+      </div>
+
+    </div>
+  );
+}

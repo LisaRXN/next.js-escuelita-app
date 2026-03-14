@@ -2,77 +2,104 @@
 
 import VolunteerList from "@/components/admin/VolunteerList";
 import CoordinatorList from "@/components/admin/CoordinatorList";
-import CardTitle from "../../_components/CardTitle";
 import AdminSessionDescription from "@/components/admin/AdminSessionDescription";
 import { useQuery } from "@tanstack/react-query";
 import { fetcher } from "@/lib/fetcher";
 import { RegisteredVolunteer } from "@/type";
+import Link from "next/link";
 
-interface AdminSessionPageProps {
-  sessionId: number;
-}
-const AdminSessionPage = ({ sessionId }: AdminSessionPageProps) => {
+const SESSION_TYPE_LABELS: Record<string, string> = {
+  TUTORING: "Tutoría",
+  OTHER: "Otro",
+};
 
-  const { data, isLoading: loadingSession } = useQuery({
+const AdminSessionPage = ({ sessionId }: { sessionId: number }) => {
+  const { data, isLoading } = useQuery({
     queryKey: ["sessionById", sessionId],
     queryFn: () => fetcher(`/api/sessions/${sessionId}`),
     enabled: !!sessionId,
     staleTime: 0,
   });
 
-  if (isNaN(sessionId) || loadingSession) {
+  if (isNaN(sessionId) || isLoading) {
     return (
-      <div className="text-center p-20 flex flex-col items-center justify-start gap-4 m-auto text-myteal">
-        <span className="loading loading-spinner loading-xl"></span>
-        <p>Cargando...</p>
+      <div className="flex items-center justify-center py-20">
+        <span className="loading loading-spinner loading-xl text-myteal" />
       </div>
     );
   }
 
+  if (!data) return null;
+
+  const { session, registeredVolunteers } = data;
+  const date = new Date(session.date);
+  const confirmed = registeredVolunteers.filter((v: RegisteredVolunteer) => v.status === "CONFIRMED").length;
+  const noShow = registeredVolunteers.filter((v: RegisteredVolunteer) => v.status === "NO_SHOW").length;
+  const liders = registeredVolunteers.filter((v: RegisteredVolunteer) => v.isAdmin);
+  const volunteers = registeredVolunteers.filter((v: RegisteredVolunteer) => !v.isAdmin);
+
   return (
-    data && (
-      <div className="min-h-screen w-full pt-5 flex flex-col lg:flex-row items-start justify-center gap-5 lg:gap-8 p-2 md:p-8 max-w-6xl mx-auto">
-        <div className="order-2 lg:order-1 flex flex-col items-start justify-center gap-5 w-full lg:w-[380px] lg:shrink-0">
-          <div className="gap-5 flex flex-col bg-white rounded-2xl p-3 md:p-5 w-full min-h-[250px]">
-            <CardTitle
-              title="Detailles del evento"
-              subtitle="Modifica o inscribete a la sesión"
-              link=""
-            />
-            <AdminSessionDescription sessionId={data.session?.id} />
-          </div>
-        </div>
-        <div className="flex-1 flex flex-col items-start justify-start gap-5 lg:gap-10 w-full">
-          <div className="gap-5 flex flex-col bg-white rounded-2xl p-3 md:p-5 w-full">
-            <CardTitle
-              title="Lista de los coordinadores  ⭐"
-              subtitle="Apuntate para liderar el grupo!"
-              link=""
-            />
-            <CoordinatorList
-              sessionId={data.session.id}
-              sessionDate={data.session.date}
-              liders={data.registeredVolunteers.filter(
-                (vol: RegisteredVolunteer) => vol.isAdmin === true
-              )}
-            />
-          </div>
-          <div className="gap-5 flex flex-col bg-white rounded-2xl p-3 md:p-5 w-full">
-            <CardTitle
-              title="Lista de los voluntarios inscritos  🙋‍♂️🙋‍♀️"
-              subtitle="Completa la asistencia de los voluntarios despues de la sesión"
-              link=""
-            />
-            <VolunteerList
-            sessionId={sessionId}
-              registeredVolunteers={data.registeredVolunteers.filter(
-                (vol: RegisteredVolunteer) => !vol.isAdmin
-              )}
-            />
-          </div>
+    <div className="min-h-screen bg-mylightgray pb-10">
+
+      {/* ── Header bg-myzinc ── */}
+      <div className="bg-myzinc px-6 pt-8 pb-6">
+        <Link
+          href="/admin"
+          className="inline-flex items-center gap-2 text-white/50 hover:text-white text-sm mb-4 transition-colors"
+        >
+          <i className="fa-solid fa-arrow-left text-xs" />
+          Sesiones
+        </Link>
+        <h1 className="text-white text-xl font-bold leading-snug">{session.title}</h1>
+        <p className="text-white/60 text-sm mt-1 capitalize">
+          {date.toLocaleDateString("es-PE", { weekday: "long", day: "numeric", month: "long" })}
+          {" · "}
+          {date.toLocaleTimeString("es-PE", { hour: "2-digit", minute: "2-digit" })}
+        </p>
+        <div className="flex flex-wrap gap-2 mt-3">
+          <span className={`text-xs font-bold px-2.5 py-1 rounded-lg text-white ${session.type === "TUTORING" ? "bg-myteal" : "bg-myorange"}`}>
+            {SESSION_TYPE_LABELS[session.type] ?? session.type}
+          </span>
+          <span className="text-xs font-medium px-2.5 py-1 rounded-lg text-white/70 bg-white/10">
+            <i className="fa-solid fa-location-dot text-[10px] mr-1.5" />
+            {session.location}
+          </span>
         </div>
       </div>
-    )
+
+      {/* ── Stats ── */}
+      <div className="grid grid-cols-4 gap-3 px-4 md:px-8 mt-4">
+        {[
+          { value: registeredVolunteers.length, label: "Inscritos", color: "#2B797C" },
+          { value: confirmed, label: "Confirmados", color: "#16A34A" },
+          { value: noShow, label: "No vino", color: "#D52346" },
+          { value: session.capacity, label: "Capacidad", color: "#6B7280" },
+        ].map(({ value, label, color }) => (
+          <div key={label} className="bg-white rounded-2xl py-3 px-2 flex flex-col items-center border border-gray-100">
+            <span className="text-xl font-black leading-none" style={{ color }}>{value}</span>
+            <span className="text-gray-400 text-xs mt-1.5 text-center">{label}</span>
+          </div>
+        ))}
+      </div>
+
+      {/* ── Contenu deux colonnes ── */}
+      <div className="flex flex-col lg:flex-row items-start gap-5 px-4 md:px-8 py-5 max-w-6xl mx-auto">
+
+        {/* Colonne gauche : description */}
+        <div className="w-full lg:w-[320px] shrink-0">
+          <div className="bg-white rounded-2xl p-4 border border-gray-100">
+            <AdminSessionDescription sessionId={sessionId} />
+          </div>
+        </div>
+
+        {/* Colonne droite : listes */}
+        <div className="flex-1 flex flex-col gap-5 w-full min-w-0">
+          <CoordinatorList sessionId={session.id} sessionDate={session.date} liders={liders} />
+          <VolunteerList sessionId={sessionId} registeredVolunteers={volunteers} />
+        </div>
+
+      </div>
+    </div>
   );
 };
 
