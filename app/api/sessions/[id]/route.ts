@@ -26,7 +26,7 @@ export async function GET(req: Request, { params }: Params) {
 
   try {
     const session = await prisma.volunteerSession.findUnique({
-      where: { id: sessionId },
+      where: { id: sessionId, deletedAt: null },
       include: {
         volunteers: {
           include: {
@@ -136,7 +136,7 @@ export async function DELETE(_req: Request, { params }: Params) {
   }
 
   try {
-    await prisma.volunteerSession.delete({ where: { id: sessionId } });
+    await prisma.volunteerSession.update({ where: { id: sessionId }, data: { deletedAt: new Date() } });
     return new NextResponse(null, { status: 204 });
   } catch (error) {
     console.error('Error deleting session:', error);

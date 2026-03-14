@@ -29,6 +29,12 @@ const AdminNavbar = async () => {
           Crear evento
         </Link>
         <Link
+          href="/admin/agenda"
+          className="text-sm px-4 py-2 bg-myzinc text-white font-semibold rounded-md"
+        >
+          Agenda
+        </Link>
+        <Link
           href="/admin/alumnos"
           className="text-sm px-4 py-2 bg-myzinc text-white font-semibold rounded-md"
         >
@@ -45,12 +51,6 @@ const AdminNavbar = async () => {
           className="text-sm px-4 py-2 bg-myzinc text-white font-semibold rounded-md hoover:bg-myzinc/80 transition duration-300"
         >
           Los voluntarios
-        </Link>
-        <Link
-          href="/admin/agenda"
-          className="text-sm px-4 py-2 bg-myzinc text-white font-semibold rounded-md"
-        >
-          Agenda
         </Link>
         <Link
           href="/admin/profil"

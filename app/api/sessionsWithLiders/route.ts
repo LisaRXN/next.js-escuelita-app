@@ -4,6 +4,7 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
   const sessions = await prisma.volunteerSession.findMany({
+    where: { deletedAt: null },
     include: {
       volunteers: {
         include: {

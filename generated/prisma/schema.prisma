@@ -57,6 +57,7 @@ model VolunteerSession {
   image       String
   type        SessionTypes            @default(TUTORING)
   createdAt   DateTime                @default(now())
+  deletedAt   DateTime?
   volunteers  VolunteerRegistration[] // relation inverse
 }
 
@@ -86,8 +87,8 @@ model Alumno {
   colegio               String
   nivel                 String
   fechaMatricula        DateTime      @default(now())
-  escuelita             Escuelita
   necesidadesEspeciales String?
+  escuelita             Escuelita
   createdAt             DateTime      @default(now())
   seguimientos          Seguimiento[]
 }

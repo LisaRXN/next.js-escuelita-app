@@ -57,6 +57,7 @@ model VolunteerSession {
   image       String
   type        SessionTypes            @default(TUTORING)
   createdAt   DateTime                @default(now())
+  deletedAt   DateTime?
   volunteers  VolunteerRegistration[] // relation inverse
 }
 

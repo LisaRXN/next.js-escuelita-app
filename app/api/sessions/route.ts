@@ -17,6 +17,7 @@ export interface VolunteerSession {
 
 export async function GET() {
   const sessions = await prisma.volunteerSession.findMany({
+    where: { deletedAt: null },
     orderBy: { date: 'desc' },
   });
 

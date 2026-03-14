@@ -14,6 +14,7 @@ export async function GET(req: NextRequest) {
   const alumnoId = searchParams.get("alumnoId");
   const statsOnly = searchParams.get("statsOnly") === "true";
   const all = searchParams.get("all") === "true";
+  const date = searchParams.get("date"); // "YYYY-MM-DD"
   const page = Math.max(1, parseInt(searchParams.get("page") ?? "1", 10));
   const skip = (page - 1) * PAGE_SIZE;
 
@@ -34,6 +35,11 @@ export async function GET(req: NextRequest) {
       { alumno: { apellidos: { contains: search, mode: "insensitive" } } },
       { tema: { contains: search, mode: "insensitive" } },
     ];
+  }
+  if (date) {
+    const start = new Date(date + "T00:00:00.000Z");
+    const end = new Date(date + "T23:59:59.999Z");
+    where.fechaSesion = { gte: start, lte: end };
   }
 
   // Stats par calificación

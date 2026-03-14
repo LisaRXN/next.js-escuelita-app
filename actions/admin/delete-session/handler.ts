@@ -22,8 +22,9 @@ export const handler = async (data: InputType): Promise<ReturnType> => {
   const { id } = data;
 
   try {
-    const session = await prisma.volunteerSession.delete({
+    const session = await prisma.volunteerSession.update({
       where: { id },
+      data: { deletedAt: new Date() },
     });
 
     revalidatePath(`/admin/get-session`);

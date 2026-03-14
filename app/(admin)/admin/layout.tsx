@@ -26,9 +26,9 @@ const AdminLayout = async ({ children }: { children: React.ReactNode }) => {
     <ClerkProvider>
       <ReactQueryProvider>
         <Toaster />
-        <div className="flex min-h-screen bg-myteal">
+        <div className="flex min-h-screen bg-mylightgray">
           <AdminSidebar />
-          <div className="flex-1 md:ml-60 pt-14 md:pt-0 min-h-screen text-myzinc font-medium">
+          <div className="flex-1 min-w-0 md:ml-60 pt-14 md:pt-0 min-h-screen text-myzinc font-medium overflow-x-hidden">
             {children}
           </div>
         </div>

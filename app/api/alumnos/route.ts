@@ -12,7 +12,9 @@ export async function GET(req: NextRequest) {
 
   const nivel = searchParams.get("nivel");
   const escuelita = searchParams.get("escuelita");
+  const sexo = searchParams.get("sexo");
   const search = searchParams.get("search");
+  const all = searchParams.get("all") === "true";
   const page = Math.max(1, parseInt(searchParams.get("page") ?? "1", 10));
   const skip = (page - 1) * PAGE_SIZE;
 
@@ -24,6 +26,10 @@ export async function GET(req: NextRequest) {
 
   if (escuelita && escuelita !== "") {
     where.escuelita = escuelita as Escuelita;
+  }
+
+  if (sexo && sexo !== "") {
+    where.sexo = sexo as Sexo;
   }
 
   if (search && search !== "") {
@@ -38,8 +44,7 @@ export async function GET(req: NextRequest) {
     prisma.alumno.findMany({
       where,
       orderBy: { apellidos: "asc" },
-      skip,
-      take: PAGE_SIZE,
+      ...(all ? {} : { skip, take: PAGE_SIZE }),
     }),
     prisma.alumno.count({ where }),
   ]);

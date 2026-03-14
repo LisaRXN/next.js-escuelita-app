@@ -1427,6 +1427,7 @@ export namespace Prisma {
     image: string | null
     type: $Enums.SessionTypes | null
     createdAt: Date | null
+    deletedAt: Date | null
   }
 
   export type VolunteerSessionMaxAggregateOutputType = {
@@ -1439,6 +1440,7 @@ export namespace Prisma {
     image: string | null
     type: $Enums.SessionTypes | null
     createdAt: Date | null
+    deletedAt: Date | null
   }
 
   export type VolunteerSessionCountAggregateOutputType = {
@@ -1451,6 +1453,7 @@ export namespace Prisma {
     image: number
     type: number
     createdAt: number
+    deletedAt: number
     _all: number
   }
 
@@ -1475,6 +1478,7 @@ export namespace Prisma {
     image?: true
     type?: true
     createdAt?: true
+    deletedAt?: true
   }
 
   export type VolunteerSessionMaxAggregateInputType = {
@@ -1487,6 +1491,7 @@ export namespace Prisma {
     image?: true
     type?: true
     createdAt?: true
+    deletedAt?: true
   }
 
   export type VolunteerSessionCountAggregateInputType = {
@@ -1499,6 +1504,7 @@ export namespace Prisma {
     image?: true
     type?: true
     createdAt?: true
+    deletedAt?: true
     _all?: true
   }
 
@@ -1598,6 +1604,7 @@ export namespace Prisma {
     image: string
     type: $Enums.SessionTypes
     createdAt: Date
+    deletedAt: Date | null
     _count: VolunteerSessionCountAggregateOutputType | null
     _avg: VolunteerSessionAvgAggregateOutputType | null
     _sum: VolunteerSessionSumAggregateOutputType | null
@@ -1629,6 +1636,7 @@ export namespace Prisma {
     image?: boolean
     type?: boolean
     createdAt?: boolean
+    deletedAt?: boolean
     volunteers?: boolean | VolunteerSession$volunteersArgs<ExtArgs>
     _count?: boolean | VolunteerSessionCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["volunteerSession"]>
@@ -1643,6 +1651,7 @@ export namespace Prisma {
     image?: boolean
     type?: boolean
     createdAt?: boolean
+    deletedAt?: boolean
   }, ExtArgs["result"]["volunteerSession"]>
 
   export type VolunteerSessionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -1655,6 +1664,7 @@ export namespace Prisma {
     image?: boolean
     type?: boolean
     createdAt?: boolean
+    deletedAt?: boolean
   }, ExtArgs["result"]["volunteerSession"]>
 
   export type VolunteerSessionSelectScalar = {
@@ -1667,9 +1677,10 @@ export namespace Prisma {
     image?: boolean
     type?: boolean
     createdAt?: boolean
+    deletedAt?: boolean
   }
 
-  export type VolunteerSessionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "date" | "description" | "location" | "capacity" | "image" | "type" | "createdAt", ExtArgs["result"]["volunteerSession"]>
+  export type VolunteerSessionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "date" | "description" | "location" | "capacity" | "image" | "type" | "createdAt" | "deletedAt", ExtArgs["result"]["volunteerSession"]>
   export type VolunteerSessionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     volunteers?: boolean | VolunteerSession$volunteersArgs<ExtArgs>
     _count?: boolean | VolunteerSessionCountOutputTypeDefaultArgs<ExtArgs>
@@ -1692,6 +1703,7 @@ export namespace Prisma {
       image: string
       type: $Enums.SessionTypes
       createdAt: Date
+      deletedAt: Date | null
     }, ExtArgs["result"]["volunteerSession"]>
     composites: {}
   }
@@ -2125,6 +2137,7 @@ export namespace Prisma {
     readonly image: FieldRef<"VolunteerSession", 'String'>
     readonly type: FieldRef<"VolunteerSession", 'SessionTypes'>
     readonly createdAt: FieldRef<"VolunteerSession", 'DateTime'>
+    readonly deletedAt: FieldRef<"VolunteerSession", 'DateTime'>
   }
     
 
@@ -3782,8 +3795,8 @@ export namespace Prisma {
     colegio: string | null
     nivel: string | null
     fechaMatricula: Date | null
-    escuelita: $Enums.Escuelita | null
     necesidadesEspeciales: string | null
+    escuelita: $Enums.Escuelita | null
     createdAt: Date | null
   }
 
@@ -3797,8 +3810,8 @@ export namespace Prisma {
     colegio: string | null
     nivel: string | null
     fechaMatricula: Date | null
-    escuelita: $Enums.Escuelita | null
     necesidadesEspeciales: string | null
+    escuelita: $Enums.Escuelita | null
     createdAt: Date | null
   }
 
@@ -3812,8 +3825,8 @@ export namespace Prisma {
     colegio: number
     nivel: number
     fechaMatricula: number
-    escuelita: number
     necesidadesEspeciales: number
+    escuelita: number
     createdAt: number
     _all: number
   }
@@ -3839,8 +3852,8 @@ export namespace Prisma {
     colegio?: true
     nivel?: true
     fechaMatricula?: true
-    escuelita?: true
     necesidadesEspeciales?: true
+    escuelita?: true
     createdAt?: true
   }
 
@@ -3854,8 +3867,8 @@ export namespace Prisma {
     colegio?: true
     nivel?: true
     fechaMatricula?: true
-    escuelita?: true
     necesidadesEspeciales?: true
+    escuelita?: true
     createdAt?: true
   }
 
@@ -3869,8 +3882,8 @@ export namespace Prisma {
     colegio?: true
     nivel?: true
     fechaMatricula?: true
-    escuelita?: true
     necesidadesEspeciales?: true
+    escuelita?: true
     createdAt?: true
     _all?: true
   }
@@ -3971,8 +3984,8 @@ export namespace Prisma {
     colegio: string
     nivel: string
     fechaMatricula: Date
-    escuelita: $Enums.Escuelita
     necesidadesEspeciales: string | null
+    escuelita: $Enums.Escuelita
     createdAt: Date
     _count: AlumnoCountAggregateOutputType | null
     _avg: AlumnoAvgAggregateOutputType | null
@@ -4005,8 +4018,8 @@ export namespace Prisma {
     colegio?: boolean
     nivel?: boolean
     fechaMatricula?: boolean
-    escuelita?: boolean
     necesidadesEspeciales?: boolean
+    escuelita?: boolean
     createdAt?: boolean
     seguimientos?: boolean | Alumno$seguimientosArgs<ExtArgs>
     _count?: boolean | AlumnoCountOutputTypeDefaultArgs<ExtArgs>
@@ -4022,8 +4035,8 @@ export namespace Prisma {
     colegio?: boolean
     nivel?: boolean
     fechaMatricula?: boolean
-    escuelita?: boolean
     necesidadesEspeciales?: boolean
+    escuelita?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["alumno"]>
 
@@ -4037,8 +4050,8 @@ export namespace Prisma {
     colegio?: boolean
     nivel?: boolean
     fechaMatricula?: boolean
-    escuelita?: boolean
     necesidadesEspeciales?: boolean
+    escuelita?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["alumno"]>
 
@@ -4052,12 +4065,12 @@ export namespace Prisma {
     colegio?: boolean
     nivel?: boolean
     fechaMatricula?: boolean
-    escuelita?: boolean
     necesidadesEspeciales?: boolean
+    escuelita?: boolean
     createdAt?: boolean
   }
 
-  export type AlumnoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "apellidos" | "nombre" | "fechaNacimiento" | "sexo" | "dni" | "colegio" | "nivel" | "fechaMatricula" | "escuelita" | "necesidadesEspeciales" | "createdAt", ExtArgs["result"]["alumno"]>
+  export type AlumnoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "apellidos" | "nombre" | "fechaNacimiento" | "sexo" | "dni" | "colegio" | "nivel" | "fechaMatricula" | "necesidadesEspeciales" | "escuelita" | "createdAt", ExtArgs["result"]["alumno"]>
   export type AlumnoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     seguimientos?: boolean | Alumno$seguimientosArgs<ExtArgs>
     _count?: boolean | AlumnoCountOutputTypeDefaultArgs<ExtArgs>
@@ -4080,8 +4093,8 @@ export namespace Prisma {
       colegio: string
       nivel: string
       fechaMatricula: Date
-      escuelita: $Enums.Escuelita
       necesidadesEspeciales: string | null
+      escuelita: $Enums.Escuelita
       createdAt: Date
     }, ExtArgs["result"]["alumno"]>
     composites: {}
@@ -4516,8 +4529,8 @@ export namespace Prisma {
     readonly colegio: FieldRef<"Alumno", 'String'>
     readonly nivel: FieldRef<"Alumno", 'String'>
     readonly fechaMatricula: FieldRef<"Alumno", 'DateTime'>
-    readonly escuelita: FieldRef<"Alumno", 'Escuelita'>
     readonly necesidadesEspeciales: FieldRef<"Alumno", 'String'>
+    readonly escuelita: FieldRef<"Alumno", 'Escuelita'>
     readonly createdAt: FieldRef<"Alumno", 'DateTime'>
   }
     
@@ -7228,7 +7241,8 @@ export namespace Prisma {
     capacity: 'capacity',
     image: 'image',
     type: 'type',
-    createdAt: 'createdAt'
+    createdAt: 'createdAt',
+    deletedAt: 'deletedAt'
   };
 
   export type VolunteerSessionScalarFieldEnum = (typeof VolunteerSessionScalarFieldEnum)[keyof typeof VolunteerSessionScalarFieldEnum]
@@ -7262,8 +7276,8 @@ export namespace Prisma {
     colegio: 'colegio',
     nivel: 'nivel',
     fechaMatricula: 'fechaMatricula',
-    escuelita: 'escuelita',
     necesidadesEspeciales: 'necesidadesEspeciales',
+    escuelita: 'escuelita',
     createdAt: 'createdAt'
   };
 
@@ -7474,6 +7488,7 @@ export namespace Prisma {
     image?: StringFilter<"VolunteerSession"> | string
     type?: EnumSessionTypesFilter<"VolunteerSession"> | $Enums.SessionTypes
     createdAt?: DateTimeFilter<"VolunteerSession"> | Date | string
+    deletedAt?: DateTimeNullableFilter<"VolunteerSession"> | Date | string | null
     volunteers?: VolunteerRegistrationListRelationFilter
   }
 
@@ -7487,6 +7502,7 @@ export namespace Prisma {
     image?: SortOrder
     type?: SortOrder
     createdAt?: SortOrder
+    deletedAt?: SortOrderInput | SortOrder
     volunteers?: VolunteerRegistrationOrderByRelationAggregateInput
   }
 
@@ -7503,6 +7519,7 @@ export namespace Prisma {
     image?: StringFilter<"VolunteerSession"> | string
     type?: EnumSessionTypesFilter<"VolunteerSession"> | $Enums.SessionTypes
     createdAt?: DateTimeFilter<"VolunteerSession"> | Date | string
+    deletedAt?: DateTimeNullableFilter<"VolunteerSession"> | Date | string | null
     volunteers?: VolunteerRegistrationListRelationFilter
   }, "id">
 
@@ -7516,6 +7533,7 @@ export namespace Prisma {
     image?: SortOrder
     type?: SortOrder
     createdAt?: SortOrder
+    deletedAt?: SortOrderInput | SortOrder
     _count?: VolunteerSessionCountOrderByAggregateInput
     _avg?: VolunteerSessionAvgOrderByAggregateInput
     _max?: VolunteerSessionMaxOrderByAggregateInput
@@ -7536,6 +7554,7 @@ export namespace Prisma {
     image?: StringWithAggregatesFilter<"VolunteerSession"> | string
     type?: EnumSessionTypesWithAggregatesFilter<"VolunteerSession"> | $Enums.SessionTypes
     createdAt?: DateTimeWithAggregatesFilter<"VolunteerSession"> | Date | string
+    deletedAt?: DateTimeNullableWithAggregatesFilter<"VolunteerSession"> | Date | string | null
   }
 
   export type VolunteerWhereInput = {
@@ -7643,8 +7662,8 @@ export namespace Prisma {
     colegio?: StringFilter<"Alumno"> | string
     nivel?: StringFilter<"Alumno"> | string
     fechaMatricula?: DateTimeFilter<"Alumno"> | Date | string
-    escuelita?: EnumEscuelitaFilter<"Alumno"> | $Enums.Escuelita
     necesidadesEspeciales?: StringNullableFilter<"Alumno"> | string | null
+    escuelita?: EnumEscuelitaFilter<"Alumno"> | $Enums.Escuelita
     createdAt?: DateTimeFilter<"Alumno"> | Date | string
     seguimientos?: SeguimientoListRelationFilter
   }
@@ -7659,8 +7678,8 @@ export namespace Prisma {
     colegio?: SortOrder
     nivel?: SortOrder
     fechaMatricula?: SortOrder
-    escuelita?: SortOrder
     necesidadesEspeciales?: SortOrderInput | SortOrder
+    escuelita?: SortOrder
     createdAt?: SortOrder
     seguimientos?: SeguimientoOrderByRelationAggregateInput
   }
@@ -7678,8 +7697,8 @@ export namespace Prisma {
     colegio?: StringFilter<"Alumno"> | string
     nivel?: StringFilter<"Alumno"> | string
     fechaMatricula?: DateTimeFilter<"Alumno"> | Date | string
-    escuelita?: EnumEscuelitaFilter<"Alumno"> | $Enums.Escuelita
     necesidadesEspeciales?: StringNullableFilter<"Alumno"> | string | null
+    escuelita?: EnumEscuelitaFilter<"Alumno"> | $Enums.Escuelita
     createdAt?: DateTimeFilter<"Alumno"> | Date | string
     seguimientos?: SeguimientoListRelationFilter
   }, "id" | "dni">
@@ -7694,8 +7713,8 @@ export namespace Prisma {
     colegio?: SortOrder
     nivel?: SortOrder
     fechaMatricula?: SortOrder
-    escuelita?: SortOrder
     necesidadesEspeciales?: SortOrderInput | SortOrder
+    escuelita?: SortOrder
     createdAt?: SortOrder
     _count?: AlumnoCountOrderByAggregateInput
     _avg?: AlumnoAvgOrderByAggregateInput
@@ -7717,8 +7736,8 @@ export namespace Prisma {
     colegio?: StringWithAggregatesFilter<"Alumno"> | string
     nivel?: StringWithAggregatesFilter<"Alumno"> | string
     fechaMatricula?: DateTimeWithAggregatesFilter<"Alumno"> | Date | string
-    escuelita?: EnumEscuelitaWithAggregatesFilter<"Alumno"> | $Enums.Escuelita
     necesidadesEspeciales?: StringNullableWithAggregatesFilter<"Alumno"> | string | null
+    escuelita?: EnumEscuelitaWithAggregatesFilter<"Alumno"> | $Enums.Escuelita
     createdAt?: DateTimeWithAggregatesFilter<"Alumno"> | Date | string
   }
 
@@ -7869,6 +7888,7 @@ export namespace Prisma {
     image: string
     type?: $Enums.SessionTypes
     createdAt?: Date | string
+    deletedAt?: Date | string | null
     volunteers?: VolunteerRegistrationCreateNestedManyWithoutSessionInput
   }
 
@@ -7882,6 +7902,7 @@ export namespace Prisma {
     image: string
     type?: $Enums.SessionTypes
     createdAt?: Date | string
+    deletedAt?: Date | string | null
     volunteers?: VolunteerRegistrationUncheckedCreateNestedManyWithoutSessionInput
   }
 
@@ -7894,6 +7915,7 @@ export namespace Prisma {
     image?: StringFieldUpdateOperationsInput | string
     type?: EnumSessionTypesFieldUpdateOperationsInput | $Enums.SessionTypes
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     volunteers?: VolunteerRegistrationUpdateManyWithoutSessionNestedInput
   }
 
@@ -7907,6 +7929,7 @@ export namespace Prisma {
     image?: StringFieldUpdateOperationsInput | string
     type?: EnumSessionTypesFieldUpdateOperationsInput | $Enums.SessionTypes
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     volunteers?: VolunteerRegistrationUncheckedUpdateManyWithoutSessionNestedInput
   }
 
@@ -7920,6 +7943,7 @@ export namespace Prisma {
     image: string
     type?: $Enums.SessionTypes
     createdAt?: Date | string
+    deletedAt?: Date | string | null
   }
 
   export type VolunteerSessionUpdateManyMutationInput = {
@@ -7931,6 +7955,7 @@ export namespace Prisma {
     image?: StringFieldUpdateOperationsInput | string
     type?: EnumSessionTypesFieldUpdateOperationsInput | $Enums.SessionTypes
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type VolunteerSessionUncheckedUpdateManyInput = {
@@ -7943,6 +7968,7 @@ export namespace Prisma {
     image?: StringFieldUpdateOperationsInput | string
     type?: EnumSessionTypesFieldUpdateOperationsInput | $Enums.SessionTypes
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type VolunteerCreateInput = {
@@ -8060,8 +8086,8 @@ export namespace Prisma {
     colegio: string
     nivel: string
     fechaMatricula?: Date | string
-    escuelita: $Enums.Escuelita
     necesidadesEspeciales?: string | null
+    escuelita: $Enums.Escuelita
     createdAt?: Date | string
     seguimientos?: SeguimientoCreateNestedManyWithoutAlumnoInput
   }
@@ -8076,8 +8102,8 @@ export namespace Prisma {
     colegio: string
     nivel: string
     fechaMatricula?: Date | string
-    escuelita: $Enums.Escuelita
     necesidadesEspeciales?: string | null
+    escuelita: $Enums.Escuelita
     createdAt?: Date | string
     seguimientos?: SeguimientoUncheckedCreateNestedManyWithoutAlumnoInput
   }
@@ -8091,8 +8117,8 @@ export namespace Prisma {
     colegio?: StringFieldUpdateOperationsInput | string
     nivel?: StringFieldUpdateOperationsInput | string
     fechaMatricula?: DateTimeFieldUpdateOperationsInput | Date | string
-    escuelita?: EnumEscuelitaFieldUpdateOperationsInput | $Enums.Escuelita
     necesidadesEspeciales?: NullableStringFieldUpdateOperationsInput | string | null
+    escuelita?: EnumEscuelitaFieldUpdateOperationsInput | $Enums.Escuelita
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     seguimientos?: SeguimientoUpdateManyWithoutAlumnoNestedInput
   }
@@ -8107,8 +8133,8 @@ export namespace Prisma {
     colegio?: StringFieldUpdateOperationsInput | string
     nivel?: StringFieldUpdateOperationsInput | string
     fechaMatricula?: DateTimeFieldUpdateOperationsInput | Date | string
-    escuelita?: EnumEscuelitaFieldUpdateOperationsInput | $Enums.Escuelita
     necesidadesEspeciales?: NullableStringFieldUpdateOperationsInput | string | null
+    escuelita?: EnumEscuelitaFieldUpdateOperationsInput | $Enums.Escuelita
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     seguimientos?: SeguimientoUncheckedUpdateManyWithoutAlumnoNestedInput
   }
@@ -8123,8 +8149,8 @@ export namespace Prisma {
     colegio: string
     nivel: string
     fechaMatricula?: Date | string
-    escuelita: $Enums.Escuelita
     necesidadesEspeciales?: string | null
+    escuelita: $Enums.Escuelita
     createdAt?: Date | string
   }
 
@@ -8137,8 +8163,8 @@ export namespace Prisma {
     colegio?: StringFieldUpdateOperationsInput | string
     nivel?: StringFieldUpdateOperationsInput | string
     fechaMatricula?: DateTimeFieldUpdateOperationsInput | Date | string
-    escuelita?: EnumEscuelitaFieldUpdateOperationsInput | $Enums.Escuelita
     necesidadesEspeciales?: NullableStringFieldUpdateOperationsInput | string | null
+    escuelita?: EnumEscuelitaFieldUpdateOperationsInput | $Enums.Escuelita
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -8152,8 +8178,8 @@ export namespace Prisma {
     colegio?: StringFieldUpdateOperationsInput | string
     nivel?: StringFieldUpdateOperationsInput | string
     fechaMatricula?: DateTimeFieldUpdateOperationsInput | Date | string
-    escuelita?: EnumEscuelitaFieldUpdateOperationsInput | $Enums.Escuelita
     necesidadesEspeciales?: NullableStringFieldUpdateOperationsInput | string | null
+    escuelita?: EnumEscuelitaFieldUpdateOperationsInput | $Enums.Escuelita
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -8332,10 +8358,26 @@ export namespace Prisma {
     not?: NestedEnumSessionTypesFilter<$PrismaModel> | $Enums.SessionTypes
   }
 
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type VolunteerRegistrationListRelationFilter = {
     every?: VolunteerRegistrationWhereInput
     some?: VolunteerRegistrationWhereInput
     none?: VolunteerRegistrationWhereInput
+  }
+
+  export type SortOrderInput = {
+    sort: SortOrder
+    nulls?: NullsOrder
   }
 
   export type VolunteerRegistrationOrderByRelationAggregateInput = {
@@ -8352,6 +8394,7 @@ export namespace Prisma {
     image?: SortOrder
     type?: SortOrder
     createdAt?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type VolunteerSessionAvgOrderByAggregateInput = {
@@ -8369,6 +8412,7 @@ export namespace Prisma {
     image?: SortOrder
     type?: SortOrder
     createdAt?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type VolunteerSessionMinOrderByAggregateInput = {
@@ -8381,6 +8425,7 @@ export namespace Prisma {
     image?: SortOrder
     type?: SortOrder
     createdAt?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type VolunteerSessionSumOrderByAggregateInput = {
@@ -8446,6 +8491,20 @@ export namespace Prisma {
     _max?: NestedEnumSessionTypesFilter<$PrismaModel>
   }
 
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
   export type StringNullableFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -8464,11 +8523,6 @@ export namespace Prisma {
   export type BoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
-  export type SortOrderInput = {
-    sort: SortOrder
-    nulls?: NullsOrder
   }
 
   export type VolunteerCountOrderByAggregateInput = {
@@ -8584,8 +8638,8 @@ export namespace Prisma {
     colegio?: SortOrder
     nivel?: SortOrder
     fechaMatricula?: SortOrder
-    escuelita?: SortOrder
     necesidadesEspeciales?: SortOrder
+    escuelita?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -8604,8 +8658,8 @@ export namespace Prisma {
     colegio?: SortOrder
     nivel?: SortOrder
     fechaMatricula?: SortOrder
-    escuelita?: SortOrder
     necesidadesEspeciales?: SortOrder
+    escuelita?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -8619,8 +8673,8 @@ export namespace Prisma {
     colegio?: SortOrder
     nivel?: SortOrder
     fechaMatricula?: SortOrder
-    escuelita?: SortOrder
     necesidadesEspeciales?: SortOrder
+    escuelita?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -8817,6 +8871,10 @@ export namespace Prisma {
 
   export type EnumSessionTypesFieldUpdateOperationsInput = {
     set?: $Enums.SessionTypes
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
   }
 
   export type VolunteerRegistrationUpdateManyWithoutSessionNestedInput = {
@@ -9040,6 +9098,17 @@ export namespace Prisma {
     not?: NestedEnumSessionTypesFilter<$PrismaModel> | $Enums.SessionTypes
   }
 
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -9108,6 +9177,31 @@ export namespace Prisma {
     _max?: NestedEnumSessionTypesFilter<$PrismaModel>
   }
 
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
   export type NestedStringNullableFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -9142,17 +9236,6 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedStringNullableFilter<$PrismaModel>
     _max?: NestedStringNullableFilter<$PrismaModel>
-  }
-
-  export type NestedIntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
@@ -9391,8 +9474,8 @@ export namespace Prisma {
     colegio: string
     nivel: string
     fechaMatricula?: Date | string
-    escuelita: $Enums.Escuelita
     necesidadesEspeciales?: string | null
+    escuelita: $Enums.Escuelita
     createdAt?: Date | string
   }
 
@@ -9406,8 +9489,8 @@ export namespace Prisma {
     colegio: string
     nivel: string
     fechaMatricula?: Date | string
-    escuelita: $Enums.Escuelita
     necesidadesEspeciales?: string | null
+    escuelita: $Enums.Escuelita
     createdAt?: Date | string
   }
 
@@ -9436,8 +9519,8 @@ export namespace Prisma {
     colegio?: StringFieldUpdateOperationsInput | string
     nivel?: StringFieldUpdateOperationsInput | string
     fechaMatricula?: DateTimeFieldUpdateOperationsInput | Date | string
-    escuelita?: EnumEscuelitaFieldUpdateOperationsInput | $Enums.Escuelita
     necesidadesEspeciales?: NullableStringFieldUpdateOperationsInput | string | null
+    escuelita?: EnumEscuelitaFieldUpdateOperationsInput | $Enums.Escuelita
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -9451,8 +9534,8 @@ export namespace Prisma {
     colegio?: StringFieldUpdateOperationsInput | string
     nivel?: StringFieldUpdateOperationsInput | string
     fechaMatricula?: DateTimeFieldUpdateOperationsInput | Date | string
-    escuelita?: EnumEscuelitaFieldUpdateOperationsInput | $Enums.Escuelita
     necesidadesEspeciales?: NullableStringFieldUpdateOperationsInput | string | null
+    escuelita?: EnumEscuelitaFieldUpdateOperationsInput | $Enums.Escuelita
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -9499,6 +9582,7 @@ export namespace Prisma {
     image: string
     type?: $Enums.SessionTypes
     createdAt?: Date | string
+    deletedAt?: Date | string | null
   }
 
   export type VolunteerSessionUncheckedCreateWithoutVolunteersInput = {
@@ -9511,6 +9595,7 @@ export namespace Prisma {
     image: string
     type?: $Enums.SessionTypes
     createdAt?: Date | string
+    deletedAt?: Date | string | null
   }
 
   export type VolunteerSessionCreateOrConnectWithoutVolunteersInput = {
@@ -9578,6 +9663,7 @@ export namespace Prisma {
     image?: StringFieldUpdateOperationsInput | string
     type?: EnumSessionTypesFieldUpdateOperationsInput | $Enums.SessionTypes
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type VolunteerSessionUncheckedUpdateWithoutVolunteersInput = {
@@ -9590,6 +9676,7 @@ export namespace Prisma {
     image?: StringFieldUpdateOperationsInput | string
     type?: EnumSessionTypesFieldUpdateOperationsInput | $Enums.SessionTypes
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type VolunteerRegistrationCreateManySessionInput = {

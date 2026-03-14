@@ -129,7 +129,8 @@ exports.Prisma.VolunteerSessionScalarFieldEnum = {
   capacity: 'capacity',
   image: 'image',
   type: 'type',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  deletedAt: 'deletedAt'
 };
 
 exports.Prisma.VolunteerScalarFieldEnum = {
@@ -157,8 +158,8 @@ exports.Prisma.AlumnoScalarFieldEnum = {
   colegio: 'colegio',
   nivel: 'nivel',
   fechaMatricula: 'fechaMatricula',
-  escuelita: 'escuelita',
   necesidadesEspeciales: 'necesidadesEspeciales',
+  escuelita: 'escuelita',
   createdAt: 'createdAt'
 };
 

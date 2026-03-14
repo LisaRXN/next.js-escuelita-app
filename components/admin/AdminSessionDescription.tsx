@@ -8,135 +8,159 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import DeleteSessionButton from "./DeleteSessionButton";
 
+const SESSION_TYPE_LABELS: Record<string, string> = {
+  TUTORING: "Tutoría",
+  OTHER: "Otro",
+};
+
 interface AdminSessionDescriptionProps {
   sessionId: number;
   isAdmin?: boolean;
   handleCloseModal?: () => void;
 }
 
-const AdminSessionDescription = ({
-  sessionId,
-  handleCloseModal,
-}: AdminSessionDescriptionProps) => {
+const AdminSessionDescription = ({ sessionId, handleCloseModal }: AdminSessionDescriptionProps) => {
   const router = useRouter();
 
-  const { data, isLoading: loadingSession } = useQuery({
-    queryKey: ["sessionById"],
+  const { data, isLoading } = useQuery({
+    queryKey: ["sessionById", sessionId],
     queryFn: () => fetcher(`/api/sessions/${sessionId}`),
     enabled: !!sessionId,
   });
 
-  if (loadingSession) {
+  if (isLoading) {
     return (
-      <div className="text-center p-20 flex flex-col items-center justify-start gap-4 m-auto text-myteal">
-        <span className="loading loading-spinner loading-xl"></span>
-        <p>Cargando...</p>
+      <div className="flex items-center justify-center py-12">
+        <span className="loading loading-spinner loading-md text-myteal" />
       </div>
     );
   }
 
-  if (!data || !data.userStatus) return <p>Ninguna sesión encontrada</p>;
+  if (!data || !data.userStatus) return <p className="text-sm text-gray-400">Ninguna sesión encontrada</p>;
 
   const session = data.session;
   const isUserRegistered = data.userStatus.isUserRegistered;
   const isSessionPassed = data.userStatus.isSessionPassed;
   const isVolunteerActive = data.userStatus.isVolunteerActive;
+  const isTutoring = session.type === "TUTORING";
 
-  // Formattage des dates
+  const spotsLeft = session.capacity - (data.registeredVolunteers?.filter((v: { isAdmin: boolean }) => !v.isAdmin).length ?? session.volunteers?.length ?? 0);
+  const isFull = spotsLeft <= 0;
+
   const formattedDate = new Date(session.date).toLocaleDateString("es-ES", {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-    timeZone: "UTC", // ✅ très important
-
+    weekday: "long", day: "numeric", month: "long", year: "numeric", timeZone: "UTC",
   });
-
   const formattedTime = new Date(session.date).toLocaleTimeString("es-ES", {
-    hour: "2-digit",
-    minute: "2-digit",
-    timeZone: "UTC", // ✅ très important
-
+    hour: "2-digit", minute: "2-digit", timeZone: "UTC",
   });
 
   return (
-    <div className="w-full flex flex-col gap-4 text-myzinc">
-      {/* Image */}
-      <div className="relative w-full h-[180px] rounded-xl overflow-hidden">
-        <Image
-          src={session.image}
-          alt={session.title}
-          fill
-          className="object-cover object-top"
-        />
+    <div className="flex flex-col gap-4 text-myzinc">
+
+      {/* ── Image avec overlay ── */}
+      <div className="relative h-[176px] rounded-2xl overflow-hidden bg-myzinc">
+        {session.image && session.image !== "default" ? (
+          <>
+            <Image src={session.image} alt={session.title} fill className="object-cover object-top" />
+            <div className="absolute inset-0" style={{ backgroundColor: "rgba(0,0,0,0.38)" }} />
+          </>
+        ) : (
+          <div
+            className="absolute inset-0"
+            style={{ backgroundColor: isTutoring ? "#2B797C" : "#193252" }}
+          />
+        )}
+
+        {/* Badge type */}
+        <div className="absolute top-3 left-3">
+          <span
+            className="text-white text-[11px] font-bold px-2.5 py-1 rounded-lg"
+            style={{ backgroundColor: isTutoring ? "#65C5A9" : "#FA9F07" }}
+          >
+            {SESSION_TYPE_LABELS[session.type] ?? session.type}
+          </span>
+        </div>
+
+        {/* Titre en bas de l'image */}
+        <div className="absolute bottom-0 left-0 right-0 p-3">
+          <p className="text-white font-extrabold text-base leading-snug line-clamp-2">
+            {session.title}
+          </p>
+        </div>
+
+        {/* Overlay "finalizada" */}
         {isSessionPassed && (
-          <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-            <span className="px-3 py-1.5 bg-white/20 backdrop-blur-sm text-white text-sm font-semibold rounded-full border border-white/30">
+          <div className="absolute inset-0 flex items-center justify-center" style={{ backgroundColor: "rgba(0,0,0,0.45)" }}>
+            <span className="px-3 py-1.5 bg-white/20 backdrop-blur-sm text-white text-xs font-semibold rounded-full border border-white/30">
               Sesión finalizada
             </span>
           </div>
         )}
       </div>
 
-      {/* Title */}
-      <h1 className="text-xl font-bold font-montserrat">{session.title}</h1>
-
-      {/* Info items */}
-      <div className="flex flex-col gap-2.5">
+      {/* ── Info pills ── */}
+      <div className="flex flex-wrap gap-2">
         {[
-          { icon: "fa-location-dot", color: "text-myorange", text: session.location },
-          { icon: "fa-calendar-days", color: "text-myzinc", text: `${formattedDate} · ${formattedTime}` },
-          { icon: "fa-user-group", color: "text-myzinc", text: `Capacidad: ${session.capacity} voluntario.a.s` },
-          { icon: "fa-circle-check", color: session.volunteers.length >= session.capacity ? "text-myred" : "text-mygreen",
-            text: `Inscritos: ${session.volunteers.length} / ${session.capacity}` },
-        ].map(({ icon, color, text }) => (
-          <div key={icon} className="flex items-start gap-3">
-            <i className={`fa-solid ${icon} ${color} w-4 text-center mt-0.5 shrink-0`}></i>
-            <p className="text-sm text-myzinc">{text}</p>
+          { icon: "fa-calendar-days", text: formattedDate },
+          { icon: "fa-clock", text: formattedTime },
+          { icon: "fa-location-dot", text: session.location },
+        ].map(({ icon, text }) => (
+          <div key={icon} className="flex items-center gap-1.5 bg-white border border-gray-100 rounded-xl px-3 py-1.5">
+            <i className={`fa-solid ${icon} text-myteal text-[11px]`} />
+            <span className="text-myzinc text-xs font-medium capitalize">{text}</span>
           </div>
         ))}
-        {session.description && (
-          <div className="flex items-start gap-3">
-            <i className="fa-solid fa-circle-info text-mygray w-4 text-center mt-0.5 shrink-0"></i>
-            <p className="text-sm text-mygray">{session.description}</p>
-          </div>
-        )}
       </div>
 
-      {/* Status badge */}
+      {/* ── Capacidad ── */}
+      <div className="flex items-center justify-between bg-white border border-gray-100 rounded-xl px-3 py-2.5">
+        <div className="flex items-center gap-2">
+          <i className="fa-solid fa-people-group text-myteal text-sm" />
+          <span className="text-myzinc font-semibold text-sm">Voluntarios</span>
+        </div>
+        <span
+          className={`text-xs font-bold px-2.5 py-1 rounded-lg ${isFull ? "bg-red-50 text-myred" : "bg-green-50 text-green-700"}`}
+        >
+          {session.volunteers?.length ?? 0}/{session.capacity} · {isFull ? "Completo" : `${spotsLeft} cupo${spotsLeft > 1 ? "s" : ""}`}
+        </span>
+      </div>
+
+      {/* ── Description ── */}
+      {session.description && (
+        <div className="bg-zinc-50 rounded-xl px-3 py-3 border border-gray-100">
+          <p className="text-myzinc text-xs font-semibold mb-1">Descripción</p>
+          <p className="text-gray-500 text-sm leading-relaxed">{session.description}</p>
+        </div>
+      )}
+
+      {/* ── Status badges ── */}
       {isUserRegistered && (
-        <div className="flex items-center gap-2 px-3 py-2 bg-mygreen/10 text-mygreen rounded-lg text-sm font-medium">
-          <i className="fa-solid fa-circle-check"></i>
+        <div className="flex items-center gap-2 px-3 py-2.5 bg-mygreen/10 text-mygreen rounded-xl text-sm font-medium">
+          <i className="fa-solid fa-circle-check text-sm" />
           Ya estás inscrito en esta sesión
         </div>
       )}
       {!isVolunteerActive && !isSessionPassed && (
-        <div className="flex items-center gap-2 px-3 py-2 bg-myred/10 text-myred rounded-lg text-sm font-medium">
-          <i className="fa-solid fa-lock"></i>
+        <div className="flex items-center gap-2 px-3 py-2.5 bg-myred/10 text-myred rounded-xl text-sm font-medium">
+          <i className="fa-solid fa-lock text-sm" />
           Necesitas ser voluntario activo para inscribirte
         </div>
       )}
-      {isSessionPassed && (
-        <div className="flex items-center gap-2 px-3 py-2 bg-zinc-100 text-mygray rounded-lg text-sm font-medium">
-          <i className="fa-solid fa-clock-rotate-left"></i>
-          Esta sesión ya ha pasado
-        </div>
-      )}
 
-      {/* Actions */}
+      {/* ── Acciones ── */}
       {!isSessionPassed && (
         <div className="flex flex-col gap-2 pt-1 border-t border-zinc-100">
           {!isUserRegistered && isVolunteerActive && (
-            <SignUpToSessionButton fullWidth={true} sessionId={session.id} />
+            <SignUpToSessionButton fullWidth sessionId={session.id} />
           )}
           {isUserRegistered && (
-            <UnregisterButton fullWidth={true} sessionId={session.id} />
+            <UnregisterButton fullWidth sessionId={session.id} />
           )}
           <button
             onClick={() => router.push(`/admin/sessions/update-session/${sessionId}`)}
-            className="w-full px-4 py-2 border border-zinc-200 text-myzinc text-sm font-medium rounded-lg hover:bg-zinc-50 transition flex items-center justify-center gap-2"
+            className="w-full px-4 py-2.5 border border-zinc-200 text-myzinc text-sm font-medium rounded-2xl hover:bg-zinc-50 transition flex items-center justify-center gap-2"
           >
-            <i className="fa-solid fa-pen text-xs"></i>
+            <i className="fa-solid fa-pen text-xs" />
             Modificar el evento
           </button>
           <DeleteSessionButton sessionId={sessionId} handleCloseModal={handleCloseModal} />
