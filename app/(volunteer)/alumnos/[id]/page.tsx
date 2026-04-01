@@ -80,9 +80,8 @@ export default function AlumnoDetailVolunteerPage() {
               <span className={`px-2 py-0.5 rounded-full text-xs font-medium text-white ${alumno.escuelita === "Peruanidad" ? "bg-myteal" : "bg-mygreen"}`}>
                 {alumno.escuelita === "Valle_Ecologico" ? "Valle Ecológico" : alumno.escuelita}
               </span>
-              <span>{alumno.nivel}</span>
-              <span className="text-zinc-300">·</span>
-              <span className="truncate">{alumno.colegio}</span>
+              {alumno.nivel && <span>{alumno.nivel}</span>}
+              {alumno.colegio && <><span className="text-zinc-300">·</span><span className="truncate">{alumno.colegio}</span></>}
             </div>
           </div>
         </div>
@@ -102,6 +101,22 @@ export default function AlumnoDetailVolunteerPage() {
                   <dd className="font-medium text-myzinc">{String(value)}</dd>
                 </div>
               ))}
+              <div className="flex justify-between items-center py-1.5 border-b border-zinc-50">
+                <dt className="text-mygray">Estatus de inscripción</dt>
+                <dd>
+                  <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${
+                    alumno.estatusInscripcion === "Inscrito" ? "bg-green-100 text-green-700" :
+                    alumno.estatusInscripcion === "EnEspera" ? "bg-amber-100 text-amber-700" :
+                    "bg-red-100 text-red-600"
+                  }`}>
+                    {alumno.estatusInscripcion === "EnEspera" ? "En espera" : alumno.estatusInscripcion}
+                  </span>
+                </dd>
+              </div>
+              <div className="flex justify-between items-center py-1.5">
+                <dt className="text-mygray">Autorización de imagen</dt>
+                <dd className="font-medium text-myzinc">{alumno.autorizacionImagen ? "Sí" : "No"}</dd>
+              </div>
             </dl>
           </div>
 

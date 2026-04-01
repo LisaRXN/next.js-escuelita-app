@@ -33,9 +33,7 @@ export async function GET(req: Request, { params }: Params) {
             volunteer: true,
           },
           orderBy: {
-            volunteer: {
-              lastName: "asc",
-            },
+            createdAt: "asc",
           }
         },
       },
@@ -46,8 +44,11 @@ export async function GET(req: Request, { params }: Params) {
     }
 
 
+    let volunteerCounter = 0;
     const registeredVolunteers = session.volunteers.map((registration) => ({
       registrationId: registration.id,
+      registrationOrder: registration.volunteer.isAdmin ? 0 : ++volunteerCounter,
+      registeredAt: registration.createdAt.toISOString(),
       clerkUserId: registration.volunteer.clerkUserId,
       firstName: registration.volunteer.firstName,
       lastName: registration.volunteer.lastName,

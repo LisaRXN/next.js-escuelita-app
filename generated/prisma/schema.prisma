@@ -27,6 +27,12 @@ enum Escuelita {
   Valle_Ecologico
 }
 
+enum EstatusInscripcion {
+  Inscrito
+  EnEspera
+  Cancelado
+}
+
 enum Calificacion {
   Excelente
   Bueno
@@ -78,18 +84,20 @@ model Volunteer {
 }
 
 model Alumno {
-  id                    Int           @id @default(autoincrement())
+  id                    Int                @id @default(autoincrement())
   apellidos             String
   nombre                String
   fechaNacimiento       DateTime
   sexo                  Sexo
-  dni                   Int           @unique
-  colegio               String
-  nivel                 String
-  fechaMatricula        DateTime      @default(now())
+  dni                   Int                @unique
+  colegio               String?
+  nivel                 String?
+  fechaMatricula        DateTime           @default(now())
   necesidadesEspeciales String?
+  estatusInscripcion    EstatusInscripcion @default(Inscrito)
+  autorizacionImagen    Boolean            @default(false)
   escuelita             Escuelita
-  createdAt             DateTime      @default(now())
+  createdAt             DateTime           @default(now())
   seguimientos          Seguimiento[]
 }
 

@@ -4,7 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
 import { isAdmin } from "@/lib/is-admin";
 import { InputType, ReturnType } from "./types";
-import { Sexo, Escuelita } from "@/generated/prisma";
+import { Sexo, Escuelita, EstatusInscripcion } from "@/generated/prisma";
 
 export const handler = async (data: InputType): Promise<ReturnType> => {
   const { userId } = await auth();
@@ -13,7 +13,7 @@ export const handler = async (data: InputType): Promise<ReturnType> => {
   const isUserAdmin = await isAdmin(userId);
   if (!isUserAdmin) return { error: "Unauthorized" };
 
-  const { id, apellidos, nombre, fechaNacimiento, sexo, dni, colegio, nivel, fechaMatricula, escuelita, necesidadesEspeciales } = data;
+  const { id, apellidos, nombre, fechaNacimiento, sexo, dni, colegio, nivel, fechaMatricula, escuelita, necesidadesEspeciales, estatusInscripcion, autorizacionImagen } = data;
 
   try {
     const alumno = await prisma.alumno.update({
@@ -29,6 +29,8 @@ export const handler = async (data: InputType): Promise<ReturnType> => {
         fechaMatricula: new Date(fechaMatricula),
         escuelita: escuelita as Escuelita,
         necesidadesEspeciales,
+        estatusInscripcion: estatusInscripcion as EstatusInscripcion,
+        autorizacionImagen: autorizacionImagen ?? false,
       },
     });
 

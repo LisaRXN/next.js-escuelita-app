@@ -159,6 +159,8 @@ exports.Prisma.AlumnoScalarFieldEnum = {
   nivel: 'nivel',
   fechaMatricula: 'fechaMatricula',
   necesidadesEspeciales: 'necesidadesEspeciales',
+  estatusInscripcion: 'estatusInscripcion',
+  autorizacionImagen: 'autorizacionImagen',
   escuelita: 'escuelita',
   createdAt: 'createdAt'
 };
@@ -205,6 +207,12 @@ exports.SessionTypes = exports.$Enums.SessionTypes = {
 exports.Sexo = exports.$Enums.Sexo = {
   M: 'M',
   F: 'F'
+};
+
+exports.EstatusInscripcion = exports.$Enums.EstatusInscripcion = {
+  Inscrito: 'Inscrito',
+  EnEspera: 'EnEspera',
+  Cancelado: 'Cancelado'
 };
 
 exports.Escuelita = exports.$Enums.Escuelita = {

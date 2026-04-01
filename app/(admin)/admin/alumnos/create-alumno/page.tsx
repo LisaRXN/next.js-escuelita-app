@@ -27,6 +27,8 @@ export default function CreateAlumnoPage() {
     fechaMatricula: today,
     escuelita: "",
     necesidadesEspeciales: "",
+    estatusInscripcion: "",
+    autorizacionImagen: false,
   });
 
   const { execute, fieldErrors, isLoading } = useAction(createAlumno, {
@@ -48,13 +50,15 @@ export default function CreateAlumnoPage() {
       dni: parseInt(formData.dni),
       sexo: formData.sexo as "M" | "F",
       escuelita: formData.escuelita as "Peruanidad" | "Valle_Ecologico",
+      estatusInscripcion: formData.estatusInscripcion as "Inscrito" | "EnEspera" | "Cancelado",
+      autorizacionImagen: formData.autorizacionImagen,
     });
   };
 
   const isValid =
     formData.apellidos && formData.nombre && formData.fechaNacimiento &&
-    formData.sexo && formData.dni && !isNaN(parseInt(formData.dni)) && formData.colegio &&
-    formData.nivel && formData.fechaMatricula && formData.escuelita;
+    formData.sexo && formData.dni && !isNaN(parseInt(formData.dni)) &&
+    formData.fechaMatricula && formData.escuelita && formData.estatusInscripcion;
 
   return (
     <main className="min-h-screen bg-zinc-50 pb-10">
@@ -120,12 +124,12 @@ export default function CreateAlumnoPage() {
           {/* Colegio y nivel */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className={LABEL}>Colegio *</label>
+              <label className={LABEL}>Colegio</label>
               <input value={formData.colegio} onChange={(e) => handleChange("colegio", e.target.value)} placeholder="Nombre del colegio" className={INPUT} />
               <FormErrors id="colegio" errors={fieldErrors} />
             </div>
             <div>
-              <label className={LABEL}>Nivel *</label>
+              <label className={LABEL}>Nivel</label>
               <select value={formData.nivel} onChange={(e) => handleChange("nivel", e.target.value)} className={INPUT}>
                 <option value="">Seleccionar...</option>
                 <option value="Nido">Nido</option>
@@ -161,11 +165,37 @@ export default function CreateAlumnoPage() {
             <FormErrors id="escuelita" errors={fieldErrors} />
           </div>
 
+          {/* Estatus de inscripción */}
+          <div>
+            <label className={LABEL}>Estatus de inscripción *</label>
+            <select value={formData.estatusInscripcion} onChange={(e) => handleChange("estatusInscripcion", e.target.value)} className={INPUT}>
+              <option value="">Seleccionar...</option>
+              <option value="Inscrito">Inscrito</option>
+              <option value="EnEspera">En espera</option>
+              <option value="Cancelado">Cancelado</option>
+            </select>
+            <FormErrors id="estatusInscripcion" errors={fieldErrors} />
+          </div>
+
           {/* Fecha de matrícula */}
           <div>
             <label className={LABEL}>Fecha de matrícula *</label>
             <input type="date" value={formData.fechaMatricula} onChange={(e) => handleChange("fechaMatricula", e.target.value)} className={INPUT} />
             <FormErrors id="fechaMatricula" errors={fieldErrors} />
+          </div>
+
+          {/* Autorización de imagen */}
+          <div className="flex items-start gap-3">
+            <input
+              type="checkbox"
+              id="autorizacionImagen"
+              checked={formData.autorizacionImagen}
+              onChange={(e) => setFormData((prev) => ({ ...prev, autorizacionImagen: e.target.checked }))}
+              className="mt-0.5 w-4 h-4 accent-myteal cursor-pointer"
+            />
+            <label htmlFor="autorizacionImagen" className="text-sm text-zinc-600 cursor-pointer">
+              Autorización de uso de imagen
+            </label>
           </div>
 
           {/* Necesidades especiales */}
