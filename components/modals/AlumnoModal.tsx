@@ -44,11 +44,13 @@ const AlumnoModal = ({ alumno, dialogRef, onClose, onDelete }: AlumnoModalProps)
     fechaNacimiento: new Date(alumno.fechaNacimiento).toISOString().split("T")[0],
     sexo: alumno.sexo as "M" | "F",
     dni: String(alumno.dni),
-    colegio: alumno.colegio,
-    nivel: alumno.nivel,
+    colegio: alumno.colegio ?? "",
+    nivel: alumno.nivel ?? "",
     fechaMatricula: new Date(alumno.fechaMatricula).toISOString().split("T")[0],
     escuelita: alumno.escuelita as "Peruanidad" | "Valle_Ecologico",
     necesidadesEspeciales: alumno.necesidadesEspeciales ?? "",
+    estatusInscripcion: alumno.estatusInscripcion as "Inscrito" | "EnEspera" | "Cancelado",
+    autorizacionImagen: alumno.autorizacionImagen,
   });
 
   const handleChange = (field: string, value: string) => {
@@ -78,6 +80,8 @@ const AlumnoModal = ({ alumno, dialogRef, onClose, onDelete }: AlumnoModalProps)
     execUpdate({
       ...formData,
       dni: parseInt(formData.dni),
+      estatusInscripcion: formData.estatusInscripcion,
+      autorizacionImagen: formData.autorizacionImagen,
     });
   };
 
@@ -210,7 +214,7 @@ const AlumnoModal = ({ alumno, dialogRef, onClose, onDelete }: AlumnoModalProps)
           {/* Colegio y nivel */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block font-medium mb-1 text-sm">Colegio*</label>
+              <label className="block font-medium mb-1 text-sm">Colegio</label>
               <input
                 value={formData.colegio}
                 onChange={(e) => handleChange("colegio", e.target.value)}
@@ -219,7 +223,7 @@ const AlumnoModal = ({ alumno, dialogRef, onClose, onDelete }: AlumnoModalProps)
               <FormErrors id="colegio" errors={fieldErrors} />
             </div>
             <div>
-              <label className="block font-medium mb-1 text-sm">Nivel*</label>
+              <label className="block font-medium mb-1 text-sm">Nivel</label>
               <select
                 value={formData.nivel}
                 onChange={(e) => handleChange("nivel", e.target.value)}
@@ -256,6 +260,21 @@ const AlumnoModal = ({ alumno, dialogRef, onClose, onDelete }: AlumnoModalProps)
             <FormErrors id="escuelita" errors={fieldErrors} />
           </div>
 
+          {/* Estatus de inscripción */}
+          <div>
+            <label className="block font-medium mb-1 text-sm">Estatus de inscripción*</label>
+            <select
+              value={formData.estatusInscripcion}
+              onChange={(e) => handleChange("estatusInscripcion", e.target.value)}
+              className="w-full border rounded p-2 bg-zinc-50 text-sm"
+            >
+              <option value="Inscrito">Inscrito</option>
+              <option value="EnEspera">En espera</option>
+              <option value="Cancelado">Cancelado</option>
+            </select>
+            <FormErrors id="estatusInscripcion" errors={fieldErrors} />
+          </div>
+
           {/* Fecha matrícula */}
           <div>
             <label className="block font-medium mb-1 text-sm">Fecha de matrícula*</label>
@@ -266,6 +285,20 @@ const AlumnoModal = ({ alumno, dialogRef, onClose, onDelete }: AlumnoModalProps)
               className="w-full border rounded p-2 bg-zinc-50 text-sm"
             />
             <FormErrors id="fechaMatricula" errors={fieldErrors} />
+          </div>
+
+          {/* Autorización de imagen */}
+          <div className="flex items-start gap-3">
+            <input
+              type="checkbox"
+              id="autorizacionImagenModal"
+              checked={formData.autorizacionImagen}
+              onChange={(e) => setFormData((prev) => ({ ...prev, autorizacionImagen: e.target.checked }))}
+              className="mt-0.5 w-4 h-4 accent-myorange cursor-pointer"
+            />
+            <label htmlFor="autorizacionImagenModal" className="text-sm text-zinc-600 cursor-pointer">
+              Autorización de uso de imagen
+            </label>
           </div>
 
           {/* Necesidades especiales */}

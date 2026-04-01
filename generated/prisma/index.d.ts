@@ -59,6 +59,15 @@ export const Escuelita: {
 export type Escuelita = (typeof Escuelita)[keyof typeof Escuelita]
 
 
+export const EstatusInscripcion: {
+  Inscrito: 'Inscrito',
+  EnEspera: 'EnEspera',
+  Cancelado: 'Cancelado'
+};
+
+export type EstatusInscripcion = (typeof EstatusInscripcion)[keyof typeof EstatusInscripcion]
+
+
 export const Calificacion: {
   Excelente: 'Excelente',
   Bueno: 'Bueno',
@@ -96,6 +105,10 @@ export const Sexo: typeof $Enums.Sexo
 export type Escuelita = $Enums.Escuelita
 
 export const Escuelita: typeof $Enums.Escuelita
+
+export type EstatusInscripcion = $Enums.EstatusInscripcion
+
+export const EstatusInscripcion: typeof $Enums.EstatusInscripcion
 
 export type Calificacion = $Enums.Calificacion
 
@@ -3796,6 +3809,8 @@ export namespace Prisma {
     nivel: string | null
     fechaMatricula: Date | null
     necesidadesEspeciales: string | null
+    estatusInscripcion: $Enums.EstatusInscripcion | null
+    autorizacionImagen: boolean | null
     escuelita: $Enums.Escuelita | null
     createdAt: Date | null
   }
@@ -3811,6 +3826,8 @@ export namespace Prisma {
     nivel: string | null
     fechaMatricula: Date | null
     necesidadesEspeciales: string | null
+    estatusInscripcion: $Enums.EstatusInscripcion | null
+    autorizacionImagen: boolean | null
     escuelita: $Enums.Escuelita | null
     createdAt: Date | null
   }
@@ -3826,6 +3843,8 @@ export namespace Prisma {
     nivel: number
     fechaMatricula: number
     necesidadesEspeciales: number
+    estatusInscripcion: number
+    autorizacionImagen: number
     escuelita: number
     createdAt: number
     _all: number
@@ -3853,6 +3872,8 @@ export namespace Prisma {
     nivel?: true
     fechaMatricula?: true
     necesidadesEspeciales?: true
+    estatusInscripcion?: true
+    autorizacionImagen?: true
     escuelita?: true
     createdAt?: true
   }
@@ -3868,6 +3889,8 @@ export namespace Prisma {
     nivel?: true
     fechaMatricula?: true
     necesidadesEspeciales?: true
+    estatusInscripcion?: true
+    autorizacionImagen?: true
     escuelita?: true
     createdAt?: true
   }
@@ -3883,6 +3906,8 @@ export namespace Prisma {
     nivel?: true
     fechaMatricula?: true
     necesidadesEspeciales?: true
+    estatusInscripcion?: true
+    autorizacionImagen?: true
     escuelita?: true
     createdAt?: true
     _all?: true
@@ -3981,10 +4006,12 @@ export namespace Prisma {
     fechaNacimiento: Date
     sexo: $Enums.Sexo
     dni: number
-    colegio: string
-    nivel: string
+    colegio: string | null
+    nivel: string | null
     fechaMatricula: Date
     necesidadesEspeciales: string | null
+    estatusInscripcion: $Enums.EstatusInscripcion
+    autorizacionImagen: boolean
     escuelita: $Enums.Escuelita
     createdAt: Date
     _count: AlumnoCountAggregateOutputType | null
@@ -4019,6 +4046,8 @@ export namespace Prisma {
     nivel?: boolean
     fechaMatricula?: boolean
     necesidadesEspeciales?: boolean
+    estatusInscripcion?: boolean
+    autorizacionImagen?: boolean
     escuelita?: boolean
     createdAt?: boolean
     seguimientos?: boolean | Alumno$seguimientosArgs<ExtArgs>
@@ -4036,6 +4065,8 @@ export namespace Prisma {
     nivel?: boolean
     fechaMatricula?: boolean
     necesidadesEspeciales?: boolean
+    estatusInscripcion?: boolean
+    autorizacionImagen?: boolean
     escuelita?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["alumno"]>
@@ -4051,6 +4082,8 @@ export namespace Prisma {
     nivel?: boolean
     fechaMatricula?: boolean
     necesidadesEspeciales?: boolean
+    estatusInscripcion?: boolean
+    autorizacionImagen?: boolean
     escuelita?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["alumno"]>
@@ -4066,11 +4099,13 @@ export namespace Prisma {
     nivel?: boolean
     fechaMatricula?: boolean
     necesidadesEspeciales?: boolean
+    estatusInscripcion?: boolean
+    autorizacionImagen?: boolean
     escuelita?: boolean
     createdAt?: boolean
   }
 
-  export type AlumnoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "apellidos" | "nombre" | "fechaNacimiento" | "sexo" | "dni" | "colegio" | "nivel" | "fechaMatricula" | "necesidadesEspeciales" | "escuelita" | "createdAt", ExtArgs["result"]["alumno"]>
+  export type AlumnoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "apellidos" | "nombre" | "fechaNacimiento" | "sexo" | "dni" | "colegio" | "nivel" | "fechaMatricula" | "necesidadesEspeciales" | "estatusInscripcion" | "autorizacionImagen" | "escuelita" | "createdAt", ExtArgs["result"]["alumno"]>
   export type AlumnoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     seguimientos?: boolean | Alumno$seguimientosArgs<ExtArgs>
     _count?: boolean | AlumnoCountOutputTypeDefaultArgs<ExtArgs>
@@ -4090,10 +4125,12 @@ export namespace Prisma {
       fechaNacimiento: Date
       sexo: $Enums.Sexo
       dni: number
-      colegio: string
-      nivel: string
+      colegio: string | null
+      nivel: string | null
       fechaMatricula: Date
       necesidadesEspeciales: string | null
+      estatusInscripcion: $Enums.EstatusInscripcion
+      autorizacionImagen: boolean
       escuelita: $Enums.Escuelita
       createdAt: Date
     }, ExtArgs["result"]["alumno"]>
@@ -4530,6 +4567,8 @@ export namespace Prisma {
     readonly nivel: FieldRef<"Alumno", 'String'>
     readonly fechaMatricula: FieldRef<"Alumno", 'DateTime'>
     readonly necesidadesEspeciales: FieldRef<"Alumno", 'String'>
+    readonly estatusInscripcion: FieldRef<"Alumno", 'EstatusInscripcion'>
+    readonly autorizacionImagen: FieldRef<"Alumno", 'Boolean'>
     readonly escuelita: FieldRef<"Alumno", 'Escuelita'>
     readonly createdAt: FieldRef<"Alumno", 'DateTime'>
   }
@@ -7277,6 +7316,8 @@ export namespace Prisma {
     nivel: 'nivel',
     fechaMatricula: 'fechaMatricula',
     necesidadesEspeciales: 'necesidadesEspeciales',
+    estatusInscripcion: 'estatusInscripcion',
+    autorizacionImagen: 'autorizacionImagen',
     escuelita: 'escuelita',
     createdAt: 'createdAt'
   };
@@ -7413,6 +7454,20 @@ export namespace Prisma {
    * Reference to a field of type 'Sexo[]'
    */
   export type ListEnumSexoFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Sexo[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'EstatusInscripcion'
+   */
+  export type EnumEstatusInscripcionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EstatusInscripcion'>
+    
+
+
+  /**
+   * Reference to a field of type 'EstatusInscripcion[]'
+   */
+  export type ListEnumEstatusInscripcionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EstatusInscripcion[]'>
     
 
 
@@ -7659,10 +7714,12 @@ export namespace Prisma {
     fechaNacimiento?: DateTimeFilter<"Alumno"> | Date | string
     sexo?: EnumSexoFilter<"Alumno"> | $Enums.Sexo
     dni?: IntFilter<"Alumno"> | number
-    colegio?: StringFilter<"Alumno"> | string
-    nivel?: StringFilter<"Alumno"> | string
+    colegio?: StringNullableFilter<"Alumno"> | string | null
+    nivel?: StringNullableFilter<"Alumno"> | string | null
     fechaMatricula?: DateTimeFilter<"Alumno"> | Date | string
     necesidadesEspeciales?: StringNullableFilter<"Alumno"> | string | null
+    estatusInscripcion?: EnumEstatusInscripcionFilter<"Alumno"> | $Enums.EstatusInscripcion
+    autorizacionImagen?: BoolFilter<"Alumno"> | boolean
     escuelita?: EnumEscuelitaFilter<"Alumno"> | $Enums.Escuelita
     createdAt?: DateTimeFilter<"Alumno"> | Date | string
     seguimientos?: SeguimientoListRelationFilter
@@ -7675,10 +7732,12 @@ export namespace Prisma {
     fechaNacimiento?: SortOrder
     sexo?: SortOrder
     dni?: SortOrder
-    colegio?: SortOrder
-    nivel?: SortOrder
+    colegio?: SortOrderInput | SortOrder
+    nivel?: SortOrderInput | SortOrder
     fechaMatricula?: SortOrder
     necesidadesEspeciales?: SortOrderInput | SortOrder
+    estatusInscripcion?: SortOrder
+    autorizacionImagen?: SortOrder
     escuelita?: SortOrder
     createdAt?: SortOrder
     seguimientos?: SeguimientoOrderByRelationAggregateInput
@@ -7694,10 +7753,12 @@ export namespace Prisma {
     nombre?: StringFilter<"Alumno"> | string
     fechaNacimiento?: DateTimeFilter<"Alumno"> | Date | string
     sexo?: EnumSexoFilter<"Alumno"> | $Enums.Sexo
-    colegio?: StringFilter<"Alumno"> | string
-    nivel?: StringFilter<"Alumno"> | string
+    colegio?: StringNullableFilter<"Alumno"> | string | null
+    nivel?: StringNullableFilter<"Alumno"> | string | null
     fechaMatricula?: DateTimeFilter<"Alumno"> | Date | string
     necesidadesEspeciales?: StringNullableFilter<"Alumno"> | string | null
+    estatusInscripcion?: EnumEstatusInscripcionFilter<"Alumno"> | $Enums.EstatusInscripcion
+    autorizacionImagen?: BoolFilter<"Alumno"> | boolean
     escuelita?: EnumEscuelitaFilter<"Alumno"> | $Enums.Escuelita
     createdAt?: DateTimeFilter<"Alumno"> | Date | string
     seguimientos?: SeguimientoListRelationFilter
@@ -7710,10 +7771,12 @@ export namespace Prisma {
     fechaNacimiento?: SortOrder
     sexo?: SortOrder
     dni?: SortOrder
-    colegio?: SortOrder
-    nivel?: SortOrder
+    colegio?: SortOrderInput | SortOrder
+    nivel?: SortOrderInput | SortOrder
     fechaMatricula?: SortOrder
     necesidadesEspeciales?: SortOrderInput | SortOrder
+    estatusInscripcion?: SortOrder
+    autorizacionImagen?: SortOrder
     escuelita?: SortOrder
     createdAt?: SortOrder
     _count?: AlumnoCountOrderByAggregateInput
@@ -7733,10 +7796,12 @@ export namespace Prisma {
     fechaNacimiento?: DateTimeWithAggregatesFilter<"Alumno"> | Date | string
     sexo?: EnumSexoWithAggregatesFilter<"Alumno"> | $Enums.Sexo
     dni?: IntWithAggregatesFilter<"Alumno"> | number
-    colegio?: StringWithAggregatesFilter<"Alumno"> | string
-    nivel?: StringWithAggregatesFilter<"Alumno"> | string
+    colegio?: StringNullableWithAggregatesFilter<"Alumno"> | string | null
+    nivel?: StringNullableWithAggregatesFilter<"Alumno"> | string | null
     fechaMatricula?: DateTimeWithAggregatesFilter<"Alumno"> | Date | string
     necesidadesEspeciales?: StringNullableWithAggregatesFilter<"Alumno"> | string | null
+    estatusInscripcion?: EnumEstatusInscripcionWithAggregatesFilter<"Alumno"> | $Enums.EstatusInscripcion
+    autorizacionImagen?: BoolWithAggregatesFilter<"Alumno"> | boolean
     escuelita?: EnumEscuelitaWithAggregatesFilter<"Alumno"> | $Enums.Escuelita
     createdAt?: DateTimeWithAggregatesFilter<"Alumno"> | Date | string
   }
@@ -8083,10 +8148,12 @@ export namespace Prisma {
     fechaNacimiento: Date | string
     sexo: $Enums.Sexo
     dni: number
-    colegio: string
-    nivel: string
+    colegio?: string | null
+    nivel?: string | null
     fechaMatricula?: Date | string
     necesidadesEspeciales?: string | null
+    estatusInscripcion?: $Enums.EstatusInscripcion
+    autorizacionImagen?: boolean
     escuelita: $Enums.Escuelita
     createdAt?: Date | string
     seguimientos?: SeguimientoCreateNestedManyWithoutAlumnoInput
@@ -8099,10 +8166,12 @@ export namespace Prisma {
     fechaNacimiento: Date | string
     sexo: $Enums.Sexo
     dni: number
-    colegio: string
-    nivel: string
+    colegio?: string | null
+    nivel?: string | null
     fechaMatricula?: Date | string
     necesidadesEspeciales?: string | null
+    estatusInscripcion?: $Enums.EstatusInscripcion
+    autorizacionImagen?: boolean
     escuelita: $Enums.Escuelita
     createdAt?: Date | string
     seguimientos?: SeguimientoUncheckedCreateNestedManyWithoutAlumnoInput
@@ -8114,10 +8183,12 @@ export namespace Prisma {
     fechaNacimiento?: DateTimeFieldUpdateOperationsInput | Date | string
     sexo?: EnumSexoFieldUpdateOperationsInput | $Enums.Sexo
     dni?: IntFieldUpdateOperationsInput | number
-    colegio?: StringFieldUpdateOperationsInput | string
-    nivel?: StringFieldUpdateOperationsInput | string
+    colegio?: NullableStringFieldUpdateOperationsInput | string | null
+    nivel?: NullableStringFieldUpdateOperationsInput | string | null
     fechaMatricula?: DateTimeFieldUpdateOperationsInput | Date | string
     necesidadesEspeciales?: NullableStringFieldUpdateOperationsInput | string | null
+    estatusInscripcion?: EnumEstatusInscripcionFieldUpdateOperationsInput | $Enums.EstatusInscripcion
+    autorizacionImagen?: BoolFieldUpdateOperationsInput | boolean
     escuelita?: EnumEscuelitaFieldUpdateOperationsInput | $Enums.Escuelita
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     seguimientos?: SeguimientoUpdateManyWithoutAlumnoNestedInput
@@ -8130,10 +8201,12 @@ export namespace Prisma {
     fechaNacimiento?: DateTimeFieldUpdateOperationsInput | Date | string
     sexo?: EnumSexoFieldUpdateOperationsInput | $Enums.Sexo
     dni?: IntFieldUpdateOperationsInput | number
-    colegio?: StringFieldUpdateOperationsInput | string
-    nivel?: StringFieldUpdateOperationsInput | string
+    colegio?: NullableStringFieldUpdateOperationsInput | string | null
+    nivel?: NullableStringFieldUpdateOperationsInput | string | null
     fechaMatricula?: DateTimeFieldUpdateOperationsInput | Date | string
     necesidadesEspeciales?: NullableStringFieldUpdateOperationsInput | string | null
+    estatusInscripcion?: EnumEstatusInscripcionFieldUpdateOperationsInput | $Enums.EstatusInscripcion
+    autorizacionImagen?: BoolFieldUpdateOperationsInput | boolean
     escuelita?: EnumEscuelitaFieldUpdateOperationsInput | $Enums.Escuelita
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     seguimientos?: SeguimientoUncheckedUpdateManyWithoutAlumnoNestedInput
@@ -8146,10 +8219,12 @@ export namespace Prisma {
     fechaNacimiento: Date | string
     sexo: $Enums.Sexo
     dni: number
-    colegio: string
-    nivel: string
+    colegio?: string | null
+    nivel?: string | null
     fechaMatricula?: Date | string
     necesidadesEspeciales?: string | null
+    estatusInscripcion?: $Enums.EstatusInscripcion
+    autorizacionImagen?: boolean
     escuelita: $Enums.Escuelita
     createdAt?: Date | string
   }
@@ -8160,10 +8235,12 @@ export namespace Prisma {
     fechaNacimiento?: DateTimeFieldUpdateOperationsInput | Date | string
     sexo?: EnumSexoFieldUpdateOperationsInput | $Enums.Sexo
     dni?: IntFieldUpdateOperationsInput | number
-    colegio?: StringFieldUpdateOperationsInput | string
-    nivel?: StringFieldUpdateOperationsInput | string
+    colegio?: NullableStringFieldUpdateOperationsInput | string | null
+    nivel?: NullableStringFieldUpdateOperationsInput | string | null
     fechaMatricula?: DateTimeFieldUpdateOperationsInput | Date | string
     necesidadesEspeciales?: NullableStringFieldUpdateOperationsInput | string | null
+    estatusInscripcion?: EnumEstatusInscripcionFieldUpdateOperationsInput | $Enums.EstatusInscripcion
+    autorizacionImagen?: BoolFieldUpdateOperationsInput | boolean
     escuelita?: EnumEscuelitaFieldUpdateOperationsInput | $Enums.Escuelita
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -8175,10 +8252,12 @@ export namespace Prisma {
     fechaNacimiento?: DateTimeFieldUpdateOperationsInput | Date | string
     sexo?: EnumSexoFieldUpdateOperationsInput | $Enums.Sexo
     dni?: IntFieldUpdateOperationsInput | number
-    colegio?: StringFieldUpdateOperationsInput | string
-    nivel?: StringFieldUpdateOperationsInput | string
+    colegio?: NullableStringFieldUpdateOperationsInput | string | null
+    nivel?: NullableStringFieldUpdateOperationsInput | string | null
     fechaMatricula?: DateTimeFieldUpdateOperationsInput | Date | string
     necesidadesEspeciales?: NullableStringFieldUpdateOperationsInput | string | null
+    estatusInscripcion?: EnumEstatusInscripcionFieldUpdateOperationsInput | $Enums.EstatusInscripcion
+    autorizacionImagen?: BoolFieldUpdateOperationsInput | boolean
     escuelita?: EnumEscuelitaFieldUpdateOperationsInput | $Enums.Escuelita
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -8611,6 +8690,13 @@ export namespace Prisma {
     not?: NestedEnumSexoFilter<$PrismaModel> | $Enums.Sexo
   }
 
+  export type EnumEstatusInscripcionFilter<$PrismaModel = never> = {
+    equals?: $Enums.EstatusInscripcion | EnumEstatusInscripcionFieldRefInput<$PrismaModel>
+    in?: $Enums.EstatusInscripcion[] | ListEnumEstatusInscripcionFieldRefInput<$PrismaModel>
+    notIn?: $Enums.EstatusInscripcion[] | ListEnumEstatusInscripcionFieldRefInput<$PrismaModel>
+    not?: NestedEnumEstatusInscripcionFilter<$PrismaModel> | $Enums.EstatusInscripcion
+  }
+
   export type EnumEscuelitaFilter<$PrismaModel = never> = {
     equals?: $Enums.Escuelita | EnumEscuelitaFieldRefInput<$PrismaModel>
     in?: $Enums.Escuelita[] | ListEnumEscuelitaFieldRefInput<$PrismaModel>
@@ -8639,6 +8725,8 @@ export namespace Prisma {
     nivel?: SortOrder
     fechaMatricula?: SortOrder
     necesidadesEspeciales?: SortOrder
+    estatusInscripcion?: SortOrder
+    autorizacionImagen?: SortOrder
     escuelita?: SortOrder
     createdAt?: SortOrder
   }
@@ -8659,6 +8747,8 @@ export namespace Prisma {
     nivel?: SortOrder
     fechaMatricula?: SortOrder
     necesidadesEspeciales?: SortOrder
+    estatusInscripcion?: SortOrder
+    autorizacionImagen?: SortOrder
     escuelita?: SortOrder
     createdAt?: SortOrder
   }
@@ -8674,6 +8764,8 @@ export namespace Prisma {
     nivel?: SortOrder
     fechaMatricula?: SortOrder
     necesidadesEspeciales?: SortOrder
+    estatusInscripcion?: SortOrder
+    autorizacionImagen?: SortOrder
     escuelita?: SortOrder
     createdAt?: SortOrder
   }
@@ -8691,6 +8783,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumSexoFilter<$PrismaModel>
     _max?: NestedEnumSexoFilter<$PrismaModel>
+  }
+
+  export type EnumEstatusInscripcionWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.EstatusInscripcion | EnumEstatusInscripcionFieldRefInput<$PrismaModel>
+    in?: $Enums.EstatusInscripcion[] | ListEnumEstatusInscripcionFieldRefInput<$PrismaModel>
+    notIn?: $Enums.EstatusInscripcion[] | ListEnumEstatusInscripcionFieldRefInput<$PrismaModel>
+    not?: NestedEnumEstatusInscripcionWithAggregatesFilter<$PrismaModel> | $Enums.EstatusInscripcion
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumEstatusInscripcionFilter<$PrismaModel>
+    _max?: NestedEnumEstatusInscripcionFilter<$PrismaModel>
   }
 
   export type EnumEscuelitaWithAggregatesFilter<$PrismaModel = never> = {
@@ -8973,6 +9075,10 @@ export namespace Prisma {
     set?: $Enums.Sexo
   }
 
+  export type EnumEstatusInscripcionFieldUpdateOperationsInput = {
+    set?: $Enums.EstatusInscripcion
+  }
+
   export type EnumEscuelitaFieldUpdateOperationsInput = {
     set?: $Enums.Escuelita
   }
@@ -9253,6 +9359,13 @@ export namespace Prisma {
     not?: NestedEnumSexoFilter<$PrismaModel> | $Enums.Sexo
   }
 
+  export type NestedEnumEstatusInscripcionFilter<$PrismaModel = never> = {
+    equals?: $Enums.EstatusInscripcion | EnumEstatusInscripcionFieldRefInput<$PrismaModel>
+    in?: $Enums.EstatusInscripcion[] | ListEnumEstatusInscripcionFieldRefInput<$PrismaModel>
+    notIn?: $Enums.EstatusInscripcion[] | ListEnumEstatusInscripcionFieldRefInput<$PrismaModel>
+    not?: NestedEnumEstatusInscripcionFilter<$PrismaModel> | $Enums.EstatusInscripcion
+  }
+
   export type NestedEnumEscuelitaFilter<$PrismaModel = never> = {
     equals?: $Enums.Escuelita | EnumEscuelitaFieldRefInput<$PrismaModel>
     in?: $Enums.Escuelita[] | ListEnumEscuelitaFieldRefInput<$PrismaModel>
@@ -9268,6 +9381,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumSexoFilter<$PrismaModel>
     _max?: NestedEnumSexoFilter<$PrismaModel>
+  }
+
+  export type NestedEnumEstatusInscripcionWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.EstatusInscripcion | EnumEstatusInscripcionFieldRefInput<$PrismaModel>
+    in?: $Enums.EstatusInscripcion[] | ListEnumEstatusInscripcionFieldRefInput<$PrismaModel>
+    notIn?: $Enums.EstatusInscripcion[] | ListEnumEstatusInscripcionFieldRefInput<$PrismaModel>
+    not?: NestedEnumEstatusInscripcionWithAggregatesFilter<$PrismaModel> | $Enums.EstatusInscripcion
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumEstatusInscripcionFilter<$PrismaModel>
+    _max?: NestedEnumEstatusInscripcionFilter<$PrismaModel>
   }
 
   export type NestedEnumEscuelitaWithAggregatesFilter<$PrismaModel = never> = {
@@ -9471,10 +9594,12 @@ export namespace Prisma {
     fechaNacimiento: Date | string
     sexo: $Enums.Sexo
     dni: number
-    colegio: string
-    nivel: string
+    colegio?: string | null
+    nivel?: string | null
     fechaMatricula?: Date | string
     necesidadesEspeciales?: string | null
+    estatusInscripcion?: $Enums.EstatusInscripcion
+    autorizacionImagen?: boolean
     escuelita: $Enums.Escuelita
     createdAt?: Date | string
   }
@@ -9486,10 +9611,12 @@ export namespace Prisma {
     fechaNacimiento: Date | string
     sexo: $Enums.Sexo
     dni: number
-    colegio: string
-    nivel: string
+    colegio?: string | null
+    nivel?: string | null
     fechaMatricula?: Date | string
     necesidadesEspeciales?: string | null
+    estatusInscripcion?: $Enums.EstatusInscripcion
+    autorizacionImagen?: boolean
     escuelita: $Enums.Escuelita
     createdAt?: Date | string
   }
@@ -9516,10 +9643,12 @@ export namespace Prisma {
     fechaNacimiento?: DateTimeFieldUpdateOperationsInput | Date | string
     sexo?: EnumSexoFieldUpdateOperationsInput | $Enums.Sexo
     dni?: IntFieldUpdateOperationsInput | number
-    colegio?: StringFieldUpdateOperationsInput | string
-    nivel?: StringFieldUpdateOperationsInput | string
+    colegio?: NullableStringFieldUpdateOperationsInput | string | null
+    nivel?: NullableStringFieldUpdateOperationsInput | string | null
     fechaMatricula?: DateTimeFieldUpdateOperationsInput | Date | string
     necesidadesEspeciales?: NullableStringFieldUpdateOperationsInput | string | null
+    estatusInscripcion?: EnumEstatusInscripcionFieldUpdateOperationsInput | $Enums.EstatusInscripcion
+    autorizacionImagen?: BoolFieldUpdateOperationsInput | boolean
     escuelita?: EnumEscuelitaFieldUpdateOperationsInput | $Enums.Escuelita
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -9531,10 +9660,12 @@ export namespace Prisma {
     fechaNacimiento?: DateTimeFieldUpdateOperationsInput | Date | string
     sexo?: EnumSexoFieldUpdateOperationsInput | $Enums.Sexo
     dni?: IntFieldUpdateOperationsInput | number
-    colegio?: StringFieldUpdateOperationsInput | string
-    nivel?: StringFieldUpdateOperationsInput | string
+    colegio?: NullableStringFieldUpdateOperationsInput | string | null
+    nivel?: NullableStringFieldUpdateOperationsInput | string | null
     fechaMatricula?: DateTimeFieldUpdateOperationsInput | Date | string
     necesidadesEspeciales?: NullableStringFieldUpdateOperationsInput | string | null
+    estatusInscripcion?: EnumEstatusInscripcionFieldUpdateOperationsInput | $Enums.EstatusInscripcion
+    autorizacionImagen?: BoolFieldUpdateOperationsInput | boolean
     escuelita?: EnumEscuelitaFieldUpdateOperationsInput | $Enums.Escuelita
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

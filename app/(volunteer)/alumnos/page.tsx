@@ -100,7 +100,7 @@ function EscuelitaListView({
   const allAlumnos: Alumno[] = data?.data ?? [];
 
   const availableNiveles = useMemo(() => {
-    const set = new Set(allAlumnos.map((a) => a.nivel).filter(Boolean));
+    const set = new Set(allAlumnos.map((a) => a.nivel).filter((n): n is string => n !== null));
     return Array.from(set).sort();
   }, [allAlumnos]);
 
