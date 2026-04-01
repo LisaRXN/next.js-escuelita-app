@@ -57,14 +57,22 @@ function VolunteerCard({ reg, sessionId }: { reg: RegisteredVolunteer; sessionId
   return (
     <div className="bg-white rounded-2xl px-4 py-3 border border-gray-100">
       <div className="flex items-center gap-3">
-        <div className="w-9 h-9 rounded-full bg-myteal/15 flex items-center justify-center shrink-0">
-          <span className="text-myteal font-black text-xs">
-            {reg.firstName[0]}{reg.lastName[0]}
+        <div className="relative w-9 h-9 shrink-0">
+          <div className="w-9 h-9 rounded-full bg-myteal/15 flex items-center justify-center">
+            <span className="text-myteal font-black text-xs">
+              {reg.firstName[0]}{reg.lastName[0]}
+            </span>
+          </div>
+          <span className="absolute -top-1 -left-1 w-4 h-4 rounded-full bg-myteal text-white text-[9px] font-bold flex items-center justify-center leading-none">
+            {reg.registrationOrder}
           </span>
         </div>
         <div className="flex-1 min-w-0">
           <p className="text-myzinc font-semibold text-sm">{reg.firstName} {reg.lastName}</p>
-          {reg.phone && <p className="text-gray-400 text-xs mt-0.5">{reg.phone}</p>}
+          <p className="text-gray-400 text-xs mt-0.5">
+            {reg.phone && <span>{reg.phone} · </span>}
+            <span>Inscrito el {new Date(reg.registeredAt).toLocaleDateString("es-PE", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })}</span>
+          </p>
         </div>
         <UnregisterVolunteer sessionId={sessionId} clerkUserId={reg.clerkUserId} />
       </div>

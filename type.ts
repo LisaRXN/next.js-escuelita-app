@@ -39,6 +39,8 @@ export interface SessionWithLiders {
 
 export interface RegisteredVolunteer {
   registrationId: number;
+  registrationOrder: number;
+  registeredAt: string;
   volunteerId: number;
   clerkUserId: string;
   firstName: string;
