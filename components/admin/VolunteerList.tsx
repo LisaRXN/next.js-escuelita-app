@@ -11,7 +11,7 @@ import { RegistrationStatus } from "@/generated/prisma";
 const STATUS_CONFIG: Record<string, { label: string; color: string; bg: string; border: string }> = {
   CONFIRMED: { label: "Presente",  color: "#15803D", bg: "#DCFCE7", border: "#15803D40" },
   NO_SHOW:   { label: "No vino",   color: "#B91C1C", bg: "#FEE2E2", border: "#B91C1C40" },
-  CANCELLED: { label: "Canceló",   color: "#9CA3AF", bg: "#F1F5F9", border: "transparent" },
+  CANCELLED: { label: "Canceló",   color: "#D97706", bg: "#FEF3C7", border: "#D9770640" },
 };
 
 function StatusChips({ registrationId, status }: { registrationId: number; status: RegistrationStatus }) {
@@ -81,7 +81,43 @@ function VolunteerCard({ reg, sessionId }: { reg: RegisteredVolunteer; sessionId
   );
 }
 
-const VolunteerList = ({ registeredVolunteers, sessionId }: { registeredVolunteers: RegisteredVolunteer[]; sessionId: number }) => {
+function downloadExcel(volunteers: RegisteredVolunteer[], sessionTitle: string, sessionDate: string) {
+  // Import dynamique pour ne pas alourdir le bundle initial
+  import("xlsx").then(({ utils, writeFile }) => {
+    const rows = [...volunteers]
+      .sort((a, b) => a.registrationOrder - b.registrationOrder)
+      .map((v) => ({
+        Orden: v.registrationOrder,
+        Nombre: v.firstName,
+        Apellido: v.lastName,
+        Teléfono: v.phone ?? "",
+      }));
+
+    const ws = utils.json_to_sheet(rows);
+
+    // Largeur des colonnes
+    ws["!cols"] = [{ wch: 7 }, { wch: 18 }, { wch: 18 }, { wch: 16 }];
+
+    const wb = utils.book_new();
+    const dateStr = new Date(sessionDate)
+      .toLocaleDateString("es-PE", { day: "2-digit", month: "2-digit", year: "numeric" })
+      .replace(/\//g, "-");
+    utils.book_append_sheet(wb, ws, "Voluntarios");
+    writeFile(wb, `voluntarios_${sessionTitle.replace(/\s+/g, "_")}_${dateStr}.xlsx`);
+  });
+}
+
+const VolunteerList = ({
+  registeredVolunteers,
+  sessionId,
+  sessionTitle,
+  sessionDate,
+}: {
+  registeredVolunteers: RegisteredVolunteer[];
+  sessionId: number;
+  sessionTitle: string;
+  sessionDate: string;
+}) => {
   return (
     <div>
       <div className="flex items-center gap-2 mb-3">
@@ -91,6 +127,16 @@ const VolunteerList = ({ registeredVolunteers, sessionId }: { registeredVoluntee
         <span className="text-myteal text-[11px] font-bold uppercase tracking-wider">Voluntarios</span>
         <div className="flex-1 h-px bg-myteal/20" />
         <span className="text-myteal text-[11px] font-semibold">{registeredVolunteers.length}</span>
+        {registeredVolunteers.length > 0 && (
+          <button
+            onClick={() => downloadExcel(registeredVolunteers, sessionTitle, sessionDate)}
+            title="Descargar lista en Excel"
+            className="flex items-center gap-1.5 text-[11px] font-bold text-myteal bg-myteal/10 hover:bg-myteal/20 border border-myteal/20 px-2.5 py-1 rounded-lg transition-colors"
+          >
+            <i className="fa-solid fa-file-excel text-[10px]" />
+            Exportar
+          </button>
+        )}
       </div>
       {registeredVolunteers.length === 0 ? (
         <div className="bg-white rounded-2xl p-8 text-center border border-gray-100">

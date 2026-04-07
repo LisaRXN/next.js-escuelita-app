@@ -95,7 +95,12 @@ const AdminSessionPage = ({ sessionId }: { sessionId: number }) => {
         {/* Colonne droite : listes */}
         <div className="flex-1 flex flex-col gap-5 w-full min-w-0">
           <CoordinatorList sessionId={session.id} sessionDate={session.date} liders={liders} />
-          <VolunteerList sessionId={sessionId} registeredVolunteers={volunteers} />
+          <VolunteerList
+            sessionId={sessionId}
+            registeredVolunteers={volunteers}
+            sessionTitle={session.title}
+            sessionDate={session.date}
+          />
         </div>
 
       </div>
