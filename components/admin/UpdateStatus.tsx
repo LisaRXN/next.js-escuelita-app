@@ -3,6 +3,7 @@ import { toast } from "sonner";
 import { useAction } from "@/hooks/use-action";
 import { RegistrationStatus } from "@/generated/prisma";
 import { useQueryClient } from "@tanstack/react-query";
+import { useState, useEffect } from "react";
 
 interface UpdateStatusProps {
   registrationId: number;
@@ -10,8 +11,12 @@ interface UpdateStatusProps {
 }
 
 const UpdateStatus = ({ registrationId, status }: UpdateStatusProps) => {
-
+  const [localStatus, setLocalStatus] = useState<RegistrationStatus>(status);
   const queryClient = useQueryClient();
+
+  useEffect(() => {
+    setLocalStatus(status);
+  }, [status]);
 
   const { execute, isLoading } = useAction(toggleVolunteerStatus, {
     onSuccess: () => {
@@ -19,19 +24,21 @@ const UpdateStatus = ({ registrationId, status }: UpdateStatusProps) => {
       toast.success(`Asistencia modificada!`);
     },
     onError: (error) => {
+      setLocalStatus(status); // rollback on error
       console.log(error);
       toast.error("Error");
     },
   });
 
   const handleStatusChange = (newStatus: RegistrationStatus) => {
+    setLocalStatus(newStatus);
     execute({ registrationId: registrationId, status: newStatus });
   };
 
   return (
     <select
       disabled={isLoading}
-      value={status}
+      value={localStatus}
       onChange={(e) => handleStatusChange(e.target.value as RegistrationStatus)}
       className={`
         appearance-none px-2 rounded py-1.5 text-sm focus:outline-none focus:none text-center
