@@ -15,15 +15,19 @@ import { fetcher } from "@/lib/fetcher";
 interface SeguimientoModalProps {
   dialogRef: RefObject<HTMLDialogElement | null>;
   onClose: () => void;
-  seguimiento?: Seguimiento & { alumno?: { nombre: string; apellidos: string } };
+  seguimiento?: Seguimiento & {
+    alumno?: { nombre: string; apellidos: string };
+  };
   defaultAlumnoId?: number;
   defaultEscuelita?: "Peruanidad" | "Valle_Ecologico";
 }
 
 const today = new Date().toISOString().split("T")[0];
 
-const INPUT = "w-full border border-zinc-200 rounded-xl px-3 py-2.5 text-sm text-myzinc bg-zinc-50 focus:outline-none focus:ring-2 focus:ring-myteal/30 focus:border-myteal transition disabled:opacity-50 disabled:cursor-not-allowed";
-const LABEL = "block text-xs font-semibold text-zinc-400 uppercase tracking-wide mb-1.5";
+const INPUT =
+  "w-full border border-zinc-200 rounded-xl px-3 py-2.5 text-sm text-myzinc bg-zinc-50 focus:outline-none focus:ring-2 focus:ring-myteal/30 focus:border-myteal transition disabled:opacity-50 disabled:cursor-not-allowed";
+const LABEL =
+  "block text-xs font-semibold text-zinc-400 uppercase tracking-wide mb-1.5";
 
 const SeguimientoModal = ({
   dialogRef,
@@ -40,7 +44,10 @@ const SeguimientoModal = ({
     fechaSesion: seguimiento
       ? new Date(seguimiento.fechaSesion).toISOString().split("T")[0]
       : today,
-    escuelita: (seguimiento?.escuelita ?? defaultEscuelita ?? "") as "Peruanidad" | "Valle_Ecologico" | "",
+    escuelita: (seguimiento?.escuelita ?? defaultEscuelita ?? "") as
+      | "Peruanidad"
+      | "Valle_Ecologico"
+      | "",
     alumnoId: String(seguimiento?.alumnoId ?? defaultAlumnoId ?? ""),
     tema: seguimiento?.tema ?? "",
     calificacion: (seguimiento?.calificacion ?? "") as string,
@@ -50,7 +57,11 @@ const SeguimientoModal = ({
 
   const handleChange = (field: string, value: string) => {
     if (field === "escuelita") {
-      setFormData((prev) => ({ ...prev, escuelita: value as "Peruanidad" | "Valle_Ecologico" | "", alumnoId: "" }));
+      setFormData((prev) => ({
+        ...prev,
+        escuelita: value as "Peruanidad" | "Valle_Ecologico" | "",
+        alumnoId: "",
+      }));
     } else {
       setFormData((prev) => ({ ...prev, [field]: value }));
     }
@@ -61,27 +72,51 @@ const SeguimientoModal = ({
     queryClient.invalidateQueries({ queryKey: ["seguimientos-alumno"] });
   };
 
-  const { execute: execCreate, fieldErrors: createErrors, isLoading: isCreating } = useAction(createSeguimiento, {
-    onSuccess: () => { toast.success("Seguimiento creado"); invalidate(); onClose(); },
+  const {
+    execute: execCreate,
+    fieldErrors: createErrors,
+    isLoading: isCreating,
+  } = useAction(createSeguimiento, {
+    onSuccess: () => {
+      toast.success("Seguimiento creado");
+      invalidate();
+      onClose();
+    },
     onError: (e) => toast.error(e),
   });
 
-  const { execute: execUpdate, fieldErrors: updateErrors, isLoading: isUpdating } = useAction(updateSeguimiento, {
-    onSuccess: () => { toast.success("Seguimiento actualizado"); invalidate(); onClose(); },
+  const {
+    execute: execUpdate,
+    fieldErrors: updateErrors,
+    isLoading: isUpdating,
+  } = useAction(updateSeguimiento, {
+    onSuccess: () => {
+      toast.success("Seguimiento actualizado");
+      invalidate();
+      onClose();
+    },
     onError: (e) => toast.error(e),
   });
 
-  const { execute: execDelete, isLoading: isDeleting } = useAction(deleteSeguimiento, {
-    onSuccess: () => { toast.success("Seguimiento eliminado"); invalidate(); onClose(); },
-    onError: (e) => toast.error(e),
-  });
+  const { execute: execDelete, isLoading: isDeleting } = useAction(
+    deleteSeguimiento,
+    {
+      onSuccess: () => {
+        toast.success("Seguimiento eliminado");
+        invalidate();
+        onClose();
+      },
+      onError: (e) => toast.error(e),
+    },
+  );
 
   const { data: alumnosData } = useQuery({
     queryKey: ["alumnos-by-escuelita", formData.escuelita],
-    queryFn: () => fetcher(`/api/alumnos?escuelita=${formData.escuelita}&page=1`),
+    queryFn: () => fetcher(`/api/alumnos?escuelita=${formData.escuelita}&all=true`),
     enabled: !!formData.escuelita,
   });
-  const alumnosList: { id: number; nombre: string; apellidos: string }[] = alumnosData?.data ?? [];
+  const alumnosList: { id: number; nombre: string; apellidos: string }[] =
+    alumnosData?.data ?? [];
 
   const fieldErrors = isEdit ? updateErrors : createErrors;
   const isLoading = isCreating || isUpdating;
@@ -92,7 +127,12 @@ const SeguimientoModal = ({
       ...formData,
       alumnoId: parseInt(formData.alumnoId),
       escuelita: formData.escuelita as "Peruanidad" | "Valle_Ecologico",
-      calificacion: formData.calificacion as "Excelente" | "Bueno" | "Regular" | "Con_dificultad" | "Con_mucha_dificultad",
+      calificacion: formData.calificacion as
+        | "Excelente"
+        | "Bueno"
+        | "Regular"
+        | "Con_dificultad"
+        | "Con_mucha_dificultad",
     };
     if (isEdit) {
       execUpdate({ id: seguimiento!.id, ...payload });
@@ -101,12 +141,16 @@ const SeguimientoModal = ({
     }
   };
 
-  const isValid = formData.fechaSesion && formData.escuelita && formData.alumnoId && formData.tema && formData.calificacion;
+  const isValid =
+    formData.fechaSesion &&
+    formData.escuelita &&
+    formData.alumnoId &&
+    formData.tema &&
+    formData.calificacion;
 
   return (
     <dialog ref={dialogRef} className="modal p-2">
       <div className="modal-box bg-white w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl p-6">
-
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-lg font-bold text-myzinc">
@@ -121,7 +165,6 @@ const SeguimientoModal = ({
         </div>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-
           {/* Fecha + Escuelita */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
@@ -160,13 +203,17 @@ const SeguimientoModal = ({
                 className={INPUT}
               >
                 <option value="">
-                  {formData.escuelita ? "Seleccionar alumno..." : "Primero elige una escuelita"}
+                  {formData.escuelita
+                    ? "Seleccionar alumno..."
+                    : "Primero elige una escuelita"}
                 </option>
-                {alumnosList.map((a) => (
-                  <option key={a.id} value={a.id}>
-                    {a.nombre} {a.apellidos}
-                  </option>
-                ))}
+                {alumnosList
+                  .sort((a, b) => a.nombre.localeCompare(b.nombre))
+                  .map((a) => (
+                    <option key={a.id} value={a.id}>
+                      {a.nombre}
+                    </option>
+                  ))}
               </select>
               <FormErrors id="alumnoId" errors={fieldErrors} />
             </div>
@@ -270,7 +317,11 @@ const SeguimientoModal = ({
               disabled={isLoading || !isValid}
               className="px-5 py-2.5 bg-myteal text-white rounded-xl text-sm font-semibold hover:bg-myteal/90 transition disabled:opacity-50 ml-auto"
             >
-              {isLoading ? "Guardando..." : isEdit ? "Guardar cambios" : "Crear seguimiento"}
+              {isLoading
+                ? "Guardando..."
+                : isEdit
+                  ? "Guardar cambios"
+                  : "Crear seguimiento"}
             </button>
           </div>
         </form>
