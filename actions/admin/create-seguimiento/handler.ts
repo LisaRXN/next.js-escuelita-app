@@ -9,10 +9,15 @@ export const handler = async (data: InputType): Promise<ReturnType> => {
   const { userId } = await auth();
   if (!userId) return { error: "Unauthorized" };
 
+  const session = await prisma.volunteerSession.findUnique({ where: { id: data.sessionId } });
+  if (!session) return { error: "Sesión no encontrada" };
+
   try {
     const seguimiento = await prisma.seguimiento.create({
       data: {
-        fechaSesion: new Date(data.fechaSesion),
+        fechaSesion: session.date,
+        sessionId: data.sessionId,
+        volunteerId: userId,
         escuelita: data.escuelita as Escuelita,
         alumnoId: data.alumnoId,
         tema: data.tema,

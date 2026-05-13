@@ -54,17 +54,18 @@ enum SessionTypes {
 }
 
 model VolunteerSession {
-  id          Int                     @id @default(autoincrement())
-  title       String
-  date        DateTime
-  description String
-  location    String // ✅ Nouveau champ : localisation de la session
-  capacity    Int
-  image       String
-  type        SessionTypes            @default(TUTORING)
-  createdAt   DateTime                @default(now())
-  deletedAt   DateTime?
-  volunteers  VolunteerRegistration[] // relation inverse
+  id           Int                     @id @default(autoincrement())
+  title        String
+  date         DateTime
+  description  String
+  location     String
+  capacity     Int
+  image        String
+  type         SessionTypes            @default(TUTORING)
+  createdAt    DateTime                @default(now())
+  deletedAt    DateTime?
+  volunteers   VolunteerRegistration[]
+  seguimientos Seguimiento[]
 }
 
 model Volunteer {
@@ -80,7 +81,8 @@ model Volunteer {
   isAdmin       Boolean                 @default(false)
   isLeader      Boolean                 @default(false)
   isActive      Boolean                 @default(false)
-  registrations VolunteerRegistration[] // relation vers la table de liaison
+  registrations VolunteerRegistration[]
+  seguimientos  Seguimiento[]
 }
 
 model Alumno {
@@ -102,16 +104,20 @@ model Alumno {
 }
 
 model Seguimiento {
-  id           Int          @id @default(autoincrement())
+  id           Int               @id @default(autoincrement())
   fechaSesion  DateTime
   escuelita    Escuelita
-  alumno       Alumno       @relation(fields: [alumnoId], references: [id], onDelete: Cascade)
+  alumno       Alumno            @relation(fields: [alumnoId], references: [id], onDelete: Cascade)
   alumnoId     Int
   tema         String
   calificacion Calificacion
   dificultad   String
   observacion  String
-  createdAt    DateTime     @default(now())
+  sessionId    Int?
+  volunteerId  String?
+  session      VolunteerSession? @relation(fields: [sessionId], references: [id], onDelete: SetNull)
+  volunteer    Volunteer?        @relation(fields: [volunteerId], references: [clerkUserId], onDelete: SetNull)
+  createdAt    DateTime          @default(now())
 }
 
 model VolunteerRegistration {

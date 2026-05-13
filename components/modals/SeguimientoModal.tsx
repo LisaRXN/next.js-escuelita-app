@@ -15,14 +15,14 @@ import { fetcher } from "@/lib/fetcher";
 interface SeguimientoModalProps {
   dialogRef: RefObject<HTMLDialogElement | null>;
   onClose: () => void;
+  sessionId?: number;
+  sessionDate?: string;
   seguimiento?: Seguimiento & {
     alumno?: { nombre: string; apellidos: string };
   };
   defaultAlumnoId?: number;
   defaultEscuelita?: "Peruanidad" | "Valle_Ecologico";
 }
-
-const today = new Date().toISOString().split("T")[0];
 
 const INPUT =
   "w-full border border-zinc-200 rounded-xl px-3 py-2.5 text-sm text-myzinc bg-zinc-50 focus:outline-none focus:ring-2 focus:ring-myteal/30 focus:border-myteal transition disabled:opacity-50 disabled:cursor-not-allowed";
@@ -32,6 +32,8 @@ const LABEL =
 const SeguimientoModal = ({
   dialogRef,
   onClose,
+  sessionId,
+  sessionDate,
   seguimiento,
   defaultAlumnoId,
   defaultEscuelita,
@@ -41,9 +43,6 @@ const SeguimientoModal = ({
   const [confirmDelete, setConfirmDelete] = useState(false);
 
   const [formData, setFormData] = useState({
-    fechaSesion: seguimiento
-      ? new Date(seguimiento.fechaSesion).toISOString().split("T")[0]
-      : today,
     escuelita: (seguimiento?.escuelita ?? defaultEscuelita ?? "") as
       | "Peruanidad"
       | "Valle_Ecologico"
@@ -70,6 +69,9 @@ const SeguimientoModal = ({
   const invalidate = () => {
     queryClient.invalidateQueries({ queryKey: ["seguimientos"] });
     queryClient.invalidateQueries({ queryKey: ["seguimientos-alumno"] });
+    if (sessionId) {
+      queryClient.invalidateQueries({ queryKey: ["session", sessionId] });
+    }
   };
 
   const {
@@ -137,25 +139,39 @@ const SeguimientoModal = ({
     if (isEdit) {
       execUpdate({ id: seguimiento!.id, ...payload });
     } else {
-      execCreate(payload);
+      execCreate({ ...payload, sessionId: sessionId! });
     }
   };
 
   const isValid =
-    formData.fechaSesion &&
     formData.escuelita &&
     formData.alumnoId &&
     formData.tema &&
-    formData.calificacion;
+    formData.calificacion &&
+    (isEdit || !!sessionId);
+
+  const displayDate = sessionDate
+    ? new Date(sessionDate).toLocaleDateString("es-PE", { day: "numeric", month: "long", year: "numeric" })
+    : seguimiento
+      ? new Date(seguimiento.fechaSesion).toLocaleDateString("es-PE", { day: "numeric", month: "long", year: "numeric" })
+      : null;
 
   return (
     <dialog ref={dialogRef} className="modal p-2">
       <div className="modal-box bg-white w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl p-6">
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-lg font-bold text-myzinc">
-            {isEdit ? "Editar seguimiento" : "Nuevo seguimiento"}
-          </h2>
+          <div>
+            <h2 className="text-lg font-bold text-myzinc">
+              {isEdit ? "Editar seguimiento" : "Nuevo seguimiento"}
+            </h2>
+            {displayDate && (
+              <p className="text-xs text-zinc-400 mt-0.5 flex items-center gap-1.5">
+                <i className="fa-solid fa-calendar-day text-myteal" />
+                Sesión del {displayDate}
+              </p>
+            )}
+          </div>
           <button
             onClick={onClose}
             className="w-8 h-8 flex items-center justify-center rounded-full text-zinc-400 hover:bg-zinc-100 hover:text-zinc-600 transition text-sm"
@@ -165,31 +181,19 @@ const SeguimientoModal = ({
         </div>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          {/* Fecha + Escuelita */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className={LABEL}>Fecha de la sesión *</label>
-              <input
-                type="date"
-                value={formData.fechaSesion}
-                onChange={(e) => handleChange("fechaSesion", e.target.value)}
-                className={INPUT}
-              />
-              <FormErrors id="fechaSesion" errors={fieldErrors} />
-            </div>
-            <div>
-              <label className={LABEL}>Escuelita *</label>
-              <select
-                value={formData.escuelita}
-                onChange={(e) => handleChange("escuelita", e.target.value)}
-                className={INPUT}
-              >
-                <option value="">Seleccionar...</option>
-                <option value="Peruanidad">Peruanidad</option>
-                <option value="Valle_Ecologico">Valle Ecológico</option>
-              </select>
-              <FormErrors id="escuelita" errors={fieldErrors} />
-            </div>
+          {/* Escuelita */}
+          <div>
+            <label className={LABEL}>Escuelita *</label>
+            <select
+              value={formData.escuelita}
+              onChange={(e) => handleChange("escuelita", e.target.value)}
+              className={INPUT}
+            >
+              <option value="">Seleccionar...</option>
+              <option value="Peruanidad">Peruanidad</option>
+              <option value="Valle_Ecologico">Valle Ecológico</option>
+            </select>
+            <FormErrors id="escuelita" errors={fieldErrors} />
           </div>
 
           {/* Alumno */}
@@ -279,7 +283,6 @@ const SeguimientoModal = ({
 
           {/* Actions */}
           <div className="flex items-center justify-between pt-3 border-t border-zinc-100 mt-1">
-            {/* Suppression */}
             {isEdit && !confirmDelete && (
               <button
                 type="button"

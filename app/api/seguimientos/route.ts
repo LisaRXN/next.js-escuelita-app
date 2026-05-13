@@ -15,6 +15,7 @@ export async function GET(req: NextRequest) {
   const statsOnly = searchParams.get("statsOnly") === "true";
   const all = searchParams.get("all") === "true";
   const date = searchParams.get("date"); // "YYYY-MM-DD"
+  const sessionId = searchParams.get("sessionId");
   const page = Math.max(1, parseInt(searchParams.get("page") ?? "1", 10));
   const skip = (page - 1) * PAGE_SIZE;
 
@@ -41,6 +42,9 @@ export async function GET(req: NextRequest) {
     const end = new Date(date + "T23:59:59.999Z");
     where.fechaSesion = { gte: start, lte: end };
   }
+  if (sessionId) {
+    where.sessionId = parseInt(sessionId);
+  }
 
   // Stats par calificación
   const statsByCalificacion = await prisma.seguimiento.groupBy({
@@ -58,7 +62,10 @@ export async function GET(req: NextRequest) {
   if (all) {
     const seguimientos = await prisma.seguimiento.findMany({
       where,
-      include: { alumno: { select: { nombre: true, apellidos: true } } },
+      include: {
+        alumno: { select: { nombre: true, apellidos: true } },
+        volunteer: { select: { firstName: true, lastName: true } },
+      },
       orderBy: { fechaSesion: "desc" },
     });
     return Response.json({ data: seguimientos, total, statsByCalificacion });
@@ -66,7 +73,10 @@ export async function GET(req: NextRequest) {
 
   const seguimientos = await prisma.seguimiento.findMany({
     where,
-    include: { alumno: { select: { nombre: true, apellidos: true } } },
+    include: {
+        alumno: { select: { nombre: true, apellidos: true } },
+        volunteer: { select: { firstName: true, lastName: true } },
+      },
     orderBy: { fechaSesion: "desc" },
     skip,
     take: PAGE_SIZE,

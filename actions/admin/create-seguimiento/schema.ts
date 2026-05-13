@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const CreateSeguimientoSchema = z.object({
-  fechaSesion: z.string().refine((d) => !isNaN(Date.parse(d)), { message: "Fecha inválida" }),
+  sessionId: z.coerce.number().int().positive({ message: "La sesión es obligatoria" }),
   escuelita: z.enum(["Peruanidad", "Valle_Ecologico"]),
   alumnoId: z.coerce.number().int().positive(),
   tema: z.string().min(1, { message: "El tema es obligatorio" }),

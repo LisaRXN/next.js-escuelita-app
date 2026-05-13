@@ -1317,10 +1317,12 @@ export namespace Prisma {
 
   export type VolunteerSessionCountOutputType = {
     volunteers: number
+    seguimientos: number
   }
 
   export type VolunteerSessionCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     volunteers?: boolean | VolunteerSessionCountOutputTypeCountVolunteersArgs
+    seguimientos?: boolean | VolunteerSessionCountOutputTypeCountSeguimientosArgs
   }
 
   // Custom InputTypes
@@ -1341,6 +1343,13 @@ export namespace Prisma {
     where?: VolunteerRegistrationWhereInput
   }
 
+  /**
+   * VolunteerSessionCountOutputType without action
+   */
+  export type VolunteerSessionCountOutputTypeCountSeguimientosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SeguimientoWhereInput
+  }
+
 
   /**
    * Count Type VolunteerCountOutputType
@@ -1348,10 +1357,12 @@ export namespace Prisma {
 
   export type VolunteerCountOutputType = {
     registrations: number
+    seguimientos: number
   }
 
   export type VolunteerCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     registrations?: boolean | VolunteerCountOutputTypeCountRegistrationsArgs
+    seguimientos?: boolean | VolunteerCountOutputTypeCountSeguimientosArgs
   }
 
   // Custom InputTypes
@@ -1370,6 +1381,13 @@ export namespace Prisma {
    */
   export type VolunteerCountOutputTypeCountRegistrationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: VolunteerRegistrationWhereInput
+  }
+
+  /**
+   * VolunteerCountOutputType without action
+   */
+  export type VolunteerCountOutputTypeCountSeguimientosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SeguimientoWhereInput
   }
 
 
@@ -1651,6 +1669,7 @@ export namespace Prisma {
     createdAt?: boolean
     deletedAt?: boolean
     volunteers?: boolean | VolunteerSession$volunteersArgs<ExtArgs>
+    seguimientos?: boolean | VolunteerSession$seguimientosArgs<ExtArgs>
     _count?: boolean | VolunteerSessionCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["volunteerSession"]>
 
@@ -1696,6 +1715,7 @@ export namespace Prisma {
   export type VolunteerSessionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "date" | "description" | "location" | "capacity" | "image" | "type" | "createdAt" | "deletedAt", ExtArgs["result"]["volunteerSession"]>
   export type VolunteerSessionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     volunteers?: boolean | VolunteerSession$volunteersArgs<ExtArgs>
+    seguimientos?: boolean | VolunteerSession$seguimientosArgs<ExtArgs>
     _count?: boolean | VolunteerSessionCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type VolunteerSessionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -1705,6 +1725,7 @@ export namespace Prisma {
     name: "VolunteerSession"
     objects: {
       volunteers: Prisma.$VolunteerRegistrationPayload<ExtArgs>[]
+      seguimientos: Prisma.$SeguimientoPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -2112,6 +2133,7 @@ export namespace Prisma {
   export interface Prisma__VolunteerSessionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     volunteers<T extends VolunteerSession$volunteersArgs<ExtArgs> = {}>(args?: Subset<T, VolunteerSession$volunteersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VolunteerRegistrationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    seguimientos<T extends VolunteerSession$seguimientosArgs<ExtArgs> = {}>(args?: Subset<T, VolunteerSession$seguimientosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SeguimientoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2563,6 +2585,30 @@ export namespace Prisma {
   }
 
   /**
+   * VolunteerSession.seguimientos
+   */
+  export type VolunteerSession$seguimientosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Seguimiento
+     */
+    select?: SeguimientoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Seguimiento
+     */
+    omit?: SeguimientoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SeguimientoInclude<ExtArgs> | null
+    where?: SeguimientoWhereInput
+    orderBy?: SeguimientoOrderByWithRelationInput | SeguimientoOrderByWithRelationInput[]
+    cursor?: SeguimientoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SeguimientoScalarFieldEnum | SeguimientoScalarFieldEnum[]
+  }
+
+  /**
    * VolunteerSession without action
    */
   export type VolunteerSessionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2836,6 +2882,7 @@ export namespace Prisma {
     isLeader?: boolean
     isActive?: boolean
     registrations?: boolean | Volunteer$registrationsArgs<ExtArgs>
+    seguimientos?: boolean | Volunteer$seguimientosArgs<ExtArgs>
     _count?: boolean | VolunteerCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["volunteer"]>
 
@@ -2887,6 +2934,7 @@ export namespace Prisma {
   export type VolunteerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "clerkUserId" | "firstName" | "lastName" | "phone" | "email" | "instagram" | "birthDate" | "createdAt" | "isAdmin" | "isLeader" | "isActive", ExtArgs["result"]["volunteer"]>
   export type VolunteerInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     registrations?: boolean | Volunteer$registrationsArgs<ExtArgs>
+    seguimientos?: boolean | Volunteer$seguimientosArgs<ExtArgs>
     _count?: boolean | VolunteerCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type VolunteerIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -2896,6 +2944,7 @@ export namespace Prisma {
     name: "Volunteer"
     objects: {
       registrations: Prisma.$VolunteerRegistrationPayload<ExtArgs>[]
+      seguimientos: Prisma.$SeguimientoPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -3305,6 +3354,7 @@ export namespace Prisma {
   export interface Prisma__VolunteerClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     registrations<T extends Volunteer$registrationsArgs<ExtArgs> = {}>(args?: Subset<T, Volunteer$registrationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VolunteerRegistrationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    seguimientos<T extends Volunteer$seguimientosArgs<ExtArgs> = {}>(args?: Subset<T, Volunteer$seguimientosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SeguimientoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3755,6 +3805,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: VolunteerRegistrationScalarFieldEnum | VolunteerRegistrationScalarFieldEnum[]
+  }
+
+  /**
+   * Volunteer.seguimientos
+   */
+  export type Volunteer$seguimientosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Seguimiento
+     */
+    select?: SeguimientoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Seguimiento
+     */
+    omit?: SeguimientoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SeguimientoInclude<ExtArgs> | null
+    where?: SeguimientoWhereInput
+    orderBy?: SeguimientoOrderByWithRelationInput | SeguimientoOrderByWithRelationInput[]
+    cursor?: SeguimientoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SeguimientoScalarFieldEnum | SeguimientoScalarFieldEnum[]
   }
 
   /**
@@ -5016,11 +5090,13 @@ export namespace Prisma {
   export type SeguimientoAvgAggregateOutputType = {
     id: number | null
     alumnoId: number | null
+    sessionId: number | null
   }
 
   export type SeguimientoSumAggregateOutputType = {
     id: number | null
     alumnoId: number | null
+    sessionId: number | null
   }
 
   export type SeguimientoMinAggregateOutputType = {
@@ -5032,6 +5108,8 @@ export namespace Prisma {
     calificacion: $Enums.Calificacion | null
     dificultad: string | null
     observacion: string | null
+    sessionId: number | null
+    volunteerId: string | null
     createdAt: Date | null
   }
 
@@ -5044,6 +5122,8 @@ export namespace Prisma {
     calificacion: $Enums.Calificacion | null
     dificultad: string | null
     observacion: string | null
+    sessionId: number | null
+    volunteerId: string | null
     createdAt: Date | null
   }
 
@@ -5056,6 +5136,8 @@ export namespace Prisma {
     calificacion: number
     dificultad: number
     observacion: number
+    sessionId: number
+    volunteerId: number
     createdAt: number
     _all: number
   }
@@ -5064,11 +5146,13 @@ export namespace Prisma {
   export type SeguimientoAvgAggregateInputType = {
     id?: true
     alumnoId?: true
+    sessionId?: true
   }
 
   export type SeguimientoSumAggregateInputType = {
     id?: true
     alumnoId?: true
+    sessionId?: true
   }
 
   export type SeguimientoMinAggregateInputType = {
@@ -5080,6 +5164,8 @@ export namespace Prisma {
     calificacion?: true
     dificultad?: true
     observacion?: true
+    sessionId?: true
+    volunteerId?: true
     createdAt?: true
   }
 
@@ -5092,6 +5178,8 @@ export namespace Prisma {
     calificacion?: true
     dificultad?: true
     observacion?: true
+    sessionId?: true
+    volunteerId?: true
     createdAt?: true
   }
 
@@ -5104,6 +5192,8 @@ export namespace Prisma {
     calificacion?: true
     dificultad?: true
     observacion?: true
+    sessionId?: true
+    volunteerId?: true
     createdAt?: true
     _all?: true
   }
@@ -5203,6 +5293,8 @@ export namespace Prisma {
     calificacion: $Enums.Calificacion
     dificultad: string
     observacion: string
+    sessionId: number | null
+    volunteerId: string | null
     createdAt: Date
     _count: SeguimientoCountAggregateOutputType | null
     _avg: SeguimientoAvgAggregateOutputType | null
@@ -5234,8 +5326,12 @@ export namespace Prisma {
     calificacion?: boolean
     dificultad?: boolean
     observacion?: boolean
+    sessionId?: boolean
+    volunteerId?: boolean
     createdAt?: boolean
     alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+    session?: boolean | Seguimiento$sessionArgs<ExtArgs>
+    volunteer?: boolean | Seguimiento$volunteerArgs<ExtArgs>
   }, ExtArgs["result"]["seguimiento"]>
 
   export type SeguimientoSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -5247,8 +5343,12 @@ export namespace Prisma {
     calificacion?: boolean
     dificultad?: boolean
     observacion?: boolean
+    sessionId?: boolean
+    volunteerId?: boolean
     createdAt?: boolean
     alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+    session?: boolean | Seguimiento$sessionArgs<ExtArgs>
+    volunteer?: boolean | Seguimiento$volunteerArgs<ExtArgs>
   }, ExtArgs["result"]["seguimiento"]>
 
   export type SeguimientoSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -5260,8 +5360,12 @@ export namespace Prisma {
     calificacion?: boolean
     dificultad?: boolean
     observacion?: boolean
+    sessionId?: boolean
+    volunteerId?: boolean
     createdAt?: boolean
     alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+    session?: boolean | Seguimiento$sessionArgs<ExtArgs>
+    volunteer?: boolean | Seguimiento$volunteerArgs<ExtArgs>
   }, ExtArgs["result"]["seguimiento"]>
 
   export type SeguimientoSelectScalar = {
@@ -5273,24 +5377,34 @@ export namespace Prisma {
     calificacion?: boolean
     dificultad?: boolean
     observacion?: boolean
+    sessionId?: boolean
+    volunteerId?: boolean
     createdAt?: boolean
   }
 
-  export type SeguimientoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "fechaSesion" | "escuelita" | "alumnoId" | "tema" | "calificacion" | "dificultad" | "observacion" | "createdAt", ExtArgs["result"]["seguimiento"]>
+  export type SeguimientoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "fechaSesion" | "escuelita" | "alumnoId" | "tema" | "calificacion" | "dificultad" | "observacion" | "sessionId" | "volunteerId" | "createdAt", ExtArgs["result"]["seguimiento"]>
   export type SeguimientoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+    session?: boolean | Seguimiento$sessionArgs<ExtArgs>
+    volunteer?: boolean | Seguimiento$volunteerArgs<ExtArgs>
   }
   export type SeguimientoIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+    session?: boolean | Seguimiento$sessionArgs<ExtArgs>
+    volunteer?: boolean | Seguimiento$volunteerArgs<ExtArgs>
   }
   export type SeguimientoIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+    session?: boolean | Seguimiento$sessionArgs<ExtArgs>
+    volunteer?: boolean | Seguimiento$volunteerArgs<ExtArgs>
   }
 
   export type $SeguimientoPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Seguimiento"
     objects: {
       alumno: Prisma.$AlumnoPayload<ExtArgs>
+      session: Prisma.$VolunteerSessionPayload<ExtArgs> | null
+      volunteer: Prisma.$VolunteerPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -5301,6 +5415,8 @@ export namespace Prisma {
       calificacion: $Enums.Calificacion
       dificultad: string
       observacion: string
+      sessionId: number | null
+      volunteerId: string | null
       createdAt: Date
     }, ExtArgs["result"]["seguimiento"]>
     composites: {}
@@ -5697,6 +5813,8 @@ export namespace Prisma {
   export interface Prisma__SeguimientoClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     alumno<T extends AlumnoDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AlumnoDefaultArgs<ExtArgs>>): Prisma__AlumnoClient<$Result.GetResult<Prisma.$AlumnoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    session<T extends Seguimiento$sessionArgs<ExtArgs> = {}>(args?: Subset<T, Seguimiento$sessionArgs<ExtArgs>>): Prisma__VolunteerSessionClient<$Result.GetResult<Prisma.$VolunteerSessionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    volunteer<T extends Seguimiento$volunteerArgs<ExtArgs> = {}>(args?: Subset<T, Seguimiento$volunteerArgs<ExtArgs>>): Prisma__VolunteerClient<$Result.GetResult<Prisma.$VolunteerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5734,6 +5852,8 @@ export namespace Prisma {
     readonly calificacion: FieldRef<"Seguimiento", 'Calificacion'>
     readonly dificultad: FieldRef<"Seguimiento", 'String'>
     readonly observacion: FieldRef<"Seguimiento", 'String'>
+    readonly sessionId: FieldRef<"Seguimiento", 'Int'>
+    readonly volunteerId: FieldRef<"Seguimiento", 'String'>
     readonly createdAt: FieldRef<"Seguimiento", 'DateTime'>
   }
     
@@ -6128,6 +6248,44 @@ export namespace Prisma {
      * Limit how many Seguimientos to delete.
      */
     limit?: number
+  }
+
+  /**
+   * Seguimiento.session
+   */
+  export type Seguimiento$sessionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VolunteerSession
+     */
+    select?: VolunteerSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VolunteerSession
+     */
+    omit?: VolunteerSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VolunteerSessionInclude<ExtArgs> | null
+    where?: VolunteerSessionWhereInput
+  }
+
+  /**
+   * Seguimiento.volunteer
+   */
+  export type Seguimiento$volunteerArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Volunteer
+     */
+    select?: VolunteerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Volunteer
+     */
+    omit?: VolunteerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VolunteerInclude<ExtArgs> | null
+    where?: VolunteerWhereInput
   }
 
   /**
@@ -7334,6 +7492,8 @@ export namespace Prisma {
     calificacion: 'calificacion',
     dificultad: 'dificultad',
     observacion: 'observacion',
+    sessionId: 'sessionId',
+    volunteerId: 'volunteerId',
     createdAt: 'createdAt'
   };
 
@@ -7545,6 +7705,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"VolunteerSession"> | Date | string
     deletedAt?: DateTimeNullableFilter<"VolunteerSession"> | Date | string | null
     volunteers?: VolunteerRegistrationListRelationFilter
+    seguimientos?: SeguimientoListRelationFilter
   }
 
   export type VolunteerSessionOrderByWithRelationInput = {
@@ -7559,6 +7720,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     deletedAt?: SortOrderInput | SortOrder
     volunteers?: VolunteerRegistrationOrderByRelationAggregateInput
+    seguimientos?: SeguimientoOrderByRelationAggregateInput
   }
 
   export type VolunteerSessionWhereUniqueInput = Prisma.AtLeast<{
@@ -7576,6 +7738,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"VolunteerSession"> | Date | string
     deletedAt?: DateTimeNullableFilter<"VolunteerSession"> | Date | string | null
     volunteers?: VolunteerRegistrationListRelationFilter
+    seguimientos?: SeguimientoListRelationFilter
   }, "id">
 
   export type VolunteerSessionOrderByWithAggregationInput = {
@@ -7629,6 +7792,7 @@ export namespace Prisma {
     isLeader?: BoolFilter<"Volunteer"> | boolean
     isActive?: BoolFilter<"Volunteer"> | boolean
     registrations?: VolunteerRegistrationListRelationFilter
+    seguimientos?: SeguimientoListRelationFilter
   }
 
   export type VolunteerOrderByWithRelationInput = {
@@ -7645,6 +7809,7 @@ export namespace Prisma {
     isLeader?: SortOrder
     isActive?: SortOrder
     registrations?: VolunteerRegistrationOrderByRelationAggregateInput
+    seguimientos?: SeguimientoOrderByRelationAggregateInput
   }
 
   export type VolunteerWhereUniqueInput = Prisma.AtLeast<{
@@ -7664,6 +7829,7 @@ export namespace Prisma {
     isLeader?: BoolFilter<"Volunteer"> | boolean
     isActive?: BoolFilter<"Volunteer"> | boolean
     registrations?: VolunteerRegistrationListRelationFilter
+    seguimientos?: SeguimientoListRelationFilter
   }, "id" | "clerkUserId">
 
   export type VolunteerOrderByWithAggregationInput = {
@@ -7818,8 +7984,12 @@ export namespace Prisma {
     calificacion?: EnumCalificacionFilter<"Seguimiento"> | $Enums.Calificacion
     dificultad?: StringFilter<"Seguimiento"> | string
     observacion?: StringFilter<"Seguimiento"> | string
+    sessionId?: IntNullableFilter<"Seguimiento"> | number | null
+    volunteerId?: StringNullableFilter<"Seguimiento"> | string | null
     createdAt?: DateTimeFilter<"Seguimiento"> | Date | string
     alumno?: XOR<AlumnoScalarRelationFilter, AlumnoWhereInput>
+    session?: XOR<VolunteerSessionNullableScalarRelationFilter, VolunteerSessionWhereInput> | null
+    volunteer?: XOR<VolunteerNullableScalarRelationFilter, VolunteerWhereInput> | null
   }
 
   export type SeguimientoOrderByWithRelationInput = {
@@ -7831,8 +8001,12 @@ export namespace Prisma {
     calificacion?: SortOrder
     dificultad?: SortOrder
     observacion?: SortOrder
+    sessionId?: SortOrderInput | SortOrder
+    volunteerId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     alumno?: AlumnoOrderByWithRelationInput
+    session?: VolunteerSessionOrderByWithRelationInput
+    volunteer?: VolunteerOrderByWithRelationInput
   }
 
   export type SeguimientoWhereUniqueInput = Prisma.AtLeast<{
@@ -7847,8 +8021,12 @@ export namespace Prisma {
     calificacion?: EnumCalificacionFilter<"Seguimiento"> | $Enums.Calificacion
     dificultad?: StringFilter<"Seguimiento"> | string
     observacion?: StringFilter<"Seguimiento"> | string
+    sessionId?: IntNullableFilter<"Seguimiento"> | number | null
+    volunteerId?: StringNullableFilter<"Seguimiento"> | string | null
     createdAt?: DateTimeFilter<"Seguimiento"> | Date | string
     alumno?: XOR<AlumnoScalarRelationFilter, AlumnoWhereInput>
+    session?: XOR<VolunteerSessionNullableScalarRelationFilter, VolunteerSessionWhereInput> | null
+    volunteer?: XOR<VolunteerNullableScalarRelationFilter, VolunteerWhereInput> | null
   }, "id">
 
   export type SeguimientoOrderByWithAggregationInput = {
@@ -7860,6 +8038,8 @@ export namespace Prisma {
     calificacion?: SortOrder
     dificultad?: SortOrder
     observacion?: SortOrder
+    sessionId?: SortOrderInput | SortOrder
+    volunteerId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     _count?: SeguimientoCountOrderByAggregateInput
     _avg?: SeguimientoAvgOrderByAggregateInput
@@ -7880,6 +8060,8 @@ export namespace Prisma {
     calificacion?: EnumCalificacionWithAggregatesFilter<"Seguimiento"> | $Enums.Calificacion
     dificultad?: StringWithAggregatesFilter<"Seguimiento"> | string
     observacion?: StringWithAggregatesFilter<"Seguimiento"> | string
+    sessionId?: IntNullableWithAggregatesFilter<"Seguimiento"> | number | null
+    volunteerId?: StringNullableWithAggregatesFilter<"Seguimiento"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Seguimiento"> | Date | string
   }
 
@@ -7955,6 +8137,7 @@ export namespace Prisma {
     createdAt?: Date | string
     deletedAt?: Date | string | null
     volunteers?: VolunteerRegistrationCreateNestedManyWithoutSessionInput
+    seguimientos?: SeguimientoCreateNestedManyWithoutSessionInput
   }
 
   export type VolunteerSessionUncheckedCreateInput = {
@@ -7969,6 +8152,7 @@ export namespace Prisma {
     createdAt?: Date | string
     deletedAt?: Date | string | null
     volunteers?: VolunteerRegistrationUncheckedCreateNestedManyWithoutSessionInput
+    seguimientos?: SeguimientoUncheckedCreateNestedManyWithoutSessionInput
   }
 
   export type VolunteerSessionUpdateInput = {
@@ -7982,6 +8166,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     volunteers?: VolunteerRegistrationUpdateManyWithoutSessionNestedInput
+    seguimientos?: SeguimientoUpdateManyWithoutSessionNestedInput
   }
 
   export type VolunteerSessionUncheckedUpdateInput = {
@@ -7996,6 +8181,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     volunteers?: VolunteerRegistrationUncheckedUpdateManyWithoutSessionNestedInput
+    seguimientos?: SeguimientoUncheckedUpdateManyWithoutSessionNestedInput
   }
 
   export type VolunteerSessionCreateManyInput = {
@@ -8049,6 +8235,7 @@ export namespace Prisma {
     isLeader?: boolean
     isActive?: boolean
     registrations?: VolunteerRegistrationCreateNestedManyWithoutVolunteerInput
+    seguimientos?: SeguimientoCreateNestedManyWithoutVolunteerInput
   }
 
   export type VolunteerUncheckedCreateInput = {
@@ -8065,6 +8252,7 @@ export namespace Prisma {
     isLeader?: boolean
     isActive?: boolean
     registrations?: VolunteerRegistrationUncheckedCreateNestedManyWithoutVolunteerInput
+    seguimientos?: SeguimientoUncheckedCreateNestedManyWithoutVolunteerInput
   }
 
   export type VolunteerUpdateInput = {
@@ -8080,6 +8268,7 @@ export namespace Prisma {
     isLeader?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
     registrations?: VolunteerRegistrationUpdateManyWithoutVolunteerNestedInput
+    seguimientos?: SeguimientoUpdateManyWithoutVolunteerNestedInput
   }
 
   export type VolunteerUncheckedUpdateInput = {
@@ -8096,6 +8285,7 @@ export namespace Prisma {
     isLeader?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
     registrations?: VolunteerRegistrationUncheckedUpdateManyWithoutVolunteerNestedInput
+    seguimientos?: SeguimientoUncheckedUpdateManyWithoutVolunteerNestedInput
   }
 
   export type VolunteerCreateManyInput = {
@@ -8271,6 +8461,8 @@ export namespace Prisma {
     observacion: string
     createdAt?: Date | string
     alumno: AlumnoCreateNestedOneWithoutSeguimientosInput
+    session?: VolunteerSessionCreateNestedOneWithoutSeguimientosInput
+    volunteer?: VolunteerCreateNestedOneWithoutSeguimientosInput
   }
 
   export type SeguimientoUncheckedCreateInput = {
@@ -8282,6 +8474,8 @@ export namespace Prisma {
     calificacion: $Enums.Calificacion
     dificultad: string
     observacion: string
+    sessionId?: number | null
+    volunteerId?: string | null
     createdAt?: Date | string
   }
 
@@ -8294,6 +8488,8 @@ export namespace Prisma {
     observacion?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     alumno?: AlumnoUpdateOneRequiredWithoutSeguimientosNestedInput
+    session?: VolunteerSessionUpdateOneWithoutSeguimientosNestedInput
+    volunteer?: VolunteerUpdateOneWithoutSeguimientosNestedInput
   }
 
   export type SeguimientoUncheckedUpdateInput = {
@@ -8305,6 +8501,8 @@ export namespace Prisma {
     calificacion?: EnumCalificacionFieldUpdateOperationsInput | $Enums.Calificacion
     dificultad?: StringFieldUpdateOperationsInput | string
     observacion?: StringFieldUpdateOperationsInput | string
+    sessionId?: NullableIntFieldUpdateOperationsInput | number | null
+    volunteerId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -8317,6 +8515,8 @@ export namespace Prisma {
     calificacion: $Enums.Calificacion
     dificultad: string
     observacion: string
+    sessionId?: number | null
+    volunteerId?: string | null
     createdAt?: Date | string
   }
 
@@ -8339,6 +8539,8 @@ export namespace Prisma {
     calificacion?: EnumCalificacionFieldUpdateOperationsInput | $Enums.Calificacion
     dificultad?: StringFieldUpdateOperationsInput | string
     observacion?: StringFieldUpdateOperationsInput | string
+    sessionId?: NullableIntFieldUpdateOperationsInput | number | null
+    volunteerId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -8454,12 +8656,22 @@ export namespace Prisma {
     none?: VolunteerRegistrationWhereInput
   }
 
+  export type SeguimientoListRelationFilter = {
+    every?: SeguimientoWhereInput
+    some?: SeguimientoWhereInput
+    none?: SeguimientoWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
   }
 
   export type VolunteerRegistrationOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type SeguimientoOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -8704,16 +8916,6 @@ export namespace Prisma {
     not?: NestedEnumEscuelitaFilter<$PrismaModel> | $Enums.Escuelita
   }
 
-  export type SeguimientoListRelationFilter = {
-    every?: SeguimientoWhereInput
-    some?: SeguimientoWhereInput
-    none?: SeguimientoWhereInput
-  }
-
-  export type SeguimientoOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
   export type AlumnoCountOrderByAggregateInput = {
     id?: SortOrder
     apellidos?: SortOrder
@@ -8812,9 +9014,30 @@ export namespace Prisma {
     not?: NestedEnumCalificacionFilter<$PrismaModel> | $Enums.Calificacion
   }
 
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
   export type AlumnoScalarRelationFilter = {
     is?: AlumnoWhereInput
     isNot?: AlumnoWhereInput
+  }
+
+  export type VolunteerSessionNullableScalarRelationFilter = {
+    is?: VolunteerSessionWhereInput | null
+    isNot?: VolunteerSessionWhereInput | null
+  }
+
+  export type VolunteerNullableScalarRelationFilter = {
+    is?: VolunteerWhereInput | null
+    isNot?: VolunteerWhereInput | null
   }
 
   export type SeguimientoCountOrderByAggregateInput = {
@@ -8826,12 +9049,15 @@ export namespace Prisma {
     calificacion?: SortOrder
     dificultad?: SortOrder
     observacion?: SortOrder
+    sessionId?: SortOrder
+    volunteerId?: SortOrder
     createdAt?: SortOrder
   }
 
   export type SeguimientoAvgOrderByAggregateInput = {
     id?: SortOrder
     alumnoId?: SortOrder
+    sessionId?: SortOrder
   }
 
   export type SeguimientoMaxOrderByAggregateInput = {
@@ -8843,6 +9069,8 @@ export namespace Prisma {
     calificacion?: SortOrder
     dificultad?: SortOrder
     observacion?: SortOrder
+    sessionId?: SortOrder
+    volunteerId?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -8855,12 +9083,15 @@ export namespace Prisma {
     calificacion?: SortOrder
     dificultad?: SortOrder
     observacion?: SortOrder
+    sessionId?: SortOrder
+    volunteerId?: SortOrder
     createdAt?: SortOrder
   }
 
   export type SeguimientoSumOrderByAggregateInput = {
     id?: SortOrder
     alumnoId?: SortOrder
+    sessionId?: SortOrder
   }
 
   export type EnumCalificacionWithAggregatesFilter<$PrismaModel = never> = {
@@ -8871,6 +9102,22 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumCalificacionFilter<$PrismaModel>
     _max?: NestedEnumCalificacionFilter<$PrismaModel>
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type EnumRegistrationStatusFilter<$PrismaModel = never> = {
@@ -8948,11 +9195,25 @@ export namespace Prisma {
     connect?: VolunteerRegistrationWhereUniqueInput | VolunteerRegistrationWhereUniqueInput[]
   }
 
+  export type SeguimientoCreateNestedManyWithoutSessionInput = {
+    create?: XOR<SeguimientoCreateWithoutSessionInput, SeguimientoUncheckedCreateWithoutSessionInput> | SeguimientoCreateWithoutSessionInput[] | SeguimientoUncheckedCreateWithoutSessionInput[]
+    connectOrCreate?: SeguimientoCreateOrConnectWithoutSessionInput | SeguimientoCreateOrConnectWithoutSessionInput[]
+    createMany?: SeguimientoCreateManySessionInputEnvelope
+    connect?: SeguimientoWhereUniqueInput | SeguimientoWhereUniqueInput[]
+  }
+
   export type VolunteerRegistrationUncheckedCreateNestedManyWithoutSessionInput = {
     create?: XOR<VolunteerRegistrationCreateWithoutSessionInput, VolunteerRegistrationUncheckedCreateWithoutSessionInput> | VolunteerRegistrationCreateWithoutSessionInput[] | VolunteerRegistrationUncheckedCreateWithoutSessionInput[]
     connectOrCreate?: VolunteerRegistrationCreateOrConnectWithoutSessionInput | VolunteerRegistrationCreateOrConnectWithoutSessionInput[]
     createMany?: VolunteerRegistrationCreateManySessionInputEnvelope
     connect?: VolunteerRegistrationWhereUniqueInput | VolunteerRegistrationWhereUniqueInput[]
+  }
+
+  export type SeguimientoUncheckedCreateNestedManyWithoutSessionInput = {
+    create?: XOR<SeguimientoCreateWithoutSessionInput, SeguimientoUncheckedCreateWithoutSessionInput> | SeguimientoCreateWithoutSessionInput[] | SeguimientoUncheckedCreateWithoutSessionInput[]
+    connectOrCreate?: SeguimientoCreateOrConnectWithoutSessionInput | SeguimientoCreateOrConnectWithoutSessionInput[]
+    createMany?: SeguimientoCreateManySessionInputEnvelope
+    connect?: SeguimientoWhereUniqueInput | SeguimientoWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -8993,6 +9254,20 @@ export namespace Prisma {
     deleteMany?: VolunteerRegistrationScalarWhereInput | VolunteerRegistrationScalarWhereInput[]
   }
 
+  export type SeguimientoUpdateManyWithoutSessionNestedInput = {
+    create?: XOR<SeguimientoCreateWithoutSessionInput, SeguimientoUncheckedCreateWithoutSessionInput> | SeguimientoCreateWithoutSessionInput[] | SeguimientoUncheckedCreateWithoutSessionInput[]
+    connectOrCreate?: SeguimientoCreateOrConnectWithoutSessionInput | SeguimientoCreateOrConnectWithoutSessionInput[]
+    upsert?: SeguimientoUpsertWithWhereUniqueWithoutSessionInput | SeguimientoUpsertWithWhereUniqueWithoutSessionInput[]
+    createMany?: SeguimientoCreateManySessionInputEnvelope
+    set?: SeguimientoWhereUniqueInput | SeguimientoWhereUniqueInput[]
+    disconnect?: SeguimientoWhereUniqueInput | SeguimientoWhereUniqueInput[]
+    delete?: SeguimientoWhereUniqueInput | SeguimientoWhereUniqueInput[]
+    connect?: SeguimientoWhereUniqueInput | SeguimientoWhereUniqueInput[]
+    update?: SeguimientoUpdateWithWhereUniqueWithoutSessionInput | SeguimientoUpdateWithWhereUniqueWithoutSessionInput[]
+    updateMany?: SeguimientoUpdateManyWithWhereWithoutSessionInput | SeguimientoUpdateManyWithWhereWithoutSessionInput[]
+    deleteMany?: SeguimientoScalarWhereInput | SeguimientoScalarWhereInput[]
+  }
+
   export type VolunteerRegistrationUncheckedUpdateManyWithoutSessionNestedInput = {
     create?: XOR<VolunteerRegistrationCreateWithoutSessionInput, VolunteerRegistrationUncheckedCreateWithoutSessionInput> | VolunteerRegistrationCreateWithoutSessionInput[] | VolunteerRegistrationUncheckedCreateWithoutSessionInput[]
     connectOrCreate?: VolunteerRegistrationCreateOrConnectWithoutSessionInput | VolunteerRegistrationCreateOrConnectWithoutSessionInput[]
@@ -9007,6 +9282,20 @@ export namespace Prisma {
     deleteMany?: VolunteerRegistrationScalarWhereInput | VolunteerRegistrationScalarWhereInput[]
   }
 
+  export type SeguimientoUncheckedUpdateManyWithoutSessionNestedInput = {
+    create?: XOR<SeguimientoCreateWithoutSessionInput, SeguimientoUncheckedCreateWithoutSessionInput> | SeguimientoCreateWithoutSessionInput[] | SeguimientoUncheckedCreateWithoutSessionInput[]
+    connectOrCreate?: SeguimientoCreateOrConnectWithoutSessionInput | SeguimientoCreateOrConnectWithoutSessionInput[]
+    upsert?: SeguimientoUpsertWithWhereUniqueWithoutSessionInput | SeguimientoUpsertWithWhereUniqueWithoutSessionInput[]
+    createMany?: SeguimientoCreateManySessionInputEnvelope
+    set?: SeguimientoWhereUniqueInput | SeguimientoWhereUniqueInput[]
+    disconnect?: SeguimientoWhereUniqueInput | SeguimientoWhereUniqueInput[]
+    delete?: SeguimientoWhereUniqueInput | SeguimientoWhereUniqueInput[]
+    connect?: SeguimientoWhereUniqueInput | SeguimientoWhereUniqueInput[]
+    update?: SeguimientoUpdateWithWhereUniqueWithoutSessionInput | SeguimientoUpdateWithWhereUniqueWithoutSessionInput[]
+    updateMany?: SeguimientoUpdateManyWithWhereWithoutSessionInput | SeguimientoUpdateManyWithWhereWithoutSessionInput[]
+    deleteMany?: SeguimientoScalarWhereInput | SeguimientoScalarWhereInput[]
+  }
+
   export type VolunteerRegistrationCreateNestedManyWithoutVolunteerInput = {
     create?: XOR<VolunteerRegistrationCreateWithoutVolunteerInput, VolunteerRegistrationUncheckedCreateWithoutVolunteerInput> | VolunteerRegistrationCreateWithoutVolunteerInput[] | VolunteerRegistrationUncheckedCreateWithoutVolunteerInput[]
     connectOrCreate?: VolunteerRegistrationCreateOrConnectWithoutVolunteerInput | VolunteerRegistrationCreateOrConnectWithoutVolunteerInput[]
@@ -9014,11 +9303,25 @@ export namespace Prisma {
     connect?: VolunteerRegistrationWhereUniqueInput | VolunteerRegistrationWhereUniqueInput[]
   }
 
+  export type SeguimientoCreateNestedManyWithoutVolunteerInput = {
+    create?: XOR<SeguimientoCreateWithoutVolunteerInput, SeguimientoUncheckedCreateWithoutVolunteerInput> | SeguimientoCreateWithoutVolunteerInput[] | SeguimientoUncheckedCreateWithoutVolunteerInput[]
+    connectOrCreate?: SeguimientoCreateOrConnectWithoutVolunteerInput | SeguimientoCreateOrConnectWithoutVolunteerInput[]
+    createMany?: SeguimientoCreateManyVolunteerInputEnvelope
+    connect?: SeguimientoWhereUniqueInput | SeguimientoWhereUniqueInput[]
+  }
+
   export type VolunteerRegistrationUncheckedCreateNestedManyWithoutVolunteerInput = {
     create?: XOR<VolunteerRegistrationCreateWithoutVolunteerInput, VolunteerRegistrationUncheckedCreateWithoutVolunteerInput> | VolunteerRegistrationCreateWithoutVolunteerInput[] | VolunteerRegistrationUncheckedCreateWithoutVolunteerInput[]
     connectOrCreate?: VolunteerRegistrationCreateOrConnectWithoutVolunteerInput | VolunteerRegistrationCreateOrConnectWithoutVolunteerInput[]
     createMany?: VolunteerRegistrationCreateManyVolunteerInputEnvelope
     connect?: VolunteerRegistrationWhereUniqueInput | VolunteerRegistrationWhereUniqueInput[]
+  }
+
+  export type SeguimientoUncheckedCreateNestedManyWithoutVolunteerInput = {
+    create?: XOR<SeguimientoCreateWithoutVolunteerInput, SeguimientoUncheckedCreateWithoutVolunteerInput> | SeguimientoCreateWithoutVolunteerInput[] | SeguimientoUncheckedCreateWithoutVolunteerInput[]
+    connectOrCreate?: SeguimientoCreateOrConnectWithoutVolunteerInput | SeguimientoCreateOrConnectWithoutVolunteerInput[]
+    createMany?: SeguimientoCreateManyVolunteerInputEnvelope
+    connect?: SeguimientoWhereUniqueInput | SeguimientoWhereUniqueInput[]
   }
 
   export type NullableStringFieldUpdateOperationsInput = {
@@ -9043,6 +9346,20 @@ export namespace Prisma {
     deleteMany?: VolunteerRegistrationScalarWhereInput | VolunteerRegistrationScalarWhereInput[]
   }
 
+  export type SeguimientoUpdateManyWithoutVolunteerNestedInput = {
+    create?: XOR<SeguimientoCreateWithoutVolunteerInput, SeguimientoUncheckedCreateWithoutVolunteerInput> | SeguimientoCreateWithoutVolunteerInput[] | SeguimientoUncheckedCreateWithoutVolunteerInput[]
+    connectOrCreate?: SeguimientoCreateOrConnectWithoutVolunteerInput | SeguimientoCreateOrConnectWithoutVolunteerInput[]
+    upsert?: SeguimientoUpsertWithWhereUniqueWithoutVolunteerInput | SeguimientoUpsertWithWhereUniqueWithoutVolunteerInput[]
+    createMany?: SeguimientoCreateManyVolunteerInputEnvelope
+    set?: SeguimientoWhereUniqueInput | SeguimientoWhereUniqueInput[]
+    disconnect?: SeguimientoWhereUniqueInput | SeguimientoWhereUniqueInput[]
+    delete?: SeguimientoWhereUniqueInput | SeguimientoWhereUniqueInput[]
+    connect?: SeguimientoWhereUniqueInput | SeguimientoWhereUniqueInput[]
+    update?: SeguimientoUpdateWithWhereUniqueWithoutVolunteerInput | SeguimientoUpdateWithWhereUniqueWithoutVolunteerInput[]
+    updateMany?: SeguimientoUpdateManyWithWhereWithoutVolunteerInput | SeguimientoUpdateManyWithWhereWithoutVolunteerInput[]
+    deleteMany?: SeguimientoScalarWhereInput | SeguimientoScalarWhereInput[]
+  }
+
   export type VolunteerRegistrationUncheckedUpdateManyWithoutVolunteerNestedInput = {
     create?: XOR<VolunteerRegistrationCreateWithoutVolunteerInput, VolunteerRegistrationUncheckedCreateWithoutVolunteerInput> | VolunteerRegistrationCreateWithoutVolunteerInput[] | VolunteerRegistrationUncheckedCreateWithoutVolunteerInput[]
     connectOrCreate?: VolunteerRegistrationCreateOrConnectWithoutVolunteerInput | VolunteerRegistrationCreateOrConnectWithoutVolunteerInput[]
@@ -9055,6 +9372,20 @@ export namespace Prisma {
     update?: VolunteerRegistrationUpdateWithWhereUniqueWithoutVolunteerInput | VolunteerRegistrationUpdateWithWhereUniqueWithoutVolunteerInput[]
     updateMany?: VolunteerRegistrationUpdateManyWithWhereWithoutVolunteerInput | VolunteerRegistrationUpdateManyWithWhereWithoutVolunteerInput[]
     deleteMany?: VolunteerRegistrationScalarWhereInput | VolunteerRegistrationScalarWhereInput[]
+  }
+
+  export type SeguimientoUncheckedUpdateManyWithoutVolunteerNestedInput = {
+    create?: XOR<SeguimientoCreateWithoutVolunteerInput, SeguimientoUncheckedCreateWithoutVolunteerInput> | SeguimientoCreateWithoutVolunteerInput[] | SeguimientoUncheckedCreateWithoutVolunteerInput[]
+    connectOrCreate?: SeguimientoCreateOrConnectWithoutVolunteerInput | SeguimientoCreateOrConnectWithoutVolunteerInput[]
+    upsert?: SeguimientoUpsertWithWhereUniqueWithoutVolunteerInput | SeguimientoUpsertWithWhereUniqueWithoutVolunteerInput[]
+    createMany?: SeguimientoCreateManyVolunteerInputEnvelope
+    set?: SeguimientoWhereUniqueInput | SeguimientoWhereUniqueInput[]
+    disconnect?: SeguimientoWhereUniqueInput | SeguimientoWhereUniqueInput[]
+    delete?: SeguimientoWhereUniqueInput | SeguimientoWhereUniqueInput[]
+    connect?: SeguimientoWhereUniqueInput | SeguimientoWhereUniqueInput[]
+    update?: SeguimientoUpdateWithWhereUniqueWithoutVolunteerInput | SeguimientoUpdateWithWhereUniqueWithoutVolunteerInput[]
+    updateMany?: SeguimientoUpdateManyWithWhereWithoutVolunteerInput | SeguimientoUpdateManyWithWhereWithoutVolunteerInput[]
+    deleteMany?: SeguimientoScalarWhereInput | SeguimientoScalarWhereInput[]
   }
 
   export type SeguimientoCreateNestedManyWithoutAlumnoInput = {
@@ -9117,6 +9448,18 @@ export namespace Prisma {
     connect?: AlumnoWhereUniqueInput
   }
 
+  export type VolunteerSessionCreateNestedOneWithoutSeguimientosInput = {
+    create?: XOR<VolunteerSessionCreateWithoutSeguimientosInput, VolunteerSessionUncheckedCreateWithoutSeguimientosInput>
+    connectOrCreate?: VolunteerSessionCreateOrConnectWithoutSeguimientosInput
+    connect?: VolunteerSessionWhereUniqueInput
+  }
+
+  export type VolunteerCreateNestedOneWithoutSeguimientosInput = {
+    create?: XOR<VolunteerCreateWithoutSeguimientosInput, VolunteerUncheckedCreateWithoutSeguimientosInput>
+    connectOrCreate?: VolunteerCreateOrConnectWithoutSeguimientosInput
+    connect?: VolunteerWhereUniqueInput
+  }
+
   export type EnumCalificacionFieldUpdateOperationsInput = {
     set?: $Enums.Calificacion
   }
@@ -9127,6 +9470,34 @@ export namespace Prisma {
     upsert?: AlumnoUpsertWithoutSeguimientosInput
     connect?: AlumnoWhereUniqueInput
     update?: XOR<XOR<AlumnoUpdateToOneWithWhereWithoutSeguimientosInput, AlumnoUpdateWithoutSeguimientosInput>, AlumnoUncheckedUpdateWithoutSeguimientosInput>
+  }
+
+  export type VolunteerSessionUpdateOneWithoutSeguimientosNestedInput = {
+    create?: XOR<VolunteerSessionCreateWithoutSeguimientosInput, VolunteerSessionUncheckedCreateWithoutSeguimientosInput>
+    connectOrCreate?: VolunteerSessionCreateOrConnectWithoutSeguimientosInput
+    upsert?: VolunteerSessionUpsertWithoutSeguimientosInput
+    disconnect?: VolunteerSessionWhereInput | boolean
+    delete?: VolunteerSessionWhereInput | boolean
+    connect?: VolunteerSessionWhereUniqueInput
+    update?: XOR<XOR<VolunteerSessionUpdateToOneWithWhereWithoutSeguimientosInput, VolunteerSessionUpdateWithoutSeguimientosInput>, VolunteerSessionUncheckedUpdateWithoutSeguimientosInput>
+  }
+
+  export type VolunteerUpdateOneWithoutSeguimientosNestedInput = {
+    create?: XOR<VolunteerCreateWithoutSeguimientosInput, VolunteerUncheckedCreateWithoutSeguimientosInput>
+    connectOrCreate?: VolunteerCreateOrConnectWithoutSeguimientosInput
+    upsert?: VolunteerUpsertWithoutSeguimientosInput
+    disconnect?: VolunteerWhereInput | boolean
+    delete?: VolunteerWhereInput | boolean
+    connect?: VolunteerWhereUniqueInput
+    update?: XOR<XOR<VolunteerUpdateToOneWithWhereWithoutSeguimientosInput, VolunteerUpdateWithoutSeguimientosInput>, VolunteerUncheckedUpdateWithoutSeguimientosInput>
+  }
+
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
   }
 
   export type VolunteerCreateNestedOneWithoutRegistrationsInput = {
@@ -9420,6 +9791,33 @@ export namespace Prisma {
     _max?: NestedEnumCalificacionFilter<$PrismaModel>
   }
 
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
   export type NestedEnumRegistrationStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.RegistrationStatus | EnumRegistrationStatusFieldRefInput<$PrismaModel>
     in?: $Enums.RegistrationStatus[] | ListEnumRegistrationStatusFieldRefInput<$PrismaModel>
@@ -9460,6 +9858,41 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type SeguimientoCreateWithoutSessionInput = {
+    fechaSesion: Date | string
+    escuelita: $Enums.Escuelita
+    tema: string
+    calificacion: $Enums.Calificacion
+    dificultad: string
+    observacion: string
+    createdAt?: Date | string
+    alumno: AlumnoCreateNestedOneWithoutSeguimientosInput
+    volunteer?: VolunteerCreateNestedOneWithoutSeguimientosInput
+  }
+
+  export type SeguimientoUncheckedCreateWithoutSessionInput = {
+    id?: number
+    fechaSesion: Date | string
+    escuelita: $Enums.Escuelita
+    alumnoId: number
+    tema: string
+    calificacion: $Enums.Calificacion
+    dificultad: string
+    observacion: string
+    volunteerId?: string | null
+    createdAt?: Date | string
+  }
+
+  export type SeguimientoCreateOrConnectWithoutSessionInput = {
+    where: SeguimientoWhereUniqueInput
+    create: XOR<SeguimientoCreateWithoutSessionInput, SeguimientoUncheckedCreateWithoutSessionInput>
+  }
+
+  export type SeguimientoCreateManySessionInputEnvelope = {
+    data: SeguimientoCreateManySessionInput | SeguimientoCreateManySessionInput[]
+    skipDuplicates?: boolean
+  }
+
   export type VolunteerRegistrationUpsertWithWhereUniqueWithoutSessionInput = {
     where: VolunteerRegistrationWhereUniqueInput
     update: XOR<VolunteerRegistrationUpdateWithoutSessionInput, VolunteerRegistrationUncheckedUpdateWithoutSessionInput>
@@ -9487,6 +9920,39 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"VolunteerRegistration"> | Date | string
   }
 
+  export type SeguimientoUpsertWithWhereUniqueWithoutSessionInput = {
+    where: SeguimientoWhereUniqueInput
+    update: XOR<SeguimientoUpdateWithoutSessionInput, SeguimientoUncheckedUpdateWithoutSessionInput>
+    create: XOR<SeguimientoCreateWithoutSessionInput, SeguimientoUncheckedCreateWithoutSessionInput>
+  }
+
+  export type SeguimientoUpdateWithWhereUniqueWithoutSessionInput = {
+    where: SeguimientoWhereUniqueInput
+    data: XOR<SeguimientoUpdateWithoutSessionInput, SeguimientoUncheckedUpdateWithoutSessionInput>
+  }
+
+  export type SeguimientoUpdateManyWithWhereWithoutSessionInput = {
+    where: SeguimientoScalarWhereInput
+    data: XOR<SeguimientoUpdateManyMutationInput, SeguimientoUncheckedUpdateManyWithoutSessionInput>
+  }
+
+  export type SeguimientoScalarWhereInput = {
+    AND?: SeguimientoScalarWhereInput | SeguimientoScalarWhereInput[]
+    OR?: SeguimientoScalarWhereInput[]
+    NOT?: SeguimientoScalarWhereInput | SeguimientoScalarWhereInput[]
+    id?: IntFilter<"Seguimiento"> | number
+    fechaSesion?: DateTimeFilter<"Seguimiento"> | Date | string
+    escuelita?: EnumEscuelitaFilter<"Seguimiento"> | $Enums.Escuelita
+    alumnoId?: IntFilter<"Seguimiento"> | number
+    tema?: StringFilter<"Seguimiento"> | string
+    calificacion?: EnumCalificacionFilter<"Seguimiento"> | $Enums.Calificacion
+    dificultad?: StringFilter<"Seguimiento"> | string
+    observacion?: StringFilter<"Seguimiento"> | string
+    sessionId?: IntNullableFilter<"Seguimiento"> | number | null
+    volunteerId?: StringNullableFilter<"Seguimiento"> | string | null
+    createdAt?: DateTimeFilter<"Seguimiento"> | Date | string
+  }
+
   export type VolunteerRegistrationCreateWithoutVolunteerInput = {
     status?: $Enums.RegistrationStatus
     createdAt?: Date | string
@@ -9510,6 +9976,41 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type SeguimientoCreateWithoutVolunteerInput = {
+    fechaSesion: Date | string
+    escuelita: $Enums.Escuelita
+    tema: string
+    calificacion: $Enums.Calificacion
+    dificultad: string
+    observacion: string
+    createdAt?: Date | string
+    alumno: AlumnoCreateNestedOneWithoutSeguimientosInput
+    session?: VolunteerSessionCreateNestedOneWithoutSeguimientosInput
+  }
+
+  export type SeguimientoUncheckedCreateWithoutVolunteerInput = {
+    id?: number
+    fechaSesion: Date | string
+    escuelita: $Enums.Escuelita
+    alumnoId: number
+    tema: string
+    calificacion: $Enums.Calificacion
+    dificultad: string
+    observacion: string
+    sessionId?: number | null
+    createdAt?: Date | string
+  }
+
+  export type SeguimientoCreateOrConnectWithoutVolunteerInput = {
+    where: SeguimientoWhereUniqueInput
+    create: XOR<SeguimientoCreateWithoutVolunteerInput, SeguimientoUncheckedCreateWithoutVolunteerInput>
+  }
+
+  export type SeguimientoCreateManyVolunteerInputEnvelope = {
+    data: SeguimientoCreateManyVolunteerInput | SeguimientoCreateManyVolunteerInput[]
+    skipDuplicates?: boolean
+  }
+
   export type VolunteerRegistrationUpsertWithWhereUniqueWithoutVolunteerInput = {
     where: VolunteerRegistrationWhereUniqueInput
     update: XOR<VolunteerRegistrationUpdateWithoutVolunteerInput, VolunteerRegistrationUncheckedUpdateWithoutVolunteerInput>
@@ -9526,6 +10027,22 @@ export namespace Prisma {
     data: XOR<VolunteerRegistrationUpdateManyMutationInput, VolunteerRegistrationUncheckedUpdateManyWithoutVolunteerInput>
   }
 
+  export type SeguimientoUpsertWithWhereUniqueWithoutVolunteerInput = {
+    where: SeguimientoWhereUniqueInput
+    update: XOR<SeguimientoUpdateWithoutVolunteerInput, SeguimientoUncheckedUpdateWithoutVolunteerInput>
+    create: XOR<SeguimientoCreateWithoutVolunteerInput, SeguimientoUncheckedCreateWithoutVolunteerInput>
+  }
+
+  export type SeguimientoUpdateWithWhereUniqueWithoutVolunteerInput = {
+    where: SeguimientoWhereUniqueInput
+    data: XOR<SeguimientoUpdateWithoutVolunteerInput, SeguimientoUncheckedUpdateWithoutVolunteerInput>
+  }
+
+  export type SeguimientoUpdateManyWithWhereWithoutVolunteerInput = {
+    where: SeguimientoScalarWhereInput
+    data: XOR<SeguimientoUpdateManyMutationInput, SeguimientoUncheckedUpdateManyWithoutVolunteerInput>
+  }
+
   export type SeguimientoCreateWithoutAlumnoInput = {
     fechaSesion: Date | string
     escuelita: $Enums.Escuelita
@@ -9534,6 +10051,8 @@ export namespace Prisma {
     dificultad: string
     observacion: string
     createdAt?: Date | string
+    session?: VolunteerSessionCreateNestedOneWithoutSeguimientosInput
+    volunteer?: VolunteerCreateNestedOneWithoutSeguimientosInput
   }
 
   export type SeguimientoUncheckedCreateWithoutAlumnoInput = {
@@ -9544,6 +10063,8 @@ export namespace Prisma {
     calificacion: $Enums.Calificacion
     dificultad: string
     observacion: string
+    sessionId?: number | null
+    volunteerId?: string | null
     createdAt?: Date | string
   }
 
@@ -9571,21 +10092,6 @@ export namespace Prisma {
   export type SeguimientoUpdateManyWithWhereWithoutAlumnoInput = {
     where: SeguimientoScalarWhereInput
     data: XOR<SeguimientoUpdateManyMutationInput, SeguimientoUncheckedUpdateManyWithoutAlumnoInput>
-  }
-
-  export type SeguimientoScalarWhereInput = {
-    AND?: SeguimientoScalarWhereInput | SeguimientoScalarWhereInput[]
-    OR?: SeguimientoScalarWhereInput[]
-    NOT?: SeguimientoScalarWhereInput | SeguimientoScalarWhereInput[]
-    id?: IntFilter<"Seguimiento"> | number
-    fechaSesion?: DateTimeFilter<"Seguimiento"> | Date | string
-    escuelita?: EnumEscuelitaFilter<"Seguimiento"> | $Enums.Escuelita
-    alumnoId?: IntFilter<"Seguimiento"> | number
-    tema?: StringFilter<"Seguimiento"> | string
-    calificacion?: EnumCalificacionFilter<"Seguimiento"> | $Enums.Calificacion
-    dificultad?: StringFilter<"Seguimiento"> | string
-    observacion?: StringFilter<"Seguimiento"> | string
-    createdAt?: DateTimeFilter<"Seguimiento"> | Date | string
   }
 
   export type AlumnoCreateWithoutSeguimientosInput = {
@@ -9624,6 +10130,74 @@ export namespace Prisma {
   export type AlumnoCreateOrConnectWithoutSeguimientosInput = {
     where: AlumnoWhereUniqueInput
     create: XOR<AlumnoCreateWithoutSeguimientosInput, AlumnoUncheckedCreateWithoutSeguimientosInput>
+  }
+
+  export type VolunteerSessionCreateWithoutSeguimientosInput = {
+    title: string
+    date: Date | string
+    description: string
+    location: string
+    capacity: number
+    image: string
+    type?: $Enums.SessionTypes
+    createdAt?: Date | string
+    deletedAt?: Date | string | null
+    volunteers?: VolunteerRegistrationCreateNestedManyWithoutSessionInput
+  }
+
+  export type VolunteerSessionUncheckedCreateWithoutSeguimientosInput = {
+    id?: number
+    title: string
+    date: Date | string
+    description: string
+    location: string
+    capacity: number
+    image: string
+    type?: $Enums.SessionTypes
+    createdAt?: Date | string
+    deletedAt?: Date | string | null
+    volunteers?: VolunteerRegistrationUncheckedCreateNestedManyWithoutSessionInput
+  }
+
+  export type VolunteerSessionCreateOrConnectWithoutSeguimientosInput = {
+    where: VolunteerSessionWhereUniqueInput
+    create: XOR<VolunteerSessionCreateWithoutSeguimientosInput, VolunteerSessionUncheckedCreateWithoutSeguimientosInput>
+  }
+
+  export type VolunteerCreateWithoutSeguimientosInput = {
+    clerkUserId: string
+    firstName: string
+    lastName: string
+    phone: string
+    email: string
+    instagram?: string | null
+    birthDate: Date | string
+    createdAt?: Date | string
+    isAdmin?: boolean
+    isLeader?: boolean
+    isActive?: boolean
+    registrations?: VolunteerRegistrationCreateNestedManyWithoutVolunteerInput
+  }
+
+  export type VolunteerUncheckedCreateWithoutSeguimientosInput = {
+    id?: number
+    clerkUserId: string
+    firstName: string
+    lastName: string
+    phone: string
+    email: string
+    instagram?: string | null
+    birthDate: Date | string
+    createdAt?: Date | string
+    isAdmin?: boolean
+    isLeader?: boolean
+    isActive?: boolean
+    registrations?: VolunteerRegistrationUncheckedCreateNestedManyWithoutVolunteerInput
+  }
+
+  export type VolunteerCreateOrConnectWithoutSeguimientosInput = {
+    where: VolunteerWhereUniqueInput
+    create: XOR<VolunteerCreateWithoutSeguimientosInput, VolunteerUncheckedCreateWithoutSeguimientosInput>
   }
 
   export type AlumnoUpsertWithoutSeguimientosInput = {
@@ -9670,6 +10244,86 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type VolunteerSessionUpsertWithoutSeguimientosInput = {
+    update: XOR<VolunteerSessionUpdateWithoutSeguimientosInput, VolunteerSessionUncheckedUpdateWithoutSeguimientosInput>
+    create: XOR<VolunteerSessionCreateWithoutSeguimientosInput, VolunteerSessionUncheckedCreateWithoutSeguimientosInput>
+    where?: VolunteerSessionWhereInput
+  }
+
+  export type VolunteerSessionUpdateToOneWithWhereWithoutSeguimientosInput = {
+    where?: VolunteerSessionWhereInput
+    data: XOR<VolunteerSessionUpdateWithoutSeguimientosInput, VolunteerSessionUncheckedUpdateWithoutSeguimientosInput>
+  }
+
+  export type VolunteerSessionUpdateWithoutSeguimientosInput = {
+    title?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    description?: StringFieldUpdateOperationsInput | string
+    location?: StringFieldUpdateOperationsInput | string
+    capacity?: IntFieldUpdateOperationsInput | number
+    image?: StringFieldUpdateOperationsInput | string
+    type?: EnumSessionTypesFieldUpdateOperationsInput | $Enums.SessionTypes
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    volunteers?: VolunteerRegistrationUpdateManyWithoutSessionNestedInput
+  }
+
+  export type VolunteerSessionUncheckedUpdateWithoutSeguimientosInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    description?: StringFieldUpdateOperationsInput | string
+    location?: StringFieldUpdateOperationsInput | string
+    capacity?: IntFieldUpdateOperationsInput | number
+    image?: StringFieldUpdateOperationsInput | string
+    type?: EnumSessionTypesFieldUpdateOperationsInput | $Enums.SessionTypes
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    volunteers?: VolunteerRegistrationUncheckedUpdateManyWithoutSessionNestedInput
+  }
+
+  export type VolunteerUpsertWithoutSeguimientosInput = {
+    update: XOR<VolunteerUpdateWithoutSeguimientosInput, VolunteerUncheckedUpdateWithoutSeguimientosInput>
+    create: XOR<VolunteerCreateWithoutSeguimientosInput, VolunteerUncheckedCreateWithoutSeguimientosInput>
+    where?: VolunteerWhereInput
+  }
+
+  export type VolunteerUpdateToOneWithWhereWithoutSeguimientosInput = {
+    where?: VolunteerWhereInput
+    data: XOR<VolunteerUpdateWithoutSeguimientosInput, VolunteerUncheckedUpdateWithoutSeguimientosInput>
+  }
+
+  export type VolunteerUpdateWithoutSeguimientosInput = {
+    clerkUserId?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    instagram?: NullableStringFieldUpdateOperationsInput | string | null
+    birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    isLeader?: BoolFieldUpdateOperationsInput | boolean
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    registrations?: VolunteerRegistrationUpdateManyWithoutVolunteerNestedInput
+  }
+
+  export type VolunteerUncheckedUpdateWithoutSeguimientosInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    clerkUserId?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    instagram?: NullableStringFieldUpdateOperationsInput | string | null
+    birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    isLeader?: BoolFieldUpdateOperationsInput | boolean
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    registrations?: VolunteerRegistrationUncheckedUpdateManyWithoutVolunteerNestedInput
+  }
+
   export type VolunteerCreateWithoutRegistrationsInput = {
     clerkUserId: string
     firstName: string
@@ -9682,6 +10336,7 @@ export namespace Prisma {
     isAdmin?: boolean
     isLeader?: boolean
     isActive?: boolean
+    seguimientos?: SeguimientoCreateNestedManyWithoutVolunteerInput
   }
 
   export type VolunteerUncheckedCreateWithoutRegistrationsInput = {
@@ -9697,6 +10352,7 @@ export namespace Prisma {
     isAdmin?: boolean
     isLeader?: boolean
     isActive?: boolean
+    seguimientos?: SeguimientoUncheckedCreateNestedManyWithoutVolunteerInput
   }
 
   export type VolunteerCreateOrConnectWithoutRegistrationsInput = {
@@ -9714,6 +10370,7 @@ export namespace Prisma {
     type?: $Enums.SessionTypes
     createdAt?: Date | string
     deletedAt?: Date | string | null
+    seguimientos?: SeguimientoCreateNestedManyWithoutSessionInput
   }
 
   export type VolunteerSessionUncheckedCreateWithoutVolunteersInput = {
@@ -9727,6 +10384,7 @@ export namespace Prisma {
     type?: $Enums.SessionTypes
     createdAt?: Date | string
     deletedAt?: Date | string | null
+    seguimientos?: SeguimientoUncheckedCreateNestedManyWithoutSessionInput
   }
 
   export type VolunteerSessionCreateOrConnectWithoutVolunteersInput = {
@@ -9757,6 +10415,7 @@ export namespace Prisma {
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
     isLeader?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    seguimientos?: SeguimientoUpdateManyWithoutVolunteerNestedInput
   }
 
   export type VolunteerUncheckedUpdateWithoutRegistrationsInput = {
@@ -9772,6 +10431,7 @@ export namespace Prisma {
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
     isLeader?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    seguimientos?: SeguimientoUncheckedUpdateManyWithoutVolunteerNestedInput
   }
 
   export type VolunteerSessionUpsertWithoutVolunteersInput = {
@@ -9795,6 +10455,7 @@ export namespace Prisma {
     type?: EnumSessionTypesFieldUpdateOperationsInput | $Enums.SessionTypes
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    seguimientos?: SeguimientoUpdateManyWithoutSessionNestedInput
   }
 
   export type VolunteerSessionUncheckedUpdateWithoutVolunteersInput = {
@@ -9808,12 +10469,26 @@ export namespace Prisma {
     type?: EnumSessionTypesFieldUpdateOperationsInput | $Enums.SessionTypes
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    seguimientos?: SeguimientoUncheckedUpdateManyWithoutSessionNestedInput
   }
 
   export type VolunteerRegistrationCreateManySessionInput = {
     id?: number
     volunteerId: number
     status?: $Enums.RegistrationStatus
+    createdAt?: Date | string
+  }
+
+  export type SeguimientoCreateManySessionInput = {
+    id?: number
+    fechaSesion: Date | string
+    escuelita: $Enums.Escuelita
+    alumnoId: number
+    tema: string
+    calificacion: $Enums.Calificacion
+    dificultad: string
+    observacion: string
+    volunteerId?: string | null
     createdAt?: Date | string
   }
 
@@ -9837,10 +10512,61 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type SeguimientoUpdateWithoutSessionInput = {
+    fechaSesion?: DateTimeFieldUpdateOperationsInput | Date | string
+    escuelita?: EnumEscuelitaFieldUpdateOperationsInput | $Enums.Escuelita
+    tema?: StringFieldUpdateOperationsInput | string
+    calificacion?: EnumCalificacionFieldUpdateOperationsInput | $Enums.Calificacion
+    dificultad?: StringFieldUpdateOperationsInput | string
+    observacion?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    alumno?: AlumnoUpdateOneRequiredWithoutSeguimientosNestedInput
+    volunteer?: VolunteerUpdateOneWithoutSeguimientosNestedInput
+  }
+
+  export type SeguimientoUncheckedUpdateWithoutSessionInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    fechaSesion?: DateTimeFieldUpdateOperationsInput | Date | string
+    escuelita?: EnumEscuelitaFieldUpdateOperationsInput | $Enums.Escuelita
+    alumnoId?: IntFieldUpdateOperationsInput | number
+    tema?: StringFieldUpdateOperationsInput | string
+    calificacion?: EnumCalificacionFieldUpdateOperationsInput | $Enums.Calificacion
+    dificultad?: StringFieldUpdateOperationsInput | string
+    observacion?: StringFieldUpdateOperationsInput | string
+    volunteerId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SeguimientoUncheckedUpdateManyWithoutSessionInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    fechaSesion?: DateTimeFieldUpdateOperationsInput | Date | string
+    escuelita?: EnumEscuelitaFieldUpdateOperationsInput | $Enums.Escuelita
+    alumnoId?: IntFieldUpdateOperationsInput | number
+    tema?: StringFieldUpdateOperationsInput | string
+    calificacion?: EnumCalificacionFieldUpdateOperationsInput | $Enums.Calificacion
+    dificultad?: StringFieldUpdateOperationsInput | string
+    observacion?: StringFieldUpdateOperationsInput | string
+    volunteerId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type VolunteerRegistrationCreateManyVolunteerInput = {
     id?: number
     sessionId: number
     status?: $Enums.RegistrationStatus
+    createdAt?: Date | string
+  }
+
+  export type SeguimientoCreateManyVolunteerInput = {
+    id?: number
+    fechaSesion: Date | string
+    escuelita: $Enums.Escuelita
+    alumnoId: number
+    tema: string
+    calificacion: $Enums.Calificacion
+    dificultad: string
+    observacion: string
+    sessionId?: number | null
     createdAt?: Date | string
   }
 
@@ -9864,6 +10590,44 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type SeguimientoUpdateWithoutVolunteerInput = {
+    fechaSesion?: DateTimeFieldUpdateOperationsInput | Date | string
+    escuelita?: EnumEscuelitaFieldUpdateOperationsInput | $Enums.Escuelita
+    tema?: StringFieldUpdateOperationsInput | string
+    calificacion?: EnumCalificacionFieldUpdateOperationsInput | $Enums.Calificacion
+    dificultad?: StringFieldUpdateOperationsInput | string
+    observacion?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    alumno?: AlumnoUpdateOneRequiredWithoutSeguimientosNestedInput
+    session?: VolunteerSessionUpdateOneWithoutSeguimientosNestedInput
+  }
+
+  export type SeguimientoUncheckedUpdateWithoutVolunteerInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    fechaSesion?: DateTimeFieldUpdateOperationsInput | Date | string
+    escuelita?: EnumEscuelitaFieldUpdateOperationsInput | $Enums.Escuelita
+    alumnoId?: IntFieldUpdateOperationsInput | number
+    tema?: StringFieldUpdateOperationsInput | string
+    calificacion?: EnumCalificacionFieldUpdateOperationsInput | $Enums.Calificacion
+    dificultad?: StringFieldUpdateOperationsInput | string
+    observacion?: StringFieldUpdateOperationsInput | string
+    sessionId?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SeguimientoUncheckedUpdateManyWithoutVolunteerInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    fechaSesion?: DateTimeFieldUpdateOperationsInput | Date | string
+    escuelita?: EnumEscuelitaFieldUpdateOperationsInput | $Enums.Escuelita
+    alumnoId?: IntFieldUpdateOperationsInput | number
+    tema?: StringFieldUpdateOperationsInput | string
+    calificacion?: EnumCalificacionFieldUpdateOperationsInput | $Enums.Calificacion
+    dificultad?: StringFieldUpdateOperationsInput | string
+    observacion?: StringFieldUpdateOperationsInput | string
+    sessionId?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type SeguimientoCreateManyAlumnoInput = {
     id?: number
     fechaSesion: Date | string
@@ -9872,6 +10636,8 @@ export namespace Prisma {
     calificacion: $Enums.Calificacion
     dificultad: string
     observacion: string
+    sessionId?: number | null
+    volunteerId?: string | null
     createdAt?: Date | string
   }
 
@@ -9883,6 +10649,8 @@ export namespace Prisma {
     dificultad?: StringFieldUpdateOperationsInput | string
     observacion?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    session?: VolunteerSessionUpdateOneWithoutSeguimientosNestedInput
+    volunteer?: VolunteerUpdateOneWithoutSeguimientosNestedInput
   }
 
   export type SeguimientoUncheckedUpdateWithoutAlumnoInput = {
@@ -9893,6 +10661,8 @@ export namespace Prisma {
     calificacion?: EnumCalificacionFieldUpdateOperationsInput | $Enums.Calificacion
     dificultad?: StringFieldUpdateOperationsInput | string
     observacion?: StringFieldUpdateOperationsInput | string
+    sessionId?: NullableIntFieldUpdateOperationsInput | number | null
+    volunteerId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -9904,6 +10674,8 @@ export namespace Prisma {
     calificacion?: EnumCalificacionFieldUpdateOperationsInput | $Enums.Calificacion
     dificultad?: StringFieldUpdateOperationsInput | string
     observacion?: StringFieldUpdateOperationsInput | string
+    sessionId?: NullableIntFieldUpdateOperationsInput | number | null
+    volunteerId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
