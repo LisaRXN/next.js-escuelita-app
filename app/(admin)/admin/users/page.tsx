@@ -1,10 +1,11 @@
 "use client";
 
 import { useMemo, useRef, useState } from "react";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetcher } from "@/lib/fetcher";
 import { useDebounce } from "use-debounce";
 import { VolunteerWithTutoringCount } from "@/type";
+import { toggleVolunteerActive, toggleVolunteerAdmin } from "@/services/volunteerClient";
 
 // ── helpers ─────────────────────────────────────────────────────────────────
 
@@ -33,7 +34,6 @@ export default function UsersPage() {
   const [filterActive, setFilterActive] = useState<"all" | "active" | "inactive">("all");
   const [filterMonth, setFilterMonth] = useState<string>("");
   const [expandedId, setExpandedId] = useState<number | null>(null);
-  const [pendingId, setPendingId] = useState<number | null>(null);
   const queryClient = useQueryClient();
   const searchRef = useRef<HTMLInputElement>(null);
 
@@ -85,35 +85,29 @@ export default function UsersPage() {
     return Object.entries(groups).sort(([a], [b]) => b.localeCompare(a));
   }, [filtered]);
 
-  // Toggle admin
-  async function handleToggleAdmin(v: VolunteerWithTutoringCount) {
-    setPendingId(v.id);
-    try {
-      await fetch(`/api/volunteers/${v.id}/toggle-admin`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ isAdmin: !v.isAdmin }),
-      });
-      queryClient.invalidateQueries({ queryKey: ["volunteers-all"] });
-    } finally {
-      setPendingId(null);
-    }
-  }
+  // Toggle admin — on attend l'invalidation dans la mutationFn pour que
+  // `isPending` reste vrai jusqu'à l'arrivée des données fraîches (évite le bug du double-clic).
+  const toggleAdminMutation = useMutation({
+    mutationFn: async ({ id, isAdmin }: { id: number; isAdmin: boolean }) => {
+      await toggleVolunteerAdmin(id, isAdmin);
+      await queryClient.invalidateQueries({ queryKey: ["volunteers-all"] });
+    },
+  });
 
   // Toggle active
-  async function handleToggleActive(v: VolunteerWithTutoringCount) {
-    setPendingId(v.id);
-    try {
-      await fetch(`/api/volunteers/${v.id}/toggle-active`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ isActive: !v.isActive }),
-      });
-      queryClient.invalidateQueries({ queryKey: ["volunteers-all"] });
-    } finally {
-      setPendingId(null);
-    }
-  }
+  const toggleActiveMutation = useMutation({
+    mutationFn: async ({ id, isActive }: { id: number; isActive: boolean }) => {
+      await toggleVolunteerActive(id, isActive);
+      await queryClient.invalidateQueries({ queryKey: ["volunteers-all"] });
+    },
+  });
+
+  // Quel volontaire est en cours de mise à jour (pour le spinner sur la bonne carte)
+  const pendingId = toggleAdminMutation.isPending
+    ? toggleAdminMutation.variables?.id
+    : toggleActiveMutation.isPending
+      ? toggleActiveMutation.variables?.id
+      : null;
 
   return (
     <main className="min-h-screen w-full pb-10">
@@ -324,7 +318,7 @@ export default function UsersPage() {
                               <>
                                 {/* Toggle Activo */}
                                 <button
-                                  onClick={() => handleToggleActive(v)}
+                                  onClick={() => toggleActiveMutation.mutate({ id: v.id, isActive: !v.isActive })}
                                   className="flex items-center gap-2 select-none"
                                 >
                                   <div className={`relative w-10 h-5 rounded-full transition-colors duration-200 ${v.isActive ? "bg-[#65C5A9]" : "bg-zinc-200"}`}>
@@ -335,7 +329,7 @@ export default function UsersPage() {
 
                                 {/* Toggle Admin */}
                                 <button
-                                  onClick={() => handleToggleAdmin(v)}
+                                  onClick={() => toggleAdminMutation.mutate({ id: v.id, isAdmin: !v.isAdmin })}
                                   className="flex items-center gap-2 select-none"
                                 >
                                   <div className={`relative w-10 h-5 rounded-full transition-colors duration-200 ${v.isAdmin ? "bg-indigo-600" : "bg-zinc-200"}`}>
