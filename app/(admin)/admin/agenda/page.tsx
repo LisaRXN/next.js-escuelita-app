@@ -68,15 +68,11 @@ export default function AgendaPage() {
   // ── données ──
   const { data: sessions, isLoading } = useQuery<SessionWithLiders[]>({
     queryKey: ["sessionsWithLiders"],
-    queryFn: () => fetcher("/api/sessionsWithLiders"),
-    staleTime: 0,
-  });
+    queryFn: () => fetcher("/api/sessionsWithLiders"),  });
 
   const { data: coordSessions, isLoading: isLoadingCoord } = useQuery<CoordinatorSession[]>({
     queryKey: ["coordinator-agenda"],
-    queryFn: () => fetcher("/api/sessions/coordinator-agenda"),
-    staleTime: 0,
-    enabled: tab === "coordinador",
+    queryFn: () => fetcher("/api/sessions/coordinator-agenda"),    enabled: tab === "coordinador",
   });
 
   const allSessions = sessions ?? [];

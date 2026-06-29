@@ -39,9 +39,7 @@ export default function UsersPage() {
 
   const { data, isLoading } = useQuery<{ data: VolunteerWithTutoringCount[]; total: number }>({
     queryKey: ["volunteers-all"],
-    queryFn: () => fetcher("/api/users?all=true&withCounts=true"),
-    staleTime: 0,
-  });
+    queryFn: () => fetcher("/api/users?all=true&withCounts=true"),  });
 
   const allVolunteers: VolunteerWithTutoringCount[] = data?.data ?? [];
 

@@ -17,9 +17,7 @@ const AdminSessionPage = ({ sessionId }: { sessionId: number }) => {
   const { data, isLoading } = useQuery({
     queryKey: ["sessionById", sessionId],
     queryFn: () => fetcher(`/api/sessions/${sessionId}`),
-    enabled: !!sessionId,
-    staleTime: 0,
-  });
+    enabled: !!sessionId,  });
 
   if (isNaN(sessionId) || isLoading) {
     return (

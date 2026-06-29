@@ -193,9 +193,7 @@ export default function DashboardPage() {
 
   const { data: nextSessions, isLoading: loadingNext } = useQuery<NextSession[]>({
     queryKey: ["nextSessions"],
-    queryFn: () => fetcher("/api/nextSessions"),
-    staleTime: 0,
-  });
+    queryFn: () => fetcher("/api/nextSessions"),  });
 
   const isLoading = loadingUser || loadingNext;
 
