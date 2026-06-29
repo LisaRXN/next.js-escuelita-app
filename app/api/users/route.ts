@@ -46,6 +46,7 @@ export async function GET(req: NextRequest) {
         orderBy.createdAt = "desc";
     }
 
+  try {
   const [users, total] = await Promise.all([
     prisma.volunteer.findMany({
       where,
@@ -62,28 +63,38 @@ export async function GET(req: NextRequest) {
     return Response.json({ data: users, total, totalPages, page });
   }
 
-  // ✅ Ajoute le count à chacun — tout d"un coup
-  const usersWithCounts = await Promise.all(
+  // ✅ Compte les inscriptions TUTORING confirmées pour tous les bénévoles
+  // en UNE seule requête (groupBy) au lieu d'un count par bénévole (N+1).
+  // Le N+1 saturait le pooler Supabase et provoquait des 500.
+  const grouped = await prisma.volunteerRegistration.groupBy({
+    by: ["volunteerId"],
+    where: {
+      volunteerId: { in: users.map((u) => u.id) },
+      status: RegistrationStatus.CONFIRMED,
+      session: {
+        type: SessionTypes.TUTORING,
+      },
+    },
+    _count: { _all: true },
+  });
 
-    users.map(async (u:Volunteer) => {
-      const count = await prisma.volunteerRegistration.count({
-        where: {
-          volunteerId: u.id,
-          status: RegistrationStatus.CONFIRMED,
-          session: {
-            type: SessionTypes.TUTORING,
-          },
-        },
-      });
-
-      return {
-        ...u,
-        tutoringCount: count,
-      };
-    })
+  const countByVolunteer = new Map(
+    grouped.map((g) => [g.volunteerId, g._count._all])
   );
 
+  const usersWithCounts = users.map((u: Volunteer) => ({
+    ...u,
+    tutoringCount: countByVolunteer.get(u.id) ?? 0,
+  }));
+
   return Response.json({ data: usersWithCounts, total, totalPages, page });
+  } catch (error) {
+    console.error("[GET /api/users] erreur:", error);
+    return Response.json(
+      { error: "Erreur serveur lors de la récupération des bénévoles" },
+      { status: 500 }
+    );
+  }
 }
 
 
