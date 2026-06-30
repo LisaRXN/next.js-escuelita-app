@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { fetcher } from "@/lib/fetcher";
 import { Alumno } from "@/generated/prisma";
+import type { SexoFilter } from "@/lib/alumnos-filters";
 
 // ── Config ────────────────────────────────────────────────────────────────────
 
@@ -89,7 +90,7 @@ function EscuelitaListView({
 }) {
   const cfg = ESCUELITA_CONFIG[escuelita];
   const [search, setSearch] = useState("");
-  const [filterSexo, setFilterSexo] = useState<"" | "M" | "F">("");
+  const [filterSexo, setFilterSexo] = useState<SexoFilter>("");
   const [filterNivel, setFilterNivel] = useState("");
 
   const { data, isLoading } = useQuery({
@@ -273,9 +274,10 @@ function EscuelitaListView({
 export default function AlumnosVolunteerPage() {
   const [selectedEscuelita, setSelectedEscuelita] = useState<Escuelita | null>(null);
 
-  const { data, isLoading } = useQuery({
-    queryKey: ["alumnos-home"],
-    queryFn: () => fetcher("/api/alumnos?all=true"),
+  // Compteurs via groupBy (endpoint stats) — pas besoin de charger tous les alumnos.
+  const { data: stats, isLoading } = useQuery({
+    queryKey: ["alumnos-stats"],
+    queryFn: () => fetcher("/api/alumnos/stats"),
   });
 
   if (selectedEscuelita) {
@@ -287,8 +289,7 @@ export default function AlumnosVolunteerPage() {
     );
   }
 
-  const allAlumnos: Alumno[] = data?.data ?? [];
-  const countFor = (e: Escuelita) => allAlumnos.filter((a) => a.escuelita === e).length;
+  const countFor = (e: Escuelita) => stats?.counts?.[e] ?? 0;
 
   return (
     <main className="min-h-screen w-full bg-zinc-50">
@@ -296,7 +297,7 @@ export default function AlumnosVolunteerPage() {
       <div className="bg-[#193252] px-4 md:px-8 pt-8 pb-6">
         <h1 className="text-white text-2xl font-extrabold">Alumnos</h1>
         <p className="text-white/60 text-sm mt-1">
-          {data?.total ?? 0} alumno{(data?.total ?? 0) !== 1 ? "s" : ""} en total
+          {stats?.total ?? 0} alumno{(stats?.total ?? 0) !== 1 ? "s" : ""} en total
         </p>
       </div>
 

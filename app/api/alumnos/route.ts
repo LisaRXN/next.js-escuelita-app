@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { Escuelita, Prisma, Sexo } from "@/generated/prisma";
+import { Escuelita, EstatusInscripcion, Prisma, Sexo } from "@/generated/prisma";
 import { NextRequest } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import { isAdmin } from "@/lib/is-admin";
@@ -13,6 +13,10 @@ export async function GET(req: NextRequest) {
   const nivel = searchParams.get("nivel");
   const escuelita = searchParams.get("escuelita");
   const sexo = searchParams.get("sexo");
+  const estatus = searchParams.get("estatus");
+  const autorizacionImagen = searchParams.get("autorizacionImagen");
+  const edadMin = searchParams.get("edadMin");
+  const edadMax = searchParams.get("edadMax");
   const search = searchParams.get("search");
   const all = searchParams.get("all") === "true";
   const page = Math.max(1, parseInt(searchParams.get("page") ?? "1", 10));
@@ -30,6 +34,35 @@ export async function GET(req: NextRequest) {
 
   if (sexo && sexo !== "") {
     where.sexo = sexo as Sexo;
+  }
+
+  if (estatus && estatus !== "") {
+    where.estatusInscripcion = estatus as EstatusInscripcion;
+  }
+
+  if (autorizacionImagen === "true" || autorizacionImagen === "false") {
+    where.autorizacionImagen = autorizacionImagen === "true";
+  }
+
+  // Filtre par tranche d'âge -> bornes sur fechaNacimiento.
+  // edadMin = N  =>  né il y a au moins N ans  =>  fechaNacimiento <= today - N ans
+  // edadMax = M  =>  pas encore M+1 ans        =>  fechaNacimiento >  today - (M+1) ans
+  const min = edadMin ? parseInt(edadMin, 10) : null;
+  const max = edadMax ? parseInt(edadMax, 10) : null;
+  if ((min !== null && !Number.isNaN(min)) || (max !== null && !Number.isNaN(max))) {
+    const fechaNacimiento: Prisma.DateTimeFilter = {};
+    const now = new Date();
+    if (min !== null && !Number.isNaN(min)) {
+      const upper = new Date(now);
+      upper.setFullYear(upper.getFullYear() - min);
+      fechaNacimiento.lte = upper;
+    }
+    if (max !== null && !Number.isNaN(max)) {
+      const lower = new Date(now);
+      lower.setFullYear(lower.getFullYear() - (max + 1));
+      fechaNacimiento.gt = lower;
+    }
+    where.fechaNacimiento = fechaNacimiento;
   }
 
   if (search && search !== "") {

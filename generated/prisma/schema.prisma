@@ -101,6 +101,12 @@ model Alumno {
   escuelita             Escuelita
   createdAt             DateTime           @default(now())
   seguimientos          Seguimiento[]
+
+  @@index([escuelita])
+  @@index([nivel])
+  @@index([estatusInscripcion])
+  @@index([fechaNacimiento])
+  @@index([apellidos])
 }
 
 model Seguimiento {
