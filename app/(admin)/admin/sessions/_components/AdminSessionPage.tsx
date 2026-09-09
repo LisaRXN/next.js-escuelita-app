@@ -17,9 +17,7 @@ const AdminSessionPage = ({ sessionId }: { sessionId: number }) => {
   const { data, isLoading } = useQuery({
     queryKey: ["sessionById", sessionId],
     queryFn: () => fetcher(`/api/sessions/${sessionId}`),
-    enabled: !!sessionId,
-    staleTime: 0,
-  });
+    enabled: !!sessionId,  });
 
   if (isNaN(sessionId) || isLoading) {
     return (
@@ -33,10 +31,12 @@ const AdminSessionPage = ({ sessionId }: { sessionId: number }) => {
 
   const { session, registeredVolunteers } = data;
   const date = new Date(session.date);
-  const confirmed = registeredVolunteers.filter((v: RegisteredVolunteer) => v.status === "CONFIRMED").length;
-  const noShow = registeredVolunteers.filter((v: RegisteredVolunteer) => v.status === "NO_SHOW").length;
   const liders = registeredVolunteers.filter((v: RegisteredVolunteer) => v.isAdmin);
   const volunteers = registeredVolunteers.filter((v: RegisteredVolunteer) => !v.isAdmin);
+  // Les statistiques d'assistance ne concernent que les volontaires (les admins sont comptés à part)
+  const confirmed = volunteers.filter((v: RegisteredVolunteer) => v.status === "CONFIRMED").length;
+  const noShow = volunteers.filter((v: RegisteredVolunteer) => v.status === "NO_SHOW").length;
+  const cancelled = volunteers.filter((v: RegisteredVolunteer) => v.status === "CANCELLED").length;
 
   return (
     <div className="min-h-screen bg-mylightgray pb-10">
@@ -68,12 +68,14 @@ const AdminSessionPage = ({ sessionId }: { sessionId: number }) => {
       </div>
 
       {/* ── Stats ── */}
-      <div className="grid grid-cols-4 gap-3 px-4 md:px-8 mt-4">
+      <div className="grid grid-cols-3 md:grid-cols-6 gap-3 px-4 md:px-8 mt-4">
         {[
-          { value: registeredVolunteers.length, label: "Inscritos", color: "#2B797C" },
+          { value: session.capacity, label: "Capacidad", color: "#6B7280" },
+          { value: volunteers.length, label: "Inscritos", color: "#2B797C" },
+          { value: liders.length, label: "Admins", color: "#7C3AED" },
           { value: confirmed, label: "Confirmados", color: "#16A34A" },
           { value: noShow, label: "No vino", color: "#D52346" },
-          { value: session.capacity, label: "Capacidad", color: "#6B7280" },
+          { value: cancelled, label: "Cancelado", color: "#D97706" },
         ].map(({ value, label, color }) => (
           <div key={label} className="bg-white rounded-2xl py-3 px-2 flex flex-col items-center border border-gray-100">
             <span className="text-xl font-black leading-none" style={{ color }}>{value}</span>
@@ -100,6 +102,8 @@ const AdminSessionPage = ({ sessionId }: { sessionId: number }) => {
             registeredVolunteers={volunteers}
             sessionTitle={session.title}
             sessionDate={session.date}
+            capacity={session.capacity}
+            adminsCount={liders.length}
           />
         </div>
 

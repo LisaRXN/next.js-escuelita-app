@@ -44,7 +44,9 @@ const AdminSessionDescription = ({ sessionId, handleCloseModal }: AdminSessionDe
   const isVolunteerActive = data.userStatus.isVolunteerActive;
   const isTutoring = session.type === "TUTORING";
 
-  const spotsLeft = session.capacity - (data.registeredVolunteers?.filter((v: { isAdmin: boolean }) => !v.isAdmin).length ?? session.volunteers?.length ?? 0);
+  // Nombre réel de volontaires (hors admins)
+  const volunteerCount = data.registeredVolunteers?.filter((v: { isAdmin: boolean }) => !v.isAdmin).length ?? session.volunteers?.length ?? 0;
+  const spotsLeft = session.capacity - volunteerCount;
   const isFull = spotsLeft <= 0;
 
   const formattedDate = new Date(session.date).toLocaleDateString("es-ES", {
@@ -121,7 +123,7 @@ const AdminSessionDescription = ({ sessionId, handleCloseModal }: AdminSessionDe
         <span
           className={`text-xs font-bold px-2.5 py-1 rounded-lg ${isFull ? "bg-red-50 text-myred" : "bg-green-50 text-green-700"}`}
         >
-          {session.volunteers?.length ?? 0}/{session.capacity} · {isFull ? "Completo" : `${spotsLeft} cupo${spotsLeft > 1 ? "s" : ""}`}
+          {volunteerCount}/{session.capacity} · {isFull ? "Completo" : `${spotsLeft} cupo${spotsLeft > 1 ? "s" : ""}`}
         </span>
       </div>
 

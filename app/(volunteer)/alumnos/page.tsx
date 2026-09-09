@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { fetcher } from "@/lib/fetcher";
 import { Alumno } from "@/generated/prisma";
+import type { SexoFilter } from "@/lib/alumnos-filters";
 
 // ── Config ────────────────────────────────────────────────────────────────────
 
@@ -31,6 +32,88 @@ const ESCUELITA_CONFIG: Record<Escuelita, {
     description: "Medio ambiente y educación ecológica",
   },
 };
+
+type BirthdayAlumno = {
+  id: number;
+  nombre: string;
+  apellidos: string;
+  fechaNacimiento: string;
+  escuelita: Escuelita;
+};
+
+// ── Cumpleaños del mes ─────────────────────────────────────────────────────────
+
+function BirthdaysSection() {
+  const { data } = useQuery<{ data: BirthdayAlumno[] }>({
+    queryKey: ["alumnos-birthdays"],
+    queryFn: () => fetcher("/api/alumnos/birthdays"),
+  });
+
+  const now = new Date();
+  const currentMonth = now.getMonth();
+  const currentYear = now.getFullYear();
+
+  const monthBirthdays = (data?.data ?? [])
+    .map((a) => {
+      const d = new Date(a.fechaNacimiento);
+      return { ...a, dia: d.getUTCDate(), mes: d.getUTCMonth(), anioNacimiento: d.getUTCFullYear() };
+    })
+    .filter((a) => a.mes === currentMonth)
+    .sort((a, b) => a.dia - b.dia);
+
+  const monthLabel = now.toLocaleDateString("es-PE", { month: "long" });
+
+  return (
+    <div className="mt-6 max-w-2xl">
+      <div className="flex items-center gap-2 mb-3">
+        <span className="text-lg">🎂</span>
+        <p className="text-myzinc font-bold text-base capitalize">Cumpleaños de {monthLabel}</p>
+        <span className="text-zinc-400 text-sm">· {monthBirthdays.length}</span>
+      </div>
+
+      {monthBirthdays.length === 0 ? (
+        <p className="text-zinc-400 text-sm py-2">Ningún cumpleaños este mes</p>
+      ) : (
+        <div className="flex flex-col gap-2">
+          {monthBirthdays.map((a) => {
+            const cfg = ESCUELITA_CONFIG[a.escuelita];
+            const edad = currentYear - a.anioNacimiento;
+            const isToday = a.dia === now.getDate();
+            return (
+              <div
+                key={a.id}
+                className={`flex items-center gap-4 rounded-2xl px-4 py-3 border ${
+                  isToday ? "bg-pink-50 border-pink-200" : "bg-white border-zinc-100"
+                }`}
+              >
+                <div className="flex flex-col items-center w-9 flex-shrink-0">
+                  <span className="text-pink-500 font-bold text-lg leading-none">{a.dia}</span>
+                  <span className="text-zinc-400 text-[10px] capitalize">
+                    {new Date(currentYear, currentMonth, a.dia).toLocaleDateString("es-PE", { weekday: "short" })}
+                  </span>
+                </div>
+                <div className="w-px h-8 bg-zinc-100 flex-shrink-0" />
+                <div
+                  className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 text-xs font-extrabold"
+                  style={{ backgroundColor: cfg?.light ?? "#F3F4F6", color: cfg?.color ?? "#485668" }}
+                >
+                  {a.nombre[0]}{a.apellidos[0]}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-myzinc font-semibold text-sm truncate">{a.nombre} {a.apellidos}</p>
+                  <p className="text-zinc-400 text-xs mt-0.5">
+                    Cumple {edad} año{edad !== 1 ? "s" : ""}
+                    {isToday && <span className="text-pink-500 font-semibold"> · ¡Hoy! 🎉</span>}
+                  </p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
 
 // ── Escuelita home card ───────────────────────────────────────────────────────
 
@@ -89,7 +172,7 @@ function EscuelitaListView({
 }) {
   const cfg = ESCUELITA_CONFIG[escuelita];
   const [search, setSearch] = useState("");
-  const [filterSexo, setFilterSexo] = useState<"" | "M" | "F">("");
+  const [filterSexo, setFilterSexo] = useState<SexoFilter>("");
   const [filterNivel, setFilterNivel] = useState("");
 
   const { data, isLoading } = useQuery({
@@ -273,9 +356,10 @@ function EscuelitaListView({
 export default function AlumnosVolunteerPage() {
   const [selectedEscuelita, setSelectedEscuelita] = useState<Escuelita | null>(null);
 
-  const { data, isLoading } = useQuery({
-    queryKey: ["alumnos-home"],
-    queryFn: () => fetcher("/api/alumnos?all=true"),
+  // Compteurs via groupBy (endpoint stats) — pas besoin de charger tous les alumnos.
+  const { data: stats, isLoading } = useQuery({
+    queryKey: ["alumnos-stats"],
+    queryFn: () => fetcher("/api/alumnos/stats"),
   });
 
   if (selectedEscuelita) {
@@ -287,8 +371,7 @@ export default function AlumnosVolunteerPage() {
     );
   }
 
-  const allAlumnos: Alumno[] = data?.data ?? [];
-  const countFor = (e: Escuelita) => allAlumnos.filter((a) => a.escuelita === e).length;
+  const countFor = (e: Escuelita) => stats?.counts?.[e] ?? 0;
 
   return (
     <main className="min-h-screen w-full bg-zinc-50">
@@ -296,7 +379,7 @@ export default function AlumnosVolunteerPage() {
       <div className="bg-[#193252] px-4 md:px-8 pt-8 pb-6">
         <h1 className="text-white text-2xl font-extrabold">Alumnos</h1>
         <p className="text-white/60 text-sm mt-1">
-          {data?.total ?? 0} alumno{(data?.total ?? 0) !== 1 ? "s" : ""} en total
+          {stats?.total ?? 0} alumno{(stats?.total ?? 0) !== 1 ? "s" : ""} en total
         </p>
       </div>
 
@@ -307,16 +390,20 @@ export default function AlumnosVolunteerPage() {
             <p>Cargando...</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl">
-            {(["Peruanidad", "Valle_Ecologico"] as Escuelita[]).map((e) => (
-              <EscuelitaCard
-                key={e}
-                escuelita={e}
-                count={countFor(e)}
-                onSelect={() => setSelectedEscuelita(e)}
-              />
-            ))}
-          </div>
+          <>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl">
+              {(["Peruanidad", "Valle_Ecologico"] as Escuelita[]).map((e) => (
+                <EscuelitaCard
+                  key={e}
+                  escuelita={e}
+                  count={countFor(e)}
+                  onSelect={() => setSelectedEscuelita(e)}
+                />
+              ))}
+            </div>
+
+            <BirthdaysSection />
+          </>
         )}
       </div>
     </main>

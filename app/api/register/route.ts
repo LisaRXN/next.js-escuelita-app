@@ -34,7 +34,9 @@ export async function POST(req: Request) {
   const session = await prisma.volunteerSession.findUnique({
     where: { id: sessionId },
     include: {
-      volunteers: true,
+      volunteers: {
+        include: { volunteer: { select: { isAdmin: true } } },
+      },
     },
   });
 
@@ -42,7 +44,9 @@ export async function POST(req: Request) {
     return new NextResponse("Session introuvable", { status: 404 });
   }
 
-  const isFull = session.volunteers.length >= session.capacity;
+  // La capacité ne concerne que les places de volontaires (les admins ne comptent pas)
+  const volunteerCount = session.volunteers.filter((r) => !r.volunteer.isAdmin).length;
+  const isFull = volunteerCount >= session.capacity;
 
   if (isFull) {
     return new NextResponse("Session complète", { status: 400 });

@@ -227,15 +227,11 @@ export default function AdminPage() {
 
   const { data: nextSessions, isLoading: loadingNext } = useQuery<NextSession[]>({
     queryKey: ["nextSessions"],
-    queryFn: () => fetcher("/api/nextSessions"),
-    staleTime: 0,
-  });
+    queryFn: () => fetcher("/api/nextSessions"),  });
 
   const { data: allPendingSessions } = useQuery<PendingSession[]>({
     queryKey: ["sessionsNeedingAttendance"],
-    queryFn: () => fetcher("/api/sessionsNeedingAttendance"),
-    staleTime: 0,
-  });
+    queryFn: () => fetcher("/api/sessionsNeedingAttendance"),  });
 
   return (
     <div className="min-h-screen bg-mylightgray pb-10">

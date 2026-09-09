@@ -58,6 +58,15 @@ export async function GET(req: Request, { params }: Params) {
       status: registration.status,
     }));
 
+    const seguimientos = await prisma.seguimiento.findMany({
+      where: { sessionId },
+      include: {
+        alumno: { select: { nombre: true, apellidos: true } },
+        volunteer: { select: { firstName: true, lastName: true, clerkUserId: true } },
+      },
+      orderBy: { createdAt: "asc" },
+    });
+
     // Vérification du statut utilisateur
     const {
       isUserRegistered,
@@ -69,6 +78,7 @@ export async function GET(req: Request, { params }: Params) {
     return NextResponse.json({
       session,
       registeredVolunteers,
+      seguimientos,
       userStatus: {
         isUserRegistered,
         isSessionInFuture24h,

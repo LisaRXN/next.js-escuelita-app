@@ -16,7 +16,6 @@ export const handler = async (data: InputType): Promise<ReturnType> => {
     const seguimiento = await prisma.seguimiento.update({
       where: { id: data.id },
       data: {
-        fechaSesion: new Date(data.fechaSesion),
         escuelita: data.escuelita as Escuelita,
         alumnoId: data.alumnoId,
         tema: data.tema,

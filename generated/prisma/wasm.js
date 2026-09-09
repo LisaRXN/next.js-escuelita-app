@@ -174,6 +174,8 @@ exports.Prisma.SeguimientoScalarFieldEnum = {
   calificacion: 'calificacion',
   dificultad: 'dificultad',
   observacion: 'observacion',
+  sessionId: 'sessionId',
+  volunteerId: 'volunteerId',
   createdAt: 'createdAt'
 };
 
