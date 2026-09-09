@@ -23,6 +23,14 @@ type CoordinatorSession = {
   isUserRegistered: boolean;
 };
 
+type BirthdayAlumno = {
+  id: number;
+  nombre: string;
+  apellidos: string;
+  fechaNacimiento: string;
+  escuelita: string;
+};
+
 // ── constantes ────────────────────────────────────────────────────────────────
 
 const TYPE_LABEL: Record<string, string> = { TUTORING: "Tutoría", OTHER: "Actividad" };
@@ -75,6 +83,11 @@ export default function AgendaPage() {
     queryFn: () => fetcher("/api/sessions/coordinator-agenda"),    enabled: tab === "coordinador",
   });
 
+  const { data: birthdaysData } = useQuery<{ data: BirthdayAlumno[] }>({
+    queryKey: ["alumnos-birthdays"],
+    queryFn: () => fetcher("/api/alumnos/birthdays"),
+  });
+
   const allSessions = sessions ?? [];
 
   // ─────────────────────────────────────────────────────────────────────────────
@@ -94,6 +107,15 @@ export default function AgendaPage() {
       return d.getUTCFullYear() === year && d.getUTCMonth() === month;
     })
     .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+
+  // Anniversaires du mois affiché (jour/mois récurrents, calculés en UTC).
+  const monthBirthdays = (birthdaysData?.data ?? [])
+    .map((a) => {
+      const d = new Date(a.fechaNacimiento);
+      return { ...a, dia: d.getUTCDate(), mes: d.getUTCMonth(), anioNacimiento: d.getUTCFullYear() };
+    })
+    .filter((a) => a.mes === month)
+    .sort((a, b) => a.dia - b.dia);
 
   const prevMonth = () => {
     if (month === 0) { setYear(y => y - 1); setMonth(11); } else setMonth(m => m - 1);
@@ -294,6 +316,57 @@ export default function AgendaPage() {
                     </div>
                   )}
                 </>
+              )}
+            </div>
+
+            {/* ── Cumpleaños del mes ── */}
+            <div className="px-4 md:px-10 pt-8">
+              <div className="flex items-center gap-2 mb-3">
+                <span className="text-lg">🎂</span>
+                <p className="text-myzinc font-bold text-base capitalize">
+                  Cumpleaños de {monthLabel.split(" ")[0]}
+                </p>
+                <span className="text-zinc-400 text-sm">
+                  · {monthBirthdays.length}
+                </span>
+              </div>
+              {monthBirthdays.length === 0 ? (
+                <p className="text-zinc-400 text-sm py-2">Ningún cumpleaños este mes</p>
+              ) : (
+                <div className="flex flex-col gap-2">
+                  {monthBirthdays.map((a) => {
+                    const edad = year - a.anioNacimiento;
+                    const isBirthdayToday =
+                      a.dia === today.getDate() &&
+                      month === today.getMonth() &&
+                      year === today.getFullYear();
+                    return (
+                      <div
+                        key={a.id}
+                        className={`flex items-center gap-4 rounded-2xl px-4 py-3 border ${
+                          isBirthdayToday ? "bg-pink-50 border-pink-200" : "bg-white border-zinc-100"
+                        }`}
+                      >
+                        <div className="flex flex-col items-center w-9 flex-shrink-0">
+                          <span className="text-pink-500 font-bold text-lg leading-none">{a.dia}</span>
+                          <span className="text-zinc-400 text-[10px] capitalize">
+                            {new Date(year, month, a.dia).toLocaleDateString("es-PE", { weekday: "short" })}
+                          </span>
+                        </div>
+                        <div className="w-px h-8 bg-zinc-100 flex-shrink-0" />
+                        <div className="flex-1 min-w-0">
+                          <p className="text-myzinc font-semibold text-sm truncate">
+                            {a.nombre} {a.apellidos}
+                          </p>
+                          <p className="text-zinc-400 text-xs mt-0.5">
+                            Cumple {edad} año{edad !== 1 ? "s" : ""}
+                            {isBirthdayToday && <span className="text-pink-500 font-semibold"> · ¡Hoy! 🎉</span>}
+                          </p>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
               )}
             </div>
           </>
