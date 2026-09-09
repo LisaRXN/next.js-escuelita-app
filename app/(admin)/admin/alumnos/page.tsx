@@ -7,12 +7,14 @@ import { fetcher } from "@/lib/fetcher";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Alumno } from "@/generated/prisma";
+import { toast } from "sonner";
 import {
   AlumnosFilters as Filters,
   EMPTY_ALUMNOS_FILTERS,
   buildAlumnosParams,
   useAlumnos,
 } from "@/lib/alumnos-filters";
+import { exportAlumnosExcel } from "@/lib/exportAlumnosExcel";
 import AlumnosFilters from "./_components/AlumnosFilters";
 
 const ESCUELITA_CONFIG = {
@@ -36,6 +38,7 @@ export default function AlumnosPage() {
   const router = useRouter();
   const [filters, setFilters] = useState<Filters>(EMPTY_ALUMNOS_FILTERS);
   const [page, setPage] = useState(1);
+  const [isExporting, setIsExporting] = useState(false);
 
   const patch = (partial: Partial<Filters>) => setFilters((f) => ({ ...f, ...partial }));
 
@@ -64,6 +67,28 @@ export default function AlumnosPage() {
   const total: number = data?.total ?? 0;
   const totalPages: number = data?.totalPages ?? 1;
 
+  // Export Excel de tous les alumnos correspondant aux filtres actifs (toutes pages).
+  const handleExport = async () => {
+    if (isExporting) return;
+    setIsExporting(true);
+    try {
+      const params = buildAlumnosParams(queryFilters, { all: true });
+      const res = await fetcher(`/api/alumnos?${params.toString()}`);
+      const rows: Alumno[] = res?.data ?? [];
+      if (rows.length === 0) {
+        toast.info("No hay alumnos para exportar");
+        return;
+      }
+      await exportAlumnosExcel(rows);
+      toast.success(`${rows.length} alumno${rows.length !== 1 ? "s" : ""} exportado${rows.length !== 1 ? "s" : ""}`);
+    } catch (error) {
+      console.error("Error exportando alumnos:", error);
+      toast.error("Error al exportar");
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
   return (
     <main className="px-4 md:px-8 pt-8 pb-10 flex flex-col gap-6 min-h-screen w-full">
 
@@ -75,12 +100,23 @@ export default function AlumnosPage() {
             {counts.Peruanidad + counts.Valle_Ecologico} alumnos en total
           </p>
         </div>
-        <Link
-          href="/admin/alumnos/create-alumno"
-          className="flex items-center gap-2 text-sm px-4 py-2.5 bg-myorange text-white font-semibold rounded-xl hover:bg-myorange/80 transition self-start sm:self-auto"
-        >
-          <i className="fa-solid fa-plus"></i> Nuevo alumno
-        </Link>
+        <div className="flex items-center gap-2 self-start sm:self-auto">
+          <button
+            onClick={handleExport}
+            disabled={isExporting}
+            title="Exportar a Excel los alumnos filtrados"
+            className="flex items-center gap-2 text-sm px-4 py-2.5 bg-myteal/10 text-myteal font-semibold rounded-xl border border-myteal/20 hover:bg-myteal/20 transition disabled:opacity-50"
+          >
+            <i className={`fa-solid ${isExporting ? "fa-spinner fa-spin" : "fa-file-excel"}`}></i>
+            {isExporting ? "Exportando..." : "Exportar"}
+          </button>
+          <Link
+            href="/admin/alumnos/create-alumno"
+            className="flex items-center gap-2 text-sm px-4 py-2.5 bg-myorange text-white font-semibold rounded-xl hover:bg-myorange/80 transition"
+          >
+            <i className="fa-solid fa-plus"></i> Nuevo alumno
+          </Link>
+        </div>
       </div>
 
       {/* Escuelita cards */}
