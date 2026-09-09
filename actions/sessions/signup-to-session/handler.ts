@@ -49,7 +49,9 @@ console.log("CLERK_FRONTEND_API:", process.env.CLERK_FRONTEND_API);
     const session = await prisma.volunteerSession.findUnique({
       where: { id: sessionId },
       include: {
-        volunteers: true,
+        volunteers: {
+          include: { volunteer: { select: { isAdmin: true } } },
+        },
       },
     });
 
@@ -57,7 +59,9 @@ console.log("CLERK_FRONTEND_API:", process.env.CLERK_FRONTEND_API);
       return { error: "Ninguna sesión encontrada" };
     }
 
-    const isFull = session.volunteers.length >= session.capacity;
+    // La capacité ne concerne que les places de volontaires (les admins ne comptent pas)
+    const volunteerCount = session.volunteers.filter((r) => !r.volunteer.isAdmin).length;
+    const isFull = volunteerCount >= session.capacity;
 
     if (isFull) {
       return { error: "Sesión completa" };

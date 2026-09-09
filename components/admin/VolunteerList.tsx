@@ -14,6 +14,14 @@ const STATUS_CONFIG: Record<string, { label: string; color: string; bg: string; 
   CANCELLED: { label: "Canceló",   color: "#D97706", bg: "#FEF3C7", border: "#D9770640" },
 };
 
+// Libellé d'assistance utilisé dans l'export Excel
+const ASISTENCIA_LABELS: Record<string, string> = {
+  CONFIRMED: "Presente",
+  NO_SHOW:   "No vino",
+  CANCELLED: "Canceló",
+  PENDING:   "Pendiente",
+};
+
 function StatusChips({ registrationId, status }: { registrationId: number; status: RegistrationStatus }) {
   const queryClient = useQueryClient();
   const { execute, isLoading } = useAction(toggleVolunteerStatus, {
@@ -81,7 +89,13 @@ function VolunteerCard({ reg, sessionId }: { reg: RegisteredVolunteer; sessionId
   );
 }
 
-function downloadExcel(volunteers: RegisteredVolunteer[], sessionTitle: string, sessionDate: string) {
+function downloadExcel(
+  volunteers: RegisteredVolunteer[],
+  sessionTitle: string,
+  sessionDate: string,
+  capacity: number,
+  adminsCount: number,
+) {
   // Import dynamique pour ne pas alourdir le bundle initial
   import("xlsx").then(({ utils, writeFile }) => {
     const rows = [...volunteers]
@@ -91,17 +105,31 @@ function downloadExcel(volunteers: RegisteredVolunteer[], sessionTitle: string, 
         Nombre: v.firstName,
         Apellido: v.lastName,
         Teléfono: v.phone ?? "",
+        Asistencia: ASISTENCIA_LABELS[v.status] ?? "Pendiente",
       }));
 
     const ws = utils.json_to_sheet(rows);
 
     // Largeur des colonnes
-    ws["!cols"] = [{ wch: 7 }, { wch: 18 }, { wch: 18 }, { wch: 16 }];
+    ws["!cols"] = [{ wch: 7 }, { wch: 18 }, { wch: 18 }, { wch: 16 }, { wch: 12 }];
+
+    // Feuille « Resumen » avec les 6 chiffres
+    const resumen = [
+      { Indicador: "Capacidad", Valor: capacity },
+      { Indicador: "Inscritos", Valor: volunteers.length },
+      { Indicador: "Admins", Valor: adminsCount },
+      { Indicador: "Confirmados", Valor: volunteers.filter((v) => v.status === "CONFIRMED").length },
+      { Indicador: "No vino", Valor: volunteers.filter((v) => v.status === "NO_SHOW").length },
+      { Indicador: "Cancelado", Valor: volunteers.filter((v) => v.status === "CANCELLED").length },
+    ];
+    const wsResumen = utils.json_to_sheet(resumen);
+    wsResumen["!cols"] = [{ wch: 16 }, { wch: 8 }];
 
     const wb = utils.book_new();
     const dateStr = new Date(sessionDate)
       .toLocaleDateString("es-PE", { day: "2-digit", month: "2-digit", year: "numeric" })
       .replace(/\//g, "-");
+    utils.book_append_sheet(wb, wsResumen, "Resumen");
     utils.book_append_sheet(wb, ws, "Voluntarios");
     writeFile(wb, `voluntarios_${sessionTitle.replace(/\s+/g, "_")}_${dateStr}.xlsx`);
   });
@@ -112,11 +140,15 @@ const VolunteerList = ({
   sessionId,
   sessionTitle,
   sessionDate,
+  capacity,
+  adminsCount,
 }: {
   registeredVolunteers: RegisteredVolunteer[];
   sessionId: number;
   sessionTitle: string;
   sessionDate: string;
+  capacity: number;
+  adminsCount: number;
 }) => {
   return (
     <div>
@@ -129,7 +161,7 @@ const VolunteerList = ({
         <span className="text-myteal text-[11px] font-semibold">{registeredVolunteers.length}</span>
         {registeredVolunteers.length > 0 && (
           <button
-            onClick={() => downloadExcel(registeredVolunteers, sessionTitle, sessionDate)}
+            onClick={() => downloadExcel(registeredVolunteers, sessionTitle, sessionDate, capacity, adminsCount)}
             title="Descargar lista en Excel"
             className="flex items-center gap-1.5 text-[11px] font-bold text-myteal bg-myteal/10 hover:bg-myteal/20 border border-myteal/20 px-2.5 py-1 rounded-lg transition-colors"
           >
