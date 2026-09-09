@@ -117,7 +117,7 @@ const SeguimientoModal = ({
     queryFn: () => fetcher(`/api/alumnos?escuelita=${formData.escuelita}&all=true`),
     enabled: !!formData.escuelita,
   });
-  const alumnosList: { id: number; nombre: string; apellidos: string }[] =
+  const alumnosList: { id: number; nombre: string; apellidos: string; nivel: string | null }[] =
     alumnosData?.data ?? [];
 
   const fieldErrors = isEdit ? updateErrors : createErrors;
@@ -215,7 +215,7 @@ const SeguimientoModal = ({
                   .sort((a, b) => a.nombre.localeCompare(b.nombre))
                   .map((a) => (
                     <option key={a.id} value={a.id}>
-                      {a.nombre}
+                      {a.nombre}{a.nivel ? ` · ${a.nivel}` : ""}
                     </option>
                   ))}
               </select>
